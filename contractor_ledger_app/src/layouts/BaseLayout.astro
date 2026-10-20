@@ -2,7 +2,7 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { CostSettingsModal } from '../components/ui/CostSettingsModal';
-import { createCanonicalUrl, createWebApplicationJsonLd } from '../lib/site';
+import { createBrandJsonLd, createCanonicalUrl } from '../lib/site';
 import '../styles/global.css';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   canonicalPath?: string;
   ogType?: string;
   robots?: string;
-  includeWebApplicationSchema?: boolean;
+  includeBrandSchema?: boolean;
 }
 
 const {
@@ -20,15 +20,13 @@ const {
   canonicalPath = '',
   ogType = 'website',
   robots = 'index, follow',
-  includeWebApplicationSchema = false,
+  includeBrandSchema = false,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const siteTitle = title.includes('Contractor Ledger') ? title : `${title} | Contractor Ledger`;
 const canonicalUrl = createCanonicalUrl(Astro.site, canonicalPath);
-const webApplicationJsonLd = includeWebApplicationSchema
-  ? createWebApplicationJsonLd(description, canonicalUrl)
-  : undefined;
+const brandJsonLd = includeBrandSchema ? createBrandJsonLd(Astro.site) : undefined;
 ---
 
 <!DOCTYPE html>
@@ -40,6 +38,10 @@ const webApplicationJsonLd = includeWebApplicationSchema
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     <meta name="theme-color" content="#16242D" />
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
@@ -64,8 +66,8 @@ const webApplicationJsonLd = includeWebApplicationSchema
       rel="stylesheet"
     />
 
-    {webApplicationJsonLd && (
-      <script type="application/ld+json" set:html={JSON.stringify(webApplicationJsonLd)} />
+    {brandJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(brandJsonLd)} />
     )}
   </head>
 

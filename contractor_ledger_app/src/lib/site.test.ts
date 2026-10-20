@@ -3,7 +3,7 @@ import {
   createCanonicalUrl,
   createRobotsTxt,
   createSitemapXml,
-  createWebApplicationJsonLd,
+  createBrandJsonLd,
   INDEXABLE_ROUTES,
   normalizeContactEmail,
 } from './site';
@@ -43,14 +43,26 @@ describe('site publication configuration and SEO output', () => {
     expect(createRobotsTxt(site)).toContain('Sitemap: https://release-test.invalid/sitemap.xml');
   });
 
-  it('limits WebApplication JSON-LD to accurate, configured application metadata', () => {
-    expect(createWebApplicationJsonLd('Job pricing calculations', createCanonicalUrl(site, '/calculators/job-pricing/')))
-      .toMatchObject({
-        '@context': 'https://schema.org',
-        '@type': 'WebApplication',
-        url: 'https://release-test.invalid/calculators/job-pricing/',
-        isAccessibleForFree: true,
-      });
+  it('creates homepage Organization and WebSite data with an absolute, same-origin logo URL', () => {
+    const jsonLd = createBrandJsonLd(site);
+    const graph = jsonLd?.['@graph'];
+
+    expect(graph).toHaveLength(2);
+    expect(graph?.[0]).toMatchObject({
+      '@type': 'Organization',
+      '@id': 'https://release-test.invalid/#organization',
+      name: 'Contractor Ledger',
+      url: 'https://release-test.invalid/',
+      logo: 'https://release-test.invalid/contractor-ledger-growth-logo.png',
+    });
+    expect(graph?.[1]).toMatchObject({
+      '@type': 'WebSite',
+      '@id': 'https://release-test.invalid/#website',
+      name: 'Contractor Ledger',
+      url: 'https://release-test.invalid/',
+      publisher: { '@id': 'https://release-test.invalid/#organization' },
+    });
+    expect(createBrandJsonLd(undefined)).toBeUndefined();
   });
 
   it('accepts a configured contact mailbox without fabricating a default', () => {

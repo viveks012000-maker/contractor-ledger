@@ -516,9 +516,30 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
       if (route === '/') {
         await expect(schema).toHaveCount(1);
         const structuredData = JSON.parse((await schema.textContent()) ?? '{}');
-        expect(structuredData['@type']).toBe('WebApplication');
-        expect(structuredData.name).toBe('Contractor Ledger');
+        const graph = structuredData['@graph'] as Array<Record<string, unknown>>;
+        expect(graph.map(node => node['@type'])).toEqual(['Organization', 'WebSite']);
+        expect(graph[0]).toMatchObject({
+          name: 'Contractor Ledger',
+          url: `${publicOrigin}/`,
+          logo: `${publicOrigin}/contractor-ledger-growth-logo.png`,
+        });
+        expect(graph[1]).toMatchObject({
+          name: 'Contractor Ledger',
+          url: `${publicOrigin}/`,
+          publisher: { '@id': `${publicOrigin}/#organization` },
+        });
+        const logoResponse = await request.get('/contractor-ledger-growth-logo.png');
+        expect(logoResponse.ok(), 'Organization logo should be publicly fetchable').toBe(true);
+        expect(logoResponse.headers()['content-type']).toContain('image/png');
       } else await expect(schema).toHaveCount(0);
+
+      const faviconLinks = page.locator('link[rel="icon"][type="image/png"]');
+      await expect(faviconLinks).toHaveCount(3);
+      for (const href of await faviconLinks.evaluateAll(elements => elements.map(element => (element as HTMLLinkElement).href))) {
+        const faviconResponse = await request.get(href);
+        expect(faviconResponse.ok(), `favicon should load: ${href}`).toBe(true);
+        expect(faviconResponse.headers()['content-type']).toContain('image/png');
+      }
     }
   });
 

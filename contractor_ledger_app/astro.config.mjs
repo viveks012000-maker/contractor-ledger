@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
-// The live Netlify preview is the temporary public origin until a custom domain is configured.
-const configuredSiteUrl = process.env.PUBLIC_SITE_URL?.trim() || 'https://ornate-toffee-ca93df.netlify.app';
+// Keep local production builds aligned with the active Cloudflare Pages origin.
+const configuredSiteUrl = process.env.PUBLIC_SITE_URL?.trim() || 'https://contractor-ledger-1nx.pages.dev';
 let site;
 
 if (configuredSiteUrl) {

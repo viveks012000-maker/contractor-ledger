@@ -5,8 +5,8 @@ import { AdSlot } from '../../components/ui/AdSlot';
 import { calculateRequiredPrice } from '../../lib/financial/profitMargin';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
 
-const title = 'Profit Margin vs. Markup Calculator | Contractor Pricing';
-const description = 'Compare gross margin with markup on cost, or calculate a selling price for your target margin.';
+const title = 'Contractor Profit Margin Calculator';
+const description = 'Compare profit margin with markup on cost, or calculate the bid price needed to reach a contractor’s target gross margin.';
 const conversionCost = 1000;
 const conversionRows = [10, 15, 20, 25, 30, 40].map((targetMarginPct) => {
   const result = calculateRequiredPrice({ totalCost: conversionCost, targetMarginPct });

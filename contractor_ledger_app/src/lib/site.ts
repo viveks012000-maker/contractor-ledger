@@ -48,21 +48,30 @@ export function createRobotsTxt(site: URL | undefined): string {
   return `${lines.join('\n')}\n`;
 }
 
-export function createWebApplicationJsonLd(description: string, canonicalUrl?: string) {
+export function createBrandJsonLd(site: URL | undefined) {
+  if (!site) return undefined;
+
+  const origin = site.origin;
+  const organizationId = `${origin}/#organization`;
+
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Contractor Ledger',
-    description,
-    ...(canonicalUrl ? { url: canonicalUrl } : {}),
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web browser',
-    isAccessibleForFree: true,
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
-    },
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': organizationId,
+        name: 'Contractor Ledger',
+        url: `${origin}/`,
+        logo: new URL('/contractor-ledger-growth-logo.png', `${origin}/`).toString(),
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${origin}/#website`,
+        url: `${origin}/`,
+        name: 'Contractor Ledger',
+        publisher: { '@id': organizationId },
+      },
+    ],
   };
 }
 

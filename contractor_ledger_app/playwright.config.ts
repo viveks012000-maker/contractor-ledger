@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 import { createServer } from 'node:net';
 
-process.env.PUBLIC_SITE_URL ||= 'https://ornate-toffee-ca93df.netlify.app';
+process.env.PUBLIC_SITE_URL ||= 'https://contractor-ledger-1nx.pages.dev';
 
 async function findAvailablePort(): Promise<number> {
   return new Promise((resolve, reject) => {
