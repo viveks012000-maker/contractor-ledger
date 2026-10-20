@@ -8,3 +8,8 @@ contractor_ledger_app/screenshots/
 *.log
 .DS_Store
 Thumbs.db
+
+# Local environment files may contain deployment credentials.
+**/.env
+**/.env.*
+!**/.env.example

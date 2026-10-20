@@ -1,0 +1,52 @@
+name: Contractor Ledger CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contractor-ledger-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contractor_ledger_app
+    env:
+      PUBLIC_SITE_URL: https://contractor-ledger-1nx.pages.dev
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: contractor_ledger_app/package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: |
+          npm audit
+          npm audit --omit=dev
+
+      - name: Run unit tests and production build
+        run: |
+          npm test
+          npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser regression suite
+        run: npx playwright test
