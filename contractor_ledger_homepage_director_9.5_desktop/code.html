@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>Contractor Ledger - Clean Financial Calculators for Trade Contractors</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #FAFAF8;
+        color: #18211F;
+        font-family: 'Inter', sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    .font-display {
+      font-family: 'Manrope', sans-serif;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#FAFAF8',
+              surface: '#FFFFFF',
+              dark: '#18211F',
+              muted: '#4F5B57',
+              subtle: '#606B68',
+              green: '#176B53',
+              greenHover: '#10523F',
+              softGreen: '#ECF5F0',
+              border: '#E5E8E5',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Manrope', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#FAFAF8] text-[#18211F] antialiased selection:bg-[#ECF5F0] selection:text-[#176B53]">
+<!-- TOP NAVIGATION (74px height, max-w-[1240px] centered) -->
+<header class="sticky top-0 z-50 w-full h-[74px] bg-[#FAFAF8]/95 backdrop-blur-md border-b border-[#E5E8E5]">
+<div class="max-w-[1240px] h-full mx-auto px-6 flex items-center justify-between">
+<!-- Left: Bespoke Architectonic Financial Symbol & Clean Wordmark -->
+<a aria-label="Contractor Ledger Home" class="flex items-center gap-3 group focus:outline-none" href="#">
+<div class="w-9 h-9 flex items-center justify-center transition-transform group-hover:scale-105">
+<svg fill="none" height="34" viewbox="0 0 34 34" width="34" xmlns="http://www.w3.org/2000/svg">
+<!-- Precision geometric folding ledger / angled ledger mark in #176B53 and #10523F -->
+<rect fill="#ECF5F0" height="30" rx="7" width="30" x="2" y="2"></rect>
+<path d="M9 7.5C9 6.67157 9.67157 6 10.5 6H19.5C20.3284 6 21 6.67157 21 7.5V26.5C21 27.3284 20.3284 28 19.5 28H10.5C9.67157 28 9 27.3284 9 26.5V7.5Z" fill="#176B53"></path>
+<path d="M17 10C17 9.44772 17.4477 9 18 9H24C24.5523 9 25 9.44772 25 10V24C25 24.5523 24.5523 25 24 25H18C17.4477 25 17 24.5523 17 24V10Z" fill="#10523F" fill-opacity="0.9"></path>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="16" y1="11" y2="11"></line>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="18" y1="15.5" y2="15.5"></line>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="15" y1="20" y2="20"></line>
+</svg>
+</div>
+<span class="font-display font-bold text-[20px] tracking-[-0.02em] text-[#18211F]">
+          Contractor Ledger
+        </span>
+</a>
+<!-- Right: Links & Primary Action Button (44px height, px-5) -->
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-7 text-[15px] font-medium text-[#4F5B57]">
+<a class="hover:text-[#18211F] transition-colors" href="#core-calculators">Calculators</a>
+<a class="hover:text-[#18211F] transition-colors" href="#how-it-works">How It Works</a>
+<a class="hover:text-[#18211F] transition-colors" href="#about">About</a>
+</nav>
+<a class="inline-flex items-center justify-center h-[44px] px-5 rounded-lg bg-[#176B53] text-white font-medium text-sm hover:bg-[#10523F] transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#176B53] focus:ring-offset-2" href="#preview-calc">
+          Calculate a Job Price
+        </a>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- HERO SECTION (48% / 52% two-column split, 48px gap, max-w-[1240px]) -->
+<section class="max-w-[1240px] mx-auto px-6 pt-12 pb-16 lg:pt-16 lg:pb-20" id="preview-calc">
+<div class="grid grid-cols-1 lg:grid-cols-100 gap-12 items-center" style="grid-template-columns: 48% 52%;">
+<!-- Left Column: 48% split -->
+<div class="flex flex-col justify-center">
+<h1 class="font-display font-bold text-[60px] text-[#18211F] leading-[1.1] tracking-[-0.025em] mb-5">
+            Price Your Work With Confidence.
+          </h1>
+<p class="text-[18px] text-[#4F5B57] leading-relaxed max-w-[500px] mb-8 font-normal">
+            Free calculators for job pricing, labor costs, profit margins, and project estimates.
+          </p>
+<div class="flex items-center">
+<a class="inline-flex items-center justify-center h-[50px] px-7 rounded-lg bg-[#176B53] text-white font-semibold text-base shadow-sm hover:bg-[#10523F] transition-all" href="#core-calculators">
+              Calculate a Job Price
+            </a>
+<a class="text-[#4F5B57] hover:text-[#18211F] font-medium text-base ml-6 transition-colors" href="#core-calculators">
+              Explore all calculators ↓
+            </a>
+</div>
+</div>
+<!-- Right Column: 52% split, Job Pricing Calculator preview card -->
+<div class="w-full">
+<div class="bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-6 shadow-[0_4px_24px_rgba(24,33,31,0.05)]">
+<!-- Header inside card -->
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-[#E5E8E5]">
+<div class="flex items-center gap-2.5">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<rect height="20" rx="2" width="16" x="4" y="2"></rect>
+<line x1="8" x2="16" y1="6" y2="6"></line>
+<line x1="16" x2="16" y1="14" y2="18"></line>
+<path d="M16 10h.01"></path>
+<path d="M12 10h.01"></path>
+<path d="M8 10h.01"></path>
+<path d="M12 14h.01"></path>
+<path d="M8 14h.01"></path>
+<path d="M12 18h.01"></path>
+<path d="M8 18h.01"></path>
+</svg>
+<h2 class="font-display font-bold text-[18px] text-[#18211F]">Job Pricing Calculator</h2>
+</div>
+<span class="bg-[#ECF5F0] text-[#176B53] font-semibold text-xs px-2.5 py-1 rounded-full">
+                Interactive Preview
+              </span>
+</div>
+<!-- 2x2 Input Grid -->
+<div class="grid grid-cols-2 gap-4 mb-5">
+<!-- Labor Cost -->
+<div>
+<label class="block text-[14px] font-bold text-[#4F5B57] mb-1.5" for="calc-labor">Labor Cost</label>
+<div class="h-[46px] rounded-lg bg-white border border-[#E5E8E5] flex items-center px-3.5 focus-within:border-[#176B53] transition-colors">
+<span class="text-[16px] font-medium text-[#606B68] select-none mr-1.5">$</span>
+<input class="w-full bg-transparent text-[17px] font-semibold text-[#18211F] focus:outline-none tabular-nums" id="calc-labor" type="number" value="600"/>
+</div>
+</div>
+<!-- Material Cost -->
+<div>
+<label class="block text-[14px] font-bold text-[#4F5B57] mb-1.5" for="calc-materials">Material Cost</label>
+<div class="h-[46px] rounded-lg bg-white border border-[#E5E8E5] flex items-center px-3.5 focus-within:border-[#176B53] transition-colors">
+<span class="text-[16px] font-medium text-[#606B68] select-none mr-1.5">$</span>
+<input class="w-full bg-transparent text-[17px] font-semibold text-[#18211F] focus:outline-none tabular-nums" id="calc-materials" type="number" value="450"/>
+</div>
+</div>
+<!-- Other Costs -->
+<div>
+<label class="block text-[14px] font-bold text-[#4F5B57] mb-1.5" for="calc-other">Other Costs</label>
+<div class="h-[46px] rounded-lg bg-white border border-[#E5E8E5] flex items-center px-3.5 focus-within:border-[#176B53] transition-colors">
+<span class="text-[16px] font-medium text-[#606B68] select-none mr-1.5">$</span>
+<input class="w-full bg-transparent text-[17px] font-semibold text-[#18211F] focus:outline-none tabular-nums" id="calc-other" type="number" value="150"/>
+</div>
+</div>
+<!-- Target Margin -->
+<div>
+<label class="block text-[14px] font-bold text-[#4F5B57] mb-1.5" for="calc-margin">Target Margin</label>
+<div class="h-[46px] rounded-lg bg-white border border-[#E5E8E5] flex items-center px-3.5 focus-within:border-[#176B53] transition-colors">
+<input class="w-full bg-transparent text-[17px] font-semibold text-[#18211F] focus:outline-none tabular-nums" id="calc-margin" max="95" min="1" type="number" value="25"/>
+<span class="text-[16px] font-medium text-[#606B68] select-none ml-1.5">%</span>
+</div>
+</div>
+</div>
+<!-- Divider and Result section with generous breathing room -->
+<div class="border-t border-[#E5E8E5] pt-5 mt-5">
+<div class="text-[13px] font-bold uppercase tracking-wider text-[#606B68] mb-1.5">
+                RECOMMENDED JOB PRICE
+              </div>
+<div class="font-display text-[46px] font-bold tracking-tight text-[#176B53] tabular-nums leading-none mb-4" id="res-price">
+                $1,600.00
+              </div>
+<!-- Supporting 3-column breakdown box -->
+<div class="grid grid-cols-3 gap-3 bg-[#F8FAF9] border border-[#E5E8E5] rounded-lg p-3.5 my-4">
+<div>
+<div class="text-[12px] sm:text-[13px] text-[#606B68]">Total Direct Cost</div>
+<div class="text-[15px] sm:text-[16px] font-semibold text-[#18211F] tabular-nums mt-0.5" id="res-cost">$1,200.00</div>
+</div>
+<div>
+<div class="text-[12px] sm:text-[13px] text-[#606B68]">Target Margin</div>
+<div class="text-[15px] sm:text-[16px] font-semibold text-[#18211F] tabular-nums mt-0.5" id="res-margin">25.0%</div>
+</div>
+<div>
+<div class="text-[12px] sm:text-[13px] text-[#606B68]">Estimated Profit</div>
+<div class="text-[15px] sm:text-[16px] font-bold text-[#176B53] tabular-nums mt-0.5" id="res-profit">$400.00</div>
+</div>
+</div>
+<!-- Elegant dual-tone allocation bar -->
+<div class="w-full mb-3">
+<div class="w-full h-2 rounded-full bg-[#E5E8E5] flex overflow-hidden">
+<div class="h-full bg-[#4F5B57] transition-all duration-200" id="bar-direct-cost" style="width: 75%;"></div>
+<div class="h-full bg-[#176B53] transition-all duration-200" id="bar-gross-profit" style="width: 25%;"></div>
+</div>
+<div class="flex items-center justify-between text-[13px] text-[#606B68] mt-2">
+<span id="legend-cost">Direct Costs: 75% ($1,200)</span>
+<span class="text-[#176B53] font-medium" id="legend-profit">Gross Profit: 25% ($400)</span>
+</div>
+</div>
+<!-- Bottom action -->
+<div class="flex justify-end pt-2">
+<a class="text-[#176B53] font-semibold text-sm hover:underline" href="#core-calculators">
+                  Open full calculator →
+                </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SIX CORE CALCULATORS DIRECTORY -->
+<section class="max-w-[1240px] mx-auto px-6 py-14 lg:py-16 border-t border-[#E5E8E5]" id="core-calculators">
+<!-- Section Header -->
+<div class="max-w-2xl mb-10">
+<h2 class="font-display font-bold text-[32px] text-[#18211F] tracking-tight leading-snug">
+          Tools Built for Better Estimates
+        </h2>
+<p class="text-[16px] text-[#4F5B57] mt-2">
+          Simple, reliable calculations for everyday contractor decisions.
+        </p>
+</div>
+<!-- 2-Column Desktop Grid of 6 Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- 1. Job Pricing -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<line x1="12" x2="12" y1="1" y2="23"></line>
+<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Job Pricing
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Find an accurate selling price based on project expenses and target gross margin.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+<!-- 2. Labor Cost -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<circle cx="12" cy="12" r="10"></circle>
+<polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Labor Cost
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Calculate true hourly labor expenses including base wages, overtime, and employer burden.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+<!-- 3. Profit Margin -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<line x1="19" x2="5" y1="5" y2="19"></line>
+<circle cx="6.5" cy="6.5" r="2.5"></circle>
+<circle cx="17.5" cy="17.5" r="2.5"></circle>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Profit Margin
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Understand the mathematical difference between profit margin on revenue and markup on costs.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+<!-- 4. Break-Even -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+<path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path>
+<path d="M7 21h10"></path>
+<path d="M12 3v18"></path>
+<path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Break-Even
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Determine the monthly billable volume or hourly rate needed to cover total overhead.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+<!-- 5. Material Markup -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+<polyline points="2 17 12 22 22 17"></polyline>
+<polyline points="2 12 12 17 22 12"></polyline>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Material Markup
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Calculate profitable client prices for job supplies and materials with optional waste factor.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+<!-- 6. Project Estimate -->
+<a class="group bg-[#FFFFFF] rounded-xl border border-[#E5E8E5] p-7 min-h-[170px] flex flex-col justify-between hover:border-[#176B53]/50 hover:shadow-md transition-all" href="#preview-calc">
+<div>
+<div class="flex items-center gap-3.5 mb-3">
+<div class="w-[44px] h-[44px] rounded-lg bg-[#ECF5F0] flex items-center justify-center text-[#176B53] flex-shrink-0">
+<svg fill="none" height="22" stroke="#176B53" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+<rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect>
+<line x1="9" x2="15" y1="12" y2="12"></line>
+<line x1="9" x2="13" y1="16" y2="16"></line>
+</svg>
+</div>
+<h3 class="font-display font-bold text-[22px] text-[#18211F] group-hover:text-[#176B53] transition-colors">
+                Project Estimate
+              </h3>
+</div>
+<p class="text-[16px] text-[#4F5B57] leading-relaxed">
+              Build a comprehensive itemized estimate across direct labor, materials, equipment, and overhead.
+            </p>
+</div>
+<div class="pt-5 flex items-center gap-1.5 text-[#176B53] font-semibold text-sm">
+<span>Launch Calculator</span>
+<span class="transition-transform group-hover:translate-x-1">→</span>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- MINIMAL DISCIPLINED FOOTER (bg-white, py-14, 4 clean columns) -->
+<footer class="w-full bg-[#FFFFFF] border-t border-[#E5E8E5]">
+<div class="max-w-[1240px] mx-auto px-6 py-14">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12">
+<!-- Col 1: Wordmark and description -->
+<div class="md:col-span-5 flex flex-col justify-between">
+<div class="space-y-3.5">
+<div class="flex items-center gap-3">
+<svg fill="none" height="30" viewbox="0 0 34 34" width="30" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ECF5F0" height="30" rx="7" width="30" x="2" y="2"></rect>
+<path d="M9 7.5C9 6.67157 9.67157 6 10.5 6H19.5C20.3284 6 21 6.67157 21 7.5V26.5C21 27.3284 20.3284 28 19.5 28H10.5C9.67157 28 9 27.3284 9 26.5V7.5Z" fill="#176B53"></path>
+<path d="M17 10C17 9.44772 17.4477 9 18 9H24C24.5523 9 25 9.44772 25 10V24C25 24.5523 24.5523 25 24 25H18C17.4477 25 17 24.5523 17 24V10Z" fill="#10523F" fill-opacity="0.9"></path>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="16" y1="11" y2="11"></line>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="18" y1="15.5" y2="15.5"></line>
+<line stroke="#FFFFFF" stroke-linecap="round" stroke-width="1.75" x1="12" x2="15" y1="20" y2="20"></line>
+</svg>
+<span class="font-display font-bold text-[18px] text-[#18211F] tracking-[-0.02em]">
+                Contractor Ledger
+              </span>
+</div>
+<p class="text-[14px] text-[#4F5B57] leading-relaxed max-w-sm">
+              High-precision financial calculators engineered for US trade contractors and estimators.
+            </p>
+</div>
+</div>
+<!-- Col 2: Contractor Calculators -->
+<div class="md:col-span-3 flex flex-col">
+<h4 class="text-[12px] font-bold uppercase tracking-wider text-[#18211F] mb-4">
+            Contractor Calculators
+          </h4>
+<ul class="space-y-2.5 text-[14px] text-[#4F5B57]">
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Job Pricing Calculator</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Labor Cost Calculator</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Profit Margin Calculator</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Break-Even Calculator</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Material Markup Calculator</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#preview-calc">Project Estimate Calculator</a></li>
+</ul>
+</div>
+<!-- Col 3: Framework -->
+<div class="md:col-span-2 flex flex-col" id="how-it-works">
+<h4 class="text-[12px] font-bold uppercase tracking-wider text-[#18211F] mb-4" id="about">
+            Framework
+          </h4>
+<ul class="space-y-2.5 text-[14px] text-[#4F5B57]">
+<li><a class="hover:text-[#18211F] transition-colors" href="#">Methodology &amp; Formulas</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#">About</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<!-- Col 4: Legal -->
+<div class="md:col-span-2 flex flex-col">
+<h4 class="text-[12px] font-bold uppercase tracking-wider text-[#18211F] mb-4">
+            Legal
+          </h4>
+<ul class="space-y-2.5 text-[14px] text-[#4F5B57]">
+<li><a class="hover:text-[#18211F] transition-colors" href="#">Terms</a></li>
+<li><a class="hover:text-[#18211F] transition-colors" href="#">Privacy</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom copyright bar (Accurate 2026 date) -->
+<div class="pt-6 border-t border-[#E5E8E5] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#606B68]">
+<p>© 2026 Contractor Ledger. All rights reserved.</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-[#18211F] transition-colors" href="#">Terms</a>
+<span>•</span>
+<a class="hover:text-[#18211F] transition-colors" href="#">Privacy</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Interactive Financial Calculator logic -->
+<script>
+    (function initPreviewCalculator() {
+      const laborIn = document.getElementById('calc-labor');
+      const matIn = document.getElementById('calc-materials');
+      const otherIn = document.getElementById('calc-other');
+      const marginIn = document.getElementById('calc-margin');
+
+      const resPrice = document.getElementById('res-price');
+      const resCost = document.getElementById('res-cost');
+      const resMargin = document.getElementById('res-margin');
+      const resProfit = document.getElementById('res-profit');
+      const barCost = document.getElementById('bar-direct-cost');
+      const barProfit = document.getElementById('bar-gross-profit');
+      const legendCost = document.getElementById('legend-cost');
+      const legendProfit = document.getElementById('legend-profit');
+
+      function fmt(val) {
+        return '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function update() {
+        const labor = parseFloat(laborIn.value) || 0;
+        const mat = parseFloat(matIn.value) || 0;
+        const other = parseFloat(otherIn.value) || 0;
+        let margin = parseFloat(marginIn.value) || 0;
+
+        if (margin >= 99) margin = 99;
+        if (margin < 0) margin = 0;
+
+        const directCost = labor + mat + other;
+        const marginDec = margin / 100;
+        let price = 0;
+        let profit = 0;
+
+        if (marginDec < 1) {
+          price = directCost / (1 - marginDec);
+          profit = price - directCost;
+        }
+
+        resPrice.textContent = fmt(price);
+        resCost.textContent = fmt(directCost);
+        resMargin.textContent = margin.toFixed(1) + '%';
+        resProfit.textContent = fmt(profit);
+
+        let costPct = price > 0 ? (directCost / price) * 100 : 100;
+        let profitPct = price > 0 ? (profit / price) * 100 : 0;
+
+        barCost.style.width = Math.min(Math.max(costPct, 0), 100) + '%';
+        barProfit.style.width = Math.min(Math.max(profitPct, 0), 100) + '%';
+
+        legendCost.textContent = 'Direct Costs: ' + Math.round(costPct) + '% (' + fmt(directCost).replace('.00','') + ')';
+        legendProfit.textContent = 'Gross Profit: ' + Math.round(profitPct) + '% (' + fmt(profit).replace('.00','') + ')';
+      }
+
+      [laborIn, matIn, otherIn, marginIn].forEach(input => {
+        input.addEventListener('input', update);
+      });
+      update();
+    })();
+  </script>
+</body></html>
