@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { ProjectEstimateCalculator } from '../../components/calculators/ProjectEstimateCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Project Estimate Calculator | Itemized Contractor Bid Ledger';
-const description = 'Build itemized commercial and residential bids across labor, materials, equipment, subcontractors, overhead, and margin.';
+const title = 'Project Estimate Calculator | Itemized Contractor Bid';
+const description = 'Add labor, materials, equipment, and subcontractor costs to estimate a project price with overhead and margin.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/project-estimate/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/project-estimate/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,8 +24,9 @@ const description = 'Build itemized commercial and residential bids across labor
         Project Estimate &amp; Itemized Bid Ledger
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Assemble complete multi-phase contractor proposals. Add itemized line items across labor, materials, equipment, and subcontractors. Apply defensible overhead allocation and profit margins with real-time mathematical validation.
+        Use this for a larger job with several cost categories. Add each labor, material, equipment, other, and subcontractor cost once, then set overhead and target margin to see the estimated project price and gross profit.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter the line items below. The estimate updates as you add or change costs.</p>
     </div>
 
     <!-- Interactive Calculator -->
@@ -39,11 +40,11 @@ const description = 'Build itemized commercial and residential bids across labor
       <!-- Left: Formulas and Definitions -->
       <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
         <h3 class="text-lg font-bold font-headline text-text-primary">
-          Itemized Estimation Framework
+          How the Estimate Is Built
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Keeping direct expenses in separate categories helps make omissions and duplicate entries easier to spot:
+            Use separate cost categories to spot missing items and avoid counting the same cost twice:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Line Item Total = Quantity × Unit Cost</div>

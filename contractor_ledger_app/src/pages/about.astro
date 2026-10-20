@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AdSlot } from '../components/ui/AdSlot';
 
-const title = 'About Contractor Ledger | Fiscal Precision for Working Trades';
-const description = 'Contractor Ledger is a free set of browser-based pricing, labor, margin, break-even, materials, and project estimate calculators for US contractors.';
+const title = 'About Contractor Ledger | Free Contractor Estimating Tools';
+const description = 'Learn what Contractor Ledger calculators do, how estimates are calculated, and what the results include.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/about/">
@@ -20,43 +20,41 @@ const description = 'Contractor Ledger is a free set of browser-based pricing, l
         About Contractor Ledger
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        A browser-based estimating workbench for independent contractors, trade specialists, and project managers who need clear calculations from their own cost assumptions.
+        Contractor Ledger is a set of free browser-based estimating calculators for contractors. Enter your own job costs to estimate prices, labor, materials, break-even rates, and project totals.
       </p>
     </div>
 
     <!-- Core Philosophy -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-5">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        Operational Dignity &amp; Mathematical Rigor
+        Tools for Everyday Estimating
       </h2>
       <div class="space-y-4 text-sm text-text-secondary leading-relaxed">
         <p>
-          Too many software tools for trade contractors are cluttered with bloated subscription tiers, forced CRM pipelines, invasive login gates, and generic tech-startup gamification.
+          The six calculators cover job pricing, labor cost, margin and markup, break-even, material markup, and itemized project estimates. Each shows the values it uses and updates its result as you make changes.
         </p>
         <p>
-          Contractor Ledger keeps the focus on transparent formulas and readable estimates. Currency results are rounded to cents from the values entered; the usefulness of a bid still depends on the completeness and accuracy of its assumptions.
+          The estimates reflect only the numbers entered. They do not verify supplier prices, labor rates, taxes, fees, insurance, or other costs that may apply to a job.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
           <div class="p-4 rounded-lg bg-canvas border border-border-default">
-            <h3 class="font-bold text-text-primary text-sm mb-1">What We Do</h3>
+            <h3 class="font-bold text-text-primary text-sm mb-1">Useful for</h3>
             <ul class="text-xs text-text-secondary space-y-1.5 list-disc list-inside">
-              <li>Cost-divided gross margin calculation</li>
-              <li>Fully loaded labor burden factoring</li>
-              <li>Itemized scope-of-work estimating</li>
-              <li>Side-by-side bidding comparison</li>
-              <li>Reusable cost defaults stored in this browser</li>
+              <li>Estimating labor, materials, and overhead</li>
+              <li>Comparing target margin and markup</li>
+              <li>Building itemized project totals</li>
+              <li>Saving optional cost defaults in this browser</li>
             </ul>
           </div>
 
           <div class="p-4 rounded-lg bg-canvas border border-border-default">
-            <h3 class="font-bold text-text-primary text-sm mb-1">What We Reject</h3>
+            <h3 class="font-bold text-text-primary text-sm mb-1">Keep in mind</h3>
             <ul class="text-xs text-text-secondary space-y-1.5 list-disc list-inside">
-              <li>No user accounts or passwords</li>
-              <li>No subscription fees or paywalls</li>
-              <li>No server databases storing your bids</li>
-              <li>No AI chat widgets or gimmicks</li>
-              <li>No tracking of proprietary client bids</li>
+              <li>Results depend on the assumptions you enter</li>
+              <li>Missing costs are not added automatically</li>
+              <li>Currency amounts are rounded to cents</li>
+              <li>Estimates are not a guaranteed bid or profit</li>
             </ul>
           </div>
         </div>
@@ -66,14 +64,14 @@ const description = 'Contractor Ledger is a free set of browser-based pricing, l
     <!-- Engineering Architecture -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        Architectural Foundation
+        How Calculations Run
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
-          Contractor Ledger is engineered using static HTML delivery, TypeScript calculation kernels, and selective React hydration. All financial routines are pure, deterministic functions tested against rigorous boundary conditions.
+          Calculations run in your browser using the values you enter. The site does not send calculator inputs to a calculation service.
         </p>
         <p>
-          Calculations run in the browser, and the optional shared defaults are saved in local browser storage. The site does not send calculator inputs to a calculation service; web fonts are requested from Google Fonts as described in the Privacy Policy.
+          If you save shared cost defaults, they are stored in this browser until you clear them. The page also requests fonts from Google Fonts; see the Privacy Policy for more detail.
         </p>
       </div>
     </article>

@@ -1,6 +1,8 @@
 import { defineConfig } from '@playwright/test';
 import { createServer } from 'node:net';
 
+process.env.PUBLIC_SITE_URL ||= 'https://ornate-toffee-ca93df.netlify.app';
+
 async function findAvailablePort(): Promise<number> {
   return new Promise((resolve, reject) => {
     const probe = createServer();
@@ -41,7 +43,7 @@ export default defineConfig({
   webServer: {
     command: `npm run preview -- --host 127.0.0.1 --port ${previewPort}`,
     url: previewUrl,
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 30000,
   },
   projects: [

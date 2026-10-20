@@ -11,6 +11,15 @@ const navLinks = [
   { href: '/about/', label: 'About' },
   { href: '/contact/', label: 'Contact' },
 ];
+
+const calculatorLinks = [
+  { href: '/calculators/job-pricing/', label: 'Job Pricing' },
+  { href: '/calculators/labor-cost/', label: 'Labor Cost' },
+  { href: '/calculators/profit-margin/', label: 'Profit Margin' },
+  { href: '/calculators/break-even/', label: 'Break-Even' },
+  { href: '/calculators/material-markup/', label: 'Material Markup' },
+  { href: '/calculators/project-estimate/', label: 'Project Estimate' },
+];
 ---
 
 <header class="sticky top-0 z-40 w-full bg-graphite border-b border-graphite-border shadow-subtle">
@@ -84,8 +93,33 @@ const navLinks = [
     </div>
   </div>
 
-  <nav id="mobile-navigation" class="hidden lg:hidden border-t border-graphite-border bg-graphite px-4 sm:px-6 py-3" aria-label="Mobile navigation">
-    <ul class="max-w-container mx-auto divide-y divide-graphite-border">
+  <nav id="mobile-navigation" class="hidden lg:hidden max-h-[calc(100dvh_-_4rem)] overflow-y-auto overscroll-contain border-t border-graphite-border bg-graphite px-4 sm:px-6 py-3" aria-label="Mobile navigation">
+    <ul class="max-w-container mx-auto space-y-1">
+      <li>
+        <a
+          href="/"
+          aria-current={currentPath === '/' ? 'page' : undefined}
+          class={`block min-h-11 rounded px-3 py-3 text-sm font-medium ${currentPath === '/' ? 'bg-graphite-raised text-white font-semibold' : 'text-text-inverse-muted hover:bg-graphite-raised hover:text-white'}`}
+        >
+          Home
+        </a>
+      </li>
+      <li class="px-3 pt-3 pb-1 text-xs font-bold uppercase tracking-wider text-text-inverse-muted">Calculators</li>
+      {calculatorLinks.map(link => {
+        const isActive = currentPath === link.href;
+        return (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive ? 'page' : undefined}
+              class={`block min-h-11 rounded px-3 py-3 text-sm font-medium ${isActive ? 'bg-graphite-raised text-white font-semibold' : 'text-text-inverse-muted hover:bg-graphite-raised hover:text-white'}`}
+            >
+              {link.label}
+            </a>
+          </li>
+        );
+      })}
+      <li class="px-3 pt-3 pb-1 text-xs font-bold uppercase tracking-wider text-text-inverse-muted">More</li>
       {navLinks.map(link => {
         const isActive = currentPath === link.href || (link.href !== '/#core-calculators' && currentPath.startsWith(link.href));
         return (
@@ -93,7 +127,7 @@ const navLinks = [
             <a
               href={link.href}
               aria-current={isActive ? 'page' : undefined}
-              class={`block min-h-11 py-3 text-sm font-medium ${isActive ? 'text-white font-semibold' : 'text-text-inverse-muted hover:text-white'}`}
+              class={`block min-h-11 rounded px-3 py-3 text-sm font-medium ${isActive ? 'bg-graphite-raised text-white font-semibold' : 'text-text-inverse-muted hover:bg-graphite-raised hover:text-white'}`}
             >
               {link.label}
             </a>
@@ -101,12 +135,6 @@ const navLinks = [
         );
       })}
     </ul>
-    <a
-      href="/calculators/job-pricing/"
-      class="max-w-container mx-auto mt-3 flex min-h-11 items-center justify-center rounded-md bg-brand-copper px-4 text-sm font-semibold text-white hover:bg-brand-copper-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
-    >
-      Calculate Job Price
-    </a>
   </nav>
 </header>
 

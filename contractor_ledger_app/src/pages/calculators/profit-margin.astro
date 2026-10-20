@@ -5,8 +5,8 @@ import { AdSlot } from '../../components/ui/AdSlot';
 import { calculateRequiredPrice } from '../../lib/financial/profitMargin';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
 
-const title = 'Profit Margin Calculator | Margin vs. Markup Engine';
-const description = 'Calculate gross profit margin vs markup on cost. Analyze existing prices or compute the required selling price to hit your margin target.';
+const title = 'Profit Margin vs. Markup Calculator | Contractor Pricing';
+const description = 'Compare gross margin with markup on cost, or calculate a selling price for your target margin.';
 const conversionCost = 1000;
 const conversionRows = [10, 15, 20, 25, 30, 40].map((targetMarginPct) => {
   const result = calculateRequiredPrice({ totalCost: conversionCost, targetMarginPct });
@@ -15,7 +15,7 @@ const conversionRows = [10, 15, 20, 25, 30, 40].map((targetMarginPct) => {
 });
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/profit-margin/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/profit-margin/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -32,8 +32,9 @@ const conversionRows = [10, 15, 20, 25, 30, 40].map((targetMarginPct) => {
         Profit Margin vs. Markup Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Compare gross margin with markup on cost. Use Mode A to analyze an entered price or Mode B to calculate a price for your selected gross margin.
+        Use this when you know a project cost or selling price and want to understand the profit. Margin is profit as a share of the selling price; markup compares profit with cost.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter the cost and price, or switch to required-price mode. The result updates as you change the values.</p>
     </div>
 
     <!-- Interactive Calculator -->

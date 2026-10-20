@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Privacy Policy | Contractor Ledger';
-const description = 'Contractor Ledger privacy policy: client-side calculation processing, local device storage, and transparent data disclosure.';
+const description = 'Learn how Contractor Ledger processes calculator values, stores optional defaults, and uses third-party fonts.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/privacy/">
@@ -26,34 +26,34 @@ const description = 'Contractor Ledger privacy policy: client-side calculation p
     <div class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-6 text-sm text-text-secondary leading-relaxed">
       <section class="space-y-2">
         <h2 class="text-lg font-bold text-text-primary font-headline">
-          1. Core Architectural Privacy Principle
+          1. Calculator Values
         </h2>
         <p>
-          Contractor Ledger is engineered as a client-side computational utility. All numerical figures you enter into our calculators—including labor rates, material supply costs, subcontractor estimates, overhead values, and profit margins—are processed in real time inside your web browser.
+          Calculator values are processed in your web browser to show results. This site does not send those values to a calculation service or save job bids to an account.
         </p>
         <p>
-          <strong>No job bid database:</strong> The application does not submit job bid figures to an application server. Your figures remain in the browser unless you choose to include them in a message or use another browser feature that shares page data.
+          Your browser may still make network requests needed to load the website, such as the font request described below.
         </p>
       </section>
 
       <section class="space-y-2">
         <h2 class="text-lg font-bold text-text-primary font-headline">
-          2. Local Storage Usage
+          2. Saved Defaults
         </h2>
         <p>
-          If you choose to customize your default labor rate, employer burden percentage, overhead percentage, or target profit margin using the "Cost Settings" drawer, these preferences are saved exclusively in your browser's local device storage (<code class="text-xs bg-canvas px-1 py-0.5 rounded border border-border-default">localStorage</code>). You may reset or erase this data at any time directly through the interface or by clearing this site's stored data in your browser settings.
+          If you save labor, burden, overhead, or margin defaults in Cost Settings, they are stored in this browser's local storage. You can clear them in Cost Settings or remove this site's stored data in your browser settings. They are not saved to a Contractor Ledger account.
         </p>
       </section>
 
       <section class="space-y-2">
         <h2 class="text-lg font-bold text-text-primary font-headline">
-          3. Third-Party Network Requests &amp; Advertising
+          3. Fonts and Advertising
         </h2>
         <p>
-          To deliver typography and performance assets, this website requests web fonts from Google Fonts (<code class="text-xs bg-canvas px-1 py-0.5 rounded border border-border-default">fonts.googleapis.com</code>).
+          This website requests its typefaces from Google Fonts (<code class="text-xs bg-canvas px-1 py-0.5 rounded border border-border-default">fonts.googleapis.com</code>).
         </p>
         <p>
-          When approved and activated, Google AdSense and its advertising partners may use cookies and web beacons to serve non-intrusive advertisements based on prior visits. Users may manage personalized advertising settings through their Google Ad Settings or through standard browser cookie controls.
+          This version does not load advertising scripts or display ads. The inactive ad placeholders do not reserve space or connect to an advertising service. If advertising is enabled in a future version, this policy should be updated before it is activated.
         </p>
       </section>
 
@@ -62,7 +62,7 @@ const description = 'Contractor Ledger privacy policy: client-side calculation p
           4. Contact Information
         </h2>
         <p>
-          For questions regarding this technical privacy specification, contact our team through the <a href="/contact/" class="text-brand-copper font-semibold hover:underline">Contact Desk</a>.
+          See the <a href="/contact/" class="text-brand-copper font-semibold hover:underline">Contact page</a> for current contact options. An email link is shown only when an address is configured.
         </p>
       </section>
     </div>

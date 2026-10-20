@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { normalizeContactEmail } from '../lib/site';
 
 const title = 'Contact Contractor Ledger';
-const description = 'Contact Contractor Ledger about calculator feedback, calculation methods, or website issues.';
+const description = 'See how to contact Contractor Ledger about calculator feedback or website issues.';
 const contactEmail = normalizeContactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL);
 ---
 
@@ -20,7 +20,7 @@ const contactEmail = normalizeContactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL)
         Contact Contractor Ledger
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Send feedback about a calculation, report a website issue, or ask a question about how a result is worked out.
+        Contact options for calculator feedback and website issues.
       </p>
     </div>
 
@@ -40,9 +40,9 @@ const contactEmail = normalizeContactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL)
         </>
       ) : (
         <div class="space-y-2 text-sm text-text-secondary leading-relaxed">
-          <p>A contact address has not been configured for this deployment.</p>
+          <p>No contact email is set for this site.</p>
           <p>
-            Before publishing, set <code class="rounded bg-canvas px-1.5 py-0.5 text-xs text-text-primary">PUBLIC_CONTACT_EMAIL</code> to a verified, monitored inbox. This page does not store or send messages through a web form.
+            There is no web form, so this page cannot send a message. No message or calculator information is collected here.
           </p>
         </div>
       )}

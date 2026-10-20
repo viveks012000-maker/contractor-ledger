@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { BreakEvenCalculator } from '../../components/calculators/BreakEvenCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Break-Even Calculator | Monthly Contractor Overhead Recovery';
-const description = 'Estimate the hourly rate and monthly revenue needed to cover the fixed costs and variable hourly costs you enter.';
+const title = 'Break-Even Calculator | Contractor Rate and Revenue';
+const description = 'Estimate the hourly rate and monthly revenue needed to cover the fixed and per-hour costs you enter.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/break-even/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/break-even/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,8 +24,9 @@ const description = 'Estimate the hourly rate and monthly revenue needed to cove
         Break-Even Rate Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Estimate an hourly break-even rate and monthly revenue from the fixed costs, variable hourly costs, and billable hours you enter.
+        Use this to estimate a rate and monthly revenue that cover your fixed monthly costs and per-hour costs. Enter realistic billable hours; this is a break-even target and does not include extra costs or profit you have not entered.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter monthly costs and expected billable hours below. The break-even results update as you change them.</p>
     </div>
 
     <!-- Interactive Calculator -->
@@ -43,7 +44,7 @@ const description = 'Estimate the hourly rate and monthly revenue needed to cove
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Break-even analysis establishes your operational floor. It distinguishes expenses that occur regardless of job volume from expenses that scale with hours worked:
+            Divide monthly fixed costs by billable hours to find the overhead assigned to each hour. Add the per-hour costs to see the rate that covers the amounts entered:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Fixed Overhead / Hour = Monthly Fixed Costs ÷ Billable Hours</div>
@@ -51,7 +52,7 @@ const description = 'Estimate the hourly rate and monthly revenue needed to cove
             <div class="font-bold text-brand-copper">Monthly Revenue Required = Fixed Costs + (Variable / Hr × Hours)</div>
           </div>
           <p>
-            Enter the hours you expect to bill, accounting for time spent on estimating, travel, supply runs, administration, and other work that is not billed to a job.
+            Count only hours you expect to bill. Time spent estimating, traveling, picking up supplies, or handling administration reduces your available billable hours.
           </p>
         </div>
       </div>

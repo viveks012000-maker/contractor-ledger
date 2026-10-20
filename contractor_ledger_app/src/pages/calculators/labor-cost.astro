@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { LaborCostCalculator } from '../../components/calculators/LaborCostCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Labor Cost & Burden Calculator | Loaded Hourly Cost';
-const description = 'Estimate loaded contractor labor costs from user-entered wages, hours, overtime multipliers, burden percentages, and additional expenses.';
+const title = 'Labor Cost Calculator | Loaded Hourly Labor Cost';
+const description = 'Estimate hourly labor cost from the wages, hours, overtime, burden, and additional expenses you enter.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/labor-cost/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/labor-cost/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,8 +24,9 @@ const description = 'Estimate loaded contractor labor costs from user-entered wa
         Labor Cost &amp; Burden Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Estimate loaded labor cost from the wages, hours, overtime multiplier, burden percentage, and expenses you enter. This calculator does not determine statutory tax or overtime obligations.
+        Use this to estimate what a crew hour costs after wages, overtime, burden, and additional expenses. Enter your planned hours and the rates that apply to your crew; this is an estimate, not a payroll calculation.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter your crew and pay assumptions below. The loaded cost updates as you change them.</p>
     </div>
 
     <!-- Interactive Calculator -->
@@ -39,11 +40,11 @@ const description = 'Estimate loaded contractor labor costs from user-entered wa
       <!-- Left: Formulas and Definitions -->
       <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
         <h3 class="text-lg font-bold font-headline text-text-primary">
-          Loaded Labor Accounting Principles
+          How Loaded Labor Cost Is Calculated
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            A loaded labor estimate combines the entered wage and hours with an overtime multiplier, a user-supplied burden percentage, and any additional expenses:
+            The estimate adds the wages and expenses you enter, then divides by crew hours to show a loaded hourly cost:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Regular Wages = Workers × Regular Hours × Hourly Wage</div>
@@ -54,7 +55,7 @@ const description = 'Estimate loaded contractor labor costs from user-entered wa
             <div class="font-bold text-brand-copper">Loaded Hourly Cost = Total Cost ÷ Total Hours</div>
           </div>
           <p>
-            <strong>Burden is an estimate:</strong> Payroll taxes, unemployment insurance, workers' compensation, and overtime obligations depend on current rules and employer-specific facts. Verify the rates that apply to your business; this tool applies the percentage you enter.
+            <strong>Check your assumptions:</strong> The calculator applies the burden percentage and overtime multiplier you enter. Verify those values against your payroll records before using the estimate in a bid.
           </p>
         </div>
       </div>

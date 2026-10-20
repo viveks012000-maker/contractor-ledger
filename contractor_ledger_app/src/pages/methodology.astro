@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { AdSlot } from '../components/ui/AdSlot';
 
 const title = 'Calculation Methods & Assumptions | Contractor Ledger';
-const description = 'Formulas used by Contractor Ledger for gross margin, labor cost, monthly break-even, and material waste calculations, with key assumptions.';
+const description = 'See how Contractor Ledger calculates job prices, labor cost, break-even rates, material markups, and project estimates.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/methodology/">
@@ -20,18 +20,18 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
         Calculation Methods &amp; Assumptions
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        These formulas describe how the calculators combine the values you enter. Results depend on those inputs and do not verify local wages, tax rules, insurance rates, or contract requirements.
+        Each calculator uses the values you enter and the formulas below. Results are estimates; the site does not check your actual costs, rates, or contract requirements.
       </p>
     </div>
 
     <!-- Section 1: Gross Margin Divisor -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        1. Gross Margin Divisor Arithmetic
+        1. Job Price and Gross Margin
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
-          In contractor accounting, gross profit margin represents the share of total contract revenue that remains after satisfying all direct job expenses and allocated overhead. It is governed by:
+          Gross margin is the share of the selling price left after the included job costs. To price for a target margin, the calculators use:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
           <div class="font-bold text-brand-copper">Selling Price = Total Estimated Cost ÷ (1 − Target Margin % ÷ 100)</div>
@@ -39,7 +39,7 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div>Actual Gross Margin (%) = (Gross Profit ÷ Selling Price) × 100</div>
         </div>
         <p>
-          <strong>Margin versus markup:</strong> Multiplying a $1,000 cost by 1.25 produces a selling price of $1,250 with a $250 profit. The resulting margin is <strong>20.0%</strong> because ($250 ÷ $1,250) × 100 = 20%; a 25% target margin instead divides total cost by 0.75. The job pricing and project estimate calculators use this margin divisor.
+          <strong>Margin versus markup:</strong> A 25% markup on a $1,000 cost produces a $1,250 price and a $250 profit, which is a 20% margin. A 25% margin instead divides the cost by 0.75. The job pricing and project estimate calculators use this margin formula.
         </p>
       </div>
     </article>
@@ -47,11 +47,11 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
     <!-- Section 2: Loaded Labor Burden -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        2. Loaded Labor Cost Formula
+        2. Loaded Labor Cost
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
-          Direct wages represent only the visible portion of field personnel expenses. Contractor Ledger calculates fully burdened hourly costs using the formula:
+          Loaded labor cost combines the wages and hours you enter with overtime, a burden percentage, and additional expenses:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
           <div>Regular Wages = Crew Count × Regular Hours × Hourly Wage</div>
@@ -62,7 +62,7 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div class="font-bold text-brand-copper">Loaded Hourly Rate = Total Labor Cost ÷ Total Crew Hours</div>
         </div>
         <p>
-          The burden percentage is user-entered. Payroll taxes, unemployment insurance, workers' compensation, and overtime requirements vary with current rules and employer-specific facts, so verify the values that apply to your business.
+          The calculator applies the burden percentage and overtime multiplier you enter. Check those assumptions against your payroll records; this tool does not determine payroll or tax requirements.
         </p>
       </div>
     </article>
@@ -70,11 +70,11 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
     <!-- Section 3: Break-Even Recovery -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        3. Break-Even Rate &amp; Capacity Recovery
+        3. Monthly Break-Even Rate
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
-          To prevent overhead deficits, monthly fixed operating expenses must be amortized over realistic billable production hours:
+          The hourly rate allocates monthly fixed costs across the billable hours you expect, then adds the entered variable cost per hour:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
           <div>Fixed Overhead Recovery / Hr = Monthly Fixed Costs ÷ Monthly Billable Hours</div>
@@ -82,7 +82,7 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div class="font-bold text-brand-copper">Required Monthly Revenue = Fixed Costs + (Variable Cost / Hr × Billable Hours)</div>
         </div>
         <p>
-          A positive billable hour volume is mathematically required to compute a finite hourly rate.
+          Only count hours you expect to bill. The result covers the costs you entered; it does not include profit or other costs unless you add them.
         </p>
       </div>
     </article>
@@ -90,11 +90,11 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
     <!-- Section 4: Material Waste & Procurement -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        4. Material Waste &amp; Procurement Buffer
+        4. Material Waste and Markup
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
-          Material estimating requires accounting for scrap, dimensional cutting losses, and transit damage before applying procurement markup:
+          The material calculator adds your waste allowance to the quantity, calculates adjusted cost, then adds markup:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
           <div>Effective Quantity = Net Specified Quantity × (1 + Waste Allowance % ÷ 100)</div>
@@ -103,10 +103,10 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div class="font-bold text-brand-copper">Billed Material Price = Adjusted Procurement Cost + Markup Amount</div>
         </div>
         <p>
-          Quantities support precise floating-point decimals to allow fractional procurement for aggregate, linear footage, and yardage.
+          Quantity can include decimals, such as a partial linear foot or cubic yard.
         </p>
         <p>
-          Currency inputs and project line items are rounded to cents before totals are summed. Material quantities preserve up to four decimal places; other displayed quantities may be rounded by their calculator's documented output precision.
+          Currency values are rounded to cents. Project estimate line items are rounded before they are added, and material quantities keep up to four decimal places.
         </p>
       </div>
     </article>

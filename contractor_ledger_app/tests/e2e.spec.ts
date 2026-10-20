@@ -1,25 +1,44 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Contractor Ledger End-to-End Suite', () => {
-  test('Homepage presents a contractor-focused hero and live preview', async ({ page }) => {
+  test('Homepage explains its contractor audience and makes calculator selection the primary action', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Contractor Ledger/);
 
-    // Headline exists and visible
-    const heading = page.locator('h1');
-    await expect(heading).toContainText('Know the cost. Price the work.');
+    const heroHeading = page.locator('h1');
+    await expect(heroHeading).toContainText('Know your costs. Price the job.');
+    await expect(heroHeading).toBeInViewport();
+    await expect(page.getByText('Free estimating tools for U.S. contractors')).toBeVisible();
+    const homePreviewLaborInput = page.locator('.home-hero #job-labor');
+    if ((page.viewportSize()?.width ?? 0) < 1024) await expect(homePreviewLaborInput).toBeHidden();
+    else await expect(homePreviewLaborInput).toBeVisible();
+    const chooseCalculator = page.getByRole('link', { name: 'Choose a Calculator' });
+    await expect(chooseCalculator).toHaveAttribute('href', '#core-calculators');
+    await expect(chooseCalculator).toBeInViewport();
+    await chooseCalculator.click();
 
-    // 6 calculators section exists
     const toolsHeading = page.locator('h2:has-text("Calculators for everyday estimating")');
     await expect(toolsHeading).toBeVisible();
+    await expect(page.locator('#core-calculators')).toBeInViewport();
 
-    // Verify all 6 tools are rendered
-    await expect(page.locator('main a[href="/calculators/job-pricing/"]').first()).toBeVisible();
-    await expect(page.locator('main a[href="/calculators/labor-cost/"]').first()).toBeVisible();
-    await expect(page.locator('main a[href="/calculators/profit-margin/"]').first()).toBeVisible();
-    await expect(page.locator('main a[href="/calculators/break-even/"]').first()).toBeVisible();
-    await expect(page.locator('main a[href="/calculators/material-markup/"]').first()).toBeVisible();
-    await expect(page.locator('main a[href="/calculators/project-estimate/"]').first()).toBeVisible();
+    const calculators = [
+      ['/calculators/job-pricing/', 'Job Pricing'],
+      ['/calculators/labor-cost/', 'Labor Cost'],
+      ['/calculators/profit-margin/', 'Profit Margin'],
+      ['/calculators/break-even/', 'Break-Even'],
+      ['/calculators/material-markup/', 'Material Markup'],
+      ['/calculators/project-estimate/', 'Project Estimate'],
+    ] as const;
+    for (const [href, title] of calculators) {
+      const card = page.locator(`#core-calculators a[href="${href}"]`);
+      await expect(card.locator('h3')).toHaveText(title);
+      await expect(card.locator('p')).not.toBeEmpty();
+      await expect(card.getByText('Open Calculator')).toBeVisible();
+    }
+    await page.locator('#core-calculators a[href="/calculators/job-pricing/"]').click();
+    await expect(page).toHaveURL('/calculators/job-pricing/');
+    await expect(page.locator('h1')).toHaveText('Job Pricing Calculator');
+    await expect(page.locator('.result-panel').getByText('$1,600.00').first()).toBeVisible();
   });
 
   test('Job Pricing Calculator interactive workflow and live calculation', async ({ page }) => {
@@ -244,17 +263,46 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
 
   test('Mobile navigation opens, closes with Escape, and returns focus to its trigger', async ({ page }) => {
     test.skip((page.viewportSize()?.width ?? 0) >= 1024, 'Mobile navigation is replaced by the desktop navigation at 1024px.');
-    await page.goto('/');
+    await page.goto('/calculators/project-estimate/');
 
     const trigger = page.locator('#mobile-menu-toggle');
     const navigation = page.locator('#mobile-navigation');
-    await trigger.click();
+    await trigger.focus();
+    await page.keyboard.press('Enter');
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(navigation).toBeVisible();
+    await expect(navigation.getByRole('link', { name: 'Home' })).toBeVisible();
+    await expect(navigation.locator('a[href^="/calculators/"]')).toHaveCount(6);
+    await expect(navigation.getByRole('link', { name: 'Project Estimate' })).toHaveAttribute('aria-current', 'page');
+    const lastLink = navigation.getByRole('link', { name: 'Contact' });
+    if ((page.viewportSize()?.height ?? 0) < 600) {
+      const navigationBounds = await navigation.evaluate(element => ({
+        clientHeight: element.clientHeight,
+        scrollHeight: element.scrollHeight,
+      }));
+      expect(navigationBounds.scrollHeight).toBeGreaterThan(navigationBounds.clientHeight);
+      await lastLink.scrollIntoViewIfNeeded();
+      await expect(lastLink).toBeInViewport();
+      await navigation.evaluate(element => { element.scrollTop = 0; });
+    }
+    await page.keyboard.press('Tab');
+    await expect(navigation.getByRole('link', { name: 'Home' })).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL('/');
+    await expect(navigation).toBeHidden();
+
+    await page.goto('/calculators/project-estimate/');
+    await trigger.click();
     await page.keyboard.press('Escape');
     await expect(navigation).toBeHidden();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    await navigation.getByRole('link', { name: 'Material Markup' }).click();
+    await expect(page).toHaveURL('/calculators/material-markup/');
+    await expect(navigation).toBeHidden();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
   test('Saved shared defaults persist and can be explicitly applied, including zero values', async ({ page }) => {
@@ -383,16 +431,14 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
       const email = process.env.PUBLIC_CONTACT_EMAIL.trim();
       await expect(page.getByRole('link', { name: `Email ${email}` })).toHaveAttribute('href', `mailto:${email}`);
     } else {
-      await expect(page.getByText('A contact address has not been configured for this deployment.')).toBeVisible();
+      await expect(page.getByText('No contact email is set for this site.')).toBeVisible();
       await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
     }
     await expect(page.locator('form')).toHaveCount(0);
   });
 
   test('Sitemap, robots, and indexable route metadata match the configured public origin', async ({ page, request }) => {
-    const publicOrigin = process.env.PUBLIC_SITE_URL?.trim()
-      ? new URL(process.env.PUBLIC_SITE_URL.trim()).origin
-      : undefined;
+    const publicOrigin = new URL(process.env.PUBLIC_SITE_URL!).origin;
     const routes = [
       '/', '/calculators/job-pricing/', '/calculators/labor-cost/',
       '/calculators/profit-margin/', '/calculators/break-even/',
@@ -403,24 +449,27 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     const sitemapResponse = await request.get('/sitemap.xml');
     expect(sitemapResponse.ok()).toBe(true);
     const sitemap = await sitemapResponse.text();
-    expect((sitemap.match(/<loc>/g) ?? []).length).toBe(publicOrigin ? routes.length : 0);
+    expect((sitemap.match(/<loc>/g) ?? []).length).toBe(routes.length);
     expect(sitemap).not.toContain('/404');
 
     const robotsResponse = await request.get('/robots.txt');
     expect(robotsResponse.ok()).toBe(true);
     const robots = await robotsResponse.text();
-    if (publicOrigin) expect(robots).toContain(`Sitemap: ${publicOrigin}/sitemap.xml`);
-    else expect(robots).not.toContain('Sitemap:');
+    expect(robots).toContain(`Sitemap: ${publicOrigin}/sitemap.xml`);
 
-    const schemaRoutes = new Set(['/', ...routes.filter(route => route.startsWith('/calculators/'))]);
+    const titles = new Set<string>();
     for (const route of routes) {
       await page.goto(route);
-      const canonical = page.locator('link[rel="canonical"]');
-      if (publicOrigin) await expect(canonical).toHaveAttribute('href', `${publicOrigin}${route}`);
-      else await expect(canonical).toHaveCount(0);
+      await expect(page.locator('h1')).toHaveCount(1);
+      const title = await page.title();
+      expect(title.trim().length).toBeGreaterThan(10);
+      expect(titles.has(title), `duplicate title on ${route}: ${title}`).toBe(false);
+      titles.add(title);
+      await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', '');
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${publicOrigin}${route}`);
 
       const schema = page.locator('script[type="application/ld+json"]');
-      if (schemaRoutes.has(route)) {
+      if (route === '/') {
         await expect(schema).toHaveCount(1);
         const structuredData = JSON.parse((await schema.textContent()) ?? '{}');
         expect(structuredData['@type']).toBe('WebApplication');

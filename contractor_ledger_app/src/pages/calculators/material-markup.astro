@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { MaterialMarkupCalculator } from '../../components/calculators/MaterialMarkupCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Material Markup Calculator | Contractor Supply & Waste Estimator';
-const description = 'Calculate profitable billing prices for construction supplies, lumber, and hardware with optional procurement waste allowances.';
+const title = 'Material Markup Calculator | Waste, Price and Profit';
+const description = 'Set a material selling price using quantity, unit cost, expected waste, and markup.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/material-markup/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/material-markup/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,8 +24,9 @@ const description = 'Calculate profitable billing prices for construction suppli
         Material Markup &amp; Waste Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Price construction supplies, lumber, electrical components, and plumbing hardware profitably. Account for cutting scrap, delivery handling, and job site waste while protecting your procurement markup.
+        Use this for a material line item. Enter quantity, unit cost, expected waste, and markup to see the adjusted cost, amount to bill, and profit. Labor and overhead are not included unless you add them elsewhere in your estimate.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter quantity and cost below. The adjusted material price updates as you change the assumptions.</p>
     </div>
 
     <!-- Interactive Calculator -->
@@ -43,7 +44,7 @@ const description = 'Calculate profitable billing prices for construction suppli
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            When purchasing materials for a job, ordering only the exact square footage or unit count results in job site delays when cuts fail or patterns must be matched. The procurement engine applies two steps:
+            Add the expected waste to the quantity, then apply the unit cost and markup. Use a realistic waste allowance for the material and job rather than assuming every project needs the same amount:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Effective Quantity = Net Quantity × (1 + Waste Allowance % ÷ 100)</div>

@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { JobPricingCalculator } from '../../components/calculators/JobPricingCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Job Pricing Calculator | Defensible Cost-Plus Recovery';
-const description = 'Calculate profitable job prices based on direct labor, materials, equipment, overhead allocation, and target gross margin.';
+const title = 'Job Pricing Calculator | Estimate Your Contractor Bid';
+const description = 'Estimate a job price from labor, materials, other costs, and overhead for the gross margin you want.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/job-pricing/" includeWebApplicationSchema={true}>
+<BaseLayout title={title} description={description} canonicalPath="/calculators/job-pricing/">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,8 +24,9 @@ const description = 'Calculate profitable job prices based on direct labor, mate
         Job Pricing Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Estimate a job price from the direct costs and overhead you enter, using a target gross margin as a share of the selling price.
+        Use this for a bid when you know the job costs and want to include overhead. Enter labor, materials, other costs, and your target margin to see an estimated selling price and gross profit.
       </p>
+      <p class="text-sm font-medium text-text-secondary">Enter your values below. The result updates as you change them.</p>
     </div>
 
     <!-- Interactive Calculator -->
@@ -43,7 +44,7 @@ const description = 'Calculate profitable job prices based on direct labor, mate
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Many contractors mistakenly mark up total cost by multiplying by their target margin percentage. This common error produces a significantly lower gross margin than planned. Contractor Ledger utilizes the mathematically sound gross margin divisor formula:
+            A 25% markup is not a 25% margin: adding 25% to a $1,000 cost gives a $1,250 price and a 20% margin. To target a 25% margin, use the divisor below.
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Direct Cost = Labor + Materials + Other Direct</div>
