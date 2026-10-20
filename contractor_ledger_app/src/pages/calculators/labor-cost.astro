@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LaborCostCalculator } from '../../components/calculators/LaborCostCalculator';
+import { AdSlot } from '../../components/ui/AdSlot';
+
+const title = 'Labor Cost & Burden Calculator | Loaded Hourly Rates';
+const description = 'Calculate fully loaded contractor labor costs including regular wages, overtime premiums, employer payroll taxes, and workers compensation.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/calculators/labor-cost/">
+  <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
+      <a href="/" class="hover:text-text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/#core-calculators" class="hover:text-text-primary transition-colors">Calculators</a>
+      <span>/</span>
+      <span class="text-text-primary font-semibold">Labor Cost</span>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="max-w-3xl space-y-2">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
+        Labor Cost &amp; Burden Calculator
+      </h1>
+      <p class="text-base text-text-secondary leading-relaxed">
+        Determine the true loaded cost of your trade workforce. Incorporate base wages, overtime premiums, mandatory payroll taxes, and worker compensation insurance into every billable estimate.
+      </p>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <LaborCostCalculator client:load />
+
+    <!-- AdSense Non-Intrusive Slot -->
+    <AdSlot client:idle slotId="labor-cost-bottom-banner" />
+
+    <!-- Technical Guide & Worked Example -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
+      <!-- Left: Formulas and Definitions -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Loaded Labor Accounting Principles
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            A common reason contractors lose money on labor is pricing workers at their net take-home wage. Employer burden adds substantial real costs to every hour worked:
+          </p>
+          <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
+            <div>Regular Wages = Workers × Regular Hours × Hourly Wage</div>
+            <div>Overtime Wages = Workers × OT Hours × Wage × Multiplier</div>
+            <div>Gross Wages = Regular Wages + Overtime Wages</div>
+            <div>Employer Burden = Gross Wages × Burden %</div>
+            <div class="font-bold text-brand-green">Total Labor Cost = Gross Wages + Burden + Expenses</div>
+            <div class="font-bold text-brand-green">Loaded Hourly Cost = Total Cost ÷ Total Hours</div>
+          </div>
+          <p>
+            <strong>What comprises Employer Burden?</strong> Typical US contractor burden includes Social Security (6.2%), Medicare (1.45%), Federal Unemployment / FUTA (0.6%), State Unemployment / SUTA (typically 1.5%–6%), and trade-specific Workers' Compensation (often 8%–25%+ depending on classification code).
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Worked Example & Verification -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Worked Example
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            Calculating labor for a 1-worker, 10-hour installation:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
+            <li>Workers: 1</li>
+            <li>Regular Hours: 10</li>
+            <li>Hourly Wage: $30.00 / hr</li>
+            <li>Overtime Hours: 0</li>
+            <li>Employer Burden: 20.0%</li>
+            <li>Additional Expenses: $0.00</li>
+          </ul>
+          <div class="p-3 rounded bg-brand-green-light/50 border border-brand-green-border text-xs space-y-1">
+            <div class="font-semibold text-text-primary">Calculated Outputs:</div>
+            <div>Regular Wages = 1 × 10 × $30.00 = $300.00</div>
+            <div>Employer Burden = $300.00 × 0.20 = $60.00</div>
+            <div class="font-bold text-brand-green">Total Labor Cost = $300.00 + $60.00 = $360.00</div>
+            <div class="font-bold text-brand-green">Loaded Hourly Cost = $360.00 ÷ 10 hrs = $36.00 / hr</div>
+          </div>
+          <p class="text-text-muted">
+            <em>Disclaimer:</em> Overtime multipliers and burden percentages are user-entered estimating assumptions, not legal compliance or tax filings.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Calculators Directory -->
+    <div class="pt-8 border-t border-border-default">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-text-primary font-headline mb-4">
+        Related Financial Tools
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/calculators/job-pricing/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Job Pricing Calculator</h4>
+          <p class="text-xs text-text-secondary">Combine your loaded labor with materials and overhead to find a winning price.</p>
+        </a>
+        <a href="/calculators/break-even/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Break-Even Calculator</h4>
+          <p class="text-xs text-text-secondary">Find your minimum monthly billable rate to cover all overhead and variable expenses.</p>
+        </a>
+        <a href="/calculators/project-estimate/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Project Estimate Ledger</h4>
+          <p class="text-xs text-text-secondary">Itemize labor hours alongside materials, subcontractors, and equipment.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

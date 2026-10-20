@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas: #FAFAF8;
+    --surface: #FFFFFF;
+    --brand-green: #176B53;
+    --brand-green-hover: #10523F;
+    --text-primary: #18211F;
+    --text-secondary: #4F5B57;
+    --border-default: #E5E8E5;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #FAFAF8;
+    color: #18211F;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Force tabular numbers on all financial data elements */
+  .tabular-nums,
+  [data-tabular="true"] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "cv05" 1;
+  }
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid #176B53;
+  outline-offset: 2px;
+}

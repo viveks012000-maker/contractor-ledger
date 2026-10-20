@@ -1,0 +1,9 @@
+# Contractor Ledger Workspace GitIgnore
+contractor_ledger_app/node_modules/
+contractor_ledger_app/dist/
+contractor_ledger_app/.astro/
+contractor_ledger_app/test-results/
+contractor_ledger_app/playwright-report/
+*.log
+.DS_Store
+Thumbs.db

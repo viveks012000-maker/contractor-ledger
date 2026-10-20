@@ -1,0 +1,104 @@
+---
+const calculators = [
+  { href: '/calculators/job-pricing/', label: 'Job Pricing Calculator' },
+  { href: '/calculators/labor-cost/', label: 'Labor Cost & Burden Calculator' },
+  { href: '/calculators/profit-margin/', label: 'Profit Margin vs. Markup Calculator' },
+  { href: '/calculators/break-even/', label: 'Break-Even Rate Calculator' },
+  { href: '/calculators/material-markup/', label: 'Material Markup & Waste Calculator' },
+  { href: '/calculators/project-estimate/', label: 'Project Estimate & Itemized Bid' },
+];
+
+const companyLinks = [
+  { href: '/methodology/', label: 'Calculation Methodology & Formulas' },
+  { href: '/about/', label: 'About Contractor Ledger' },
+  { href: '/contact/', label: 'Field Desk & Contact Information' },
+  { href: '/privacy/', label: 'Privacy Policy' },
+  { href: '/terms/', label: 'Terms of Service' },
+];
+---
+
+<footer class="w-full bg-[#F4F7F5] border-t border-border-default mt-auto">
+  <div class="max-w-container mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-border-default">
+      <!-- Col 1: Identity -->
+      <div class="md:col-span-5 space-y-4 pr-0 md:pr-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded bg-brand-green flex items-center justify-center text-white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M7 15h0M2 10h20" />
+              <circle cx="16" cy="15" r="1" fill="currentColor" />
+            </svg>
+          </div>
+          <span class="font-bold text-base font-headline text-text-primary tracking-tight">
+            Contractor Ledger
+          </span>
+        </div>
+        <p class="text-xs text-text-secondary leading-relaxed max-w-sm">
+          High-spec operational software engineered for independent general contractors, trade specialists, and project managers demanding defensible margin recovery and absolute pricing certainty.
+        </p>
+        <div class="pt-2 text-[11px] text-text-muted flex items-center gap-2">
+          <span>Series 2026</span>
+          <span>•</span>
+          <span>United States Standard (USD)</span>
+          <span>•</span>
+          <span>Zero Server Storage</span>
+        </div>
+      </div>
+
+      <!-- Col 2: The 6 Tools -->
+      <div class="md:col-span-4 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-headline">
+          Core Financial Calculators
+        </h4>
+        <ul class="space-y-2 text-xs">
+          {calculators.map(c => (
+            <li>
+              <a
+                href={c.href}
+                class="text-text-secondary hover:text-brand-green transition-colors flex items-center gap-1.5 py-0.5"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green shrink-0">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+                <span>{c.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Col 3: Framework & Legal -->
+      <div class="md:col-span-3 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-headline">
+          Framework &amp; Policy
+        </h4>
+        <ul class="space-y-2 text-xs">
+          {companyLinks.map(l => (
+            <li>
+              <a
+                href={l.href}
+                class="text-text-secondary hover:text-brand-green transition-colors flex items-center gap-1.5 py-0.5"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green shrink-0">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+                <span>{l.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Legals -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+      <p>© 2026 Contractor Ledger. All rights reserved. Free, open financial utility for US contractors.</p>
+      <div class="flex items-center gap-4">
+        <span>Cost-Divided Arithmetic</span>
+        <span>•</span>
+        <span>Client-Side Local Storage</span>
+      </div>
+    </div>
+  </div>
+</footer>

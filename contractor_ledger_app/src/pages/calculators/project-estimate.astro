@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ProjectEstimateCalculator } from '../../components/calculators/ProjectEstimateCalculator';
+import { AdSlot } from '../../components/ui/AdSlot';
+
+const title = 'Project Estimate Calculator | Itemized Contractor Bid Ledger';
+const description = 'Build itemized commercial and residential bids across labor, materials, equipment, subcontractors, overhead, and margin.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/calculators/project-estimate/">
+  <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
+      <a href="/" class="hover:text-text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/#core-calculators" class="hover:text-text-primary transition-colors">Calculators</a>
+      <span>/</span>
+      <span class="text-text-primary font-semibold">Project Estimate</span>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="max-w-3xl space-y-2">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
+        Project Estimate &amp; Itemized Bid Ledger
+      </h1>
+      <p class="text-base text-text-secondary leading-relaxed">
+        Assemble complete multi-phase contractor proposals. Add itemized line items across labor, materials, equipment, and subcontractors. Apply defensible overhead allocation and profit margins with real-time mathematical validation.
+      </p>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <ProjectEstimateCalculator client:load />
+
+    <!-- AdSense Non-Intrusive Slot -->
+    <AdSlot client:idle slotId="project-estimate-bottom-banner" />
+
+    <!-- Technical Guide & Worked Example -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
+      <!-- Left: Formulas and Definitions -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Itemized Estimation Framework
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            Professional commercial and residential estimating groups direct expenses into five segregated cost pools to avoid double-counting and misallocated markups:
+          </p>
+          <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
+            <div>Line Item Total = Quantity × Unit Cost</div>
+            <div>Category Subtotal = Sum of Item Totals in Category</div>
+            <div>Direct Costs = Labor + Materials + Equip + Subs + Other</div>
+            <div>Allocated Overhead = Fixed Amount OR (Direct Costs × OH %)</div>
+            <div>Total Estimated Cost = Direct Costs + Allocated Overhead</div>
+            <div class="font-bold text-brand-green">Client Bid Price = Total Estimated Cost ÷ (1 − Target Margin)</div>
+            <div>Gross Profit = Client Bid Price − Total Estimated Cost</div>
+          </div>
+          <p>
+            <strong>Subcontractor Markup:</strong> Subcontractors must be isolated from direct in-house labor because trade subs already carry their own labor burden and insurance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Worked Example & Verification -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Worked Example
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            Standard multi-trade structural renovation scope:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
+            <li>Direct Labor (44 hrs @ $70/hr): $3,080.00</li>
+            <li>Direct Materials (Framing package): $2,111.00</li>
+            <li>Subcontractors (Licensed Electrical): $1,650.00</li>
+            <li>Equipment &amp; Other: $0.00</li>
+            <li>Overhead Rate: 12.0% of direct costs</li>
+            <li>Target Profit Margin: 22.0%</li>
+          </ul>
+          <div class="p-3 rounded bg-brand-green-light/50 border border-brand-green-border text-xs space-y-1">
+            <div class="font-semibold text-text-primary">Calculated Outputs:</div>
+            <div>Direct Costs = $3,080 + $2,111 + $1,650 = $6,841.00</div>
+            <div>Allocated Overhead = $6,841.00 × 0.12 = $820.92</div>
+            <div>Total Estimated Cost = $6,841.00 + $820.92 = $7,661.92</div>
+            <div>Divisor = 1 − 0.22 = 0.78</div>
+            <div class="font-bold text-brand-green">Estimated Client Price = $7,661.92 ÷ 0.78 = $9,822.97</div>
+            <div class="font-bold text-brand-green">Estimated Gross Profit = $9,822.97 − $7,661.92 = $2,161.05</div>
+            <div>Markup Equivalent = $2,161.05 ÷ $7,661.92 = 28.2% on total cost</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Calculators Directory -->
+    <div class="pt-8 border-t border-border-default">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-text-primary font-headline mb-4">
+        Related Financial Tools
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/calculators/job-pricing/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Job Pricing Calculator</h4>
+          <p class="text-xs text-text-secondary">Quick top-level job pricing when itemized line items are not needed.</p>
+        </a>
+        <a href="/calculators/labor-cost/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Labor Cost Calculator</h4>
+          <p class="text-xs text-text-secondary">Determine loaded crew wages to plug into your estimate line items.</p>
+        </a>
+        <a href="/calculators/material-markup/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Material Markup Calculator</h4>
+          <p class="text-xs text-text-secondary">Include scrap and waste allowances for complex architectural supplies.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

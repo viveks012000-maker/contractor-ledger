@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BreakEvenCalculator } from '../../components/calculators/BreakEvenCalculator';
+import { AdSlot } from '../../components/ui/AdSlot';
+
+const title = 'Break-Even Calculator | Monthly Contractor Overhead Recovery';
+const description = 'Calculate your contractor break-even hourly rate and monthly billable revenue required to cover fixed overhead expenses.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/calculators/break-even/">
+  <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
+      <a href="/" class="hover:text-text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/#core-calculators" class="hover:text-text-primary transition-colors">Calculators</a>
+      <span>/</span>
+      <span class="text-text-primary font-semibold">Break-Even</span>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="max-w-3xl space-y-2">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
+        Break-Even Rate Calculator
+      </h1>
+      <p class="text-base text-text-secondary leading-relaxed">
+        Identify the financial threshold below which your business loses money. Calculate the exact hourly billing rate and total monthly revenue required to cover company fixed overhead and variable job expenses.
+      </p>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <BreakEvenCalculator client:load />
+
+    <!-- AdSense Non-Intrusive Slot -->
+    <AdSlot client:idle slotId="break-even-bottom-banner" />
+
+    <!-- Technical Guide & Worked Example -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
+      <!-- Left: Formulas and Definitions -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Break-Even Mechanics &amp; Capacity
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            Break-even analysis establishes your operational floor. It distinguishes expenses that occur regardless of job volume from expenses that scale with hours worked:
+          </p>
+          <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
+            <div>Fixed Overhead / Hour = Monthly Fixed Costs ÷ Billable Hours</div>
+            <div class="font-bold text-brand-green">Break-Even Rate = Fixed Overhead / Hr + Variable Cost / Hr</div>
+            <div class="font-bold text-brand-green">Monthly Revenue Required = Fixed Costs + (Variable / Hr × Hours)</div>
+          </div>
+          <p>
+            <strong>Realistic Billable Hours:</strong> Do not assume a 40-hour work week is 100% billable. For independent trade contractors, non-billable time (estimating, transit, supply runs, administrative tasks) typically limits individual billable capacity to 25–30 hours per week (100–120 hours monthly).
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Worked Example & Verification -->
+      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
+        <h3 class="text-lg font-bold font-headline text-text-primary">
+          Worked Example
+        </h3>
+        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
+          <p>
+            Standard solo plumbing or electrical contractor operating baseline:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
+            <li>Fixed Monthly Costs: $5,000.00 (Van note, insurance, shop space, software, phone)</li>
+            <li>Expected Monthly Billable Hours: 100.0 hours</li>
+            <li>Variable Cost per Hour: $20.00 / hr (fuel, tool maintenance, consumables)</li>
+          </ul>
+          <div class="p-3 rounded bg-brand-green-light/50 border border-brand-green-border text-xs space-y-1">
+            <div class="font-semibold text-text-primary">Calculated Outputs:</div>
+            <div>Fixed Overhead Recovery = $5,000 ÷ 100 = $50.00 / hr</div>
+            <div>Variable Operating Addition = $20.00 / hr</div>
+            <div class="font-bold text-brand-green">Break-Even Rate = $50.00 + $20.00 = $70.00 / hr</div>
+            <div class="font-bold text-brand-green">Monthly Revenue Required = $5,000 + ($20 × 100) = $7,000.00 / mo</div>
+          </div>
+          <p class="text-text-muted">
+            Billing at $70/hr yields zero profit; every dollar billed above $70/hr represents real operating income.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Calculators Directory -->
+    <div class="pt-8 border-t border-border-default">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-text-primary font-headline mb-4">
+        Related Financial Tools
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/calculators/labor-cost/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Labor Cost Calculator</h4>
+          <p class="text-xs text-text-secondary">Determine loaded wage rates to refine your hourly variable assumptions.</p>
+        </a>
+        <a href="/calculators/job-pricing/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Job Pricing Calculator</h4>
+          <p class="text-xs text-text-secondary">Set a target margin on top of recovered costs to generate firm profits.</p>
+        </a>
+        <a href="/calculators/project-estimate/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
+          <h4 class="text-sm font-bold text-text-primary mb-1">Project Estimate Ledger</h4>
+          <p class="text-xs text-text-secondary">Track actual overhead allocations across major contract phases.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

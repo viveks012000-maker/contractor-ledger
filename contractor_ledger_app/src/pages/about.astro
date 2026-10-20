@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AdSlot } from '../components/ui/AdSlot';
+
+const title = 'About Contractor Ledger | Fiscal Precision for Working Trades';
+const description = 'Contractor Ledger is a free, high-precision calculation engine built for US contractors, builders, and trade specialists.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/about/">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
+      <a href="/" class="hover:text-text-primary transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-text-primary font-semibold">About</span>
+    </nav>
+
+    <div class="space-y-3">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
+        About Contractor Ledger
+      </h1>
+      <p class="text-base text-text-secondary leading-relaxed">
+        High-spec operational software engineered specifically for independent general contractors, trade specialists, and field managers who demand immediate, uncompromising financial precision.
+      </p>
+    </div>
+
+    <!-- Core Philosophy -->
+    <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-5">
+      <h2 class="text-xl font-bold text-text-primary font-headline">
+        Operational Dignity &amp; Mathematical Rigor
+      </h2>
+      <div class="space-y-4 text-sm text-text-secondary leading-relaxed">
+        <p>
+          Too many software tools for trade contractors are cluttered with bloated subscription tiers, forced CRM pipelines, invasive login gates, and generic tech-startup gamification.
+        </p>
+        <p>
+          Contractor Ledger rejects decorative fluff in favor of architectural composure and arithmetic accuracy. It is built as a permanent, reliable workbench: open, instant, and accurate to the exact penny of your input numbers.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+          <div class="p-4 rounded-lg bg-canvas border border-border-default">
+            <h3 class="font-bold text-text-primary text-sm mb-1">What We Do</h3>
+            <ul class="text-xs text-text-secondary space-y-1.5 list-disc list-inside">
+              <li>Cost-divided gross margin calculation</li>
+              <li>Fully loaded labor burden factoring</li>
+              <li>Itemized scope-of-work estimating</li>
+              <li>Side-by-side bidding comparison</li>
+              <li>100% on-device data persistence</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-lg bg-canvas border border-border-default">
+            <h3 class="font-bold text-text-primary text-sm mb-1">What We Reject</h3>
+            <ul class="text-xs text-text-secondary space-y-1.5 list-disc list-inside">
+              <li>No user accounts or passwords</li>
+              <li>No subscription fees or paywalls</li>
+              <li>No server databases storing your bids</li>
+              <li>No AI chat widgets or gimmicks</li>
+              <li>No tracking of proprietary client bids</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Engineering Architecture -->
+    <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
+      <h2 class="text-xl font-bold text-text-primary font-headline">
+        Architectural Foundation
+      </h2>
+      <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
+        <p>
+          Contractor Ledger is engineered using static HTML delivery, TypeScript calculation kernels, and selective React hydration. All financial routines are pure, deterministic functions tested against rigorous boundary conditions.
+        </p>
+        <p>
+          Your numbers never leave your device. Settings saved via the Cost Settings drawer remain in your local browser's storage, allowing you to run estimates in trailers or on job sites without external API lag.
+        </p>
+      </div>
+    </article>
+
+    <!-- AdSense Placement -->
+    <AdSlot client:idle slotId="about-banner" />
+  </div>
+</BaseLayout>

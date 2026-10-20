@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Privacy Policy | Contractor Ledger';
+const description = 'Contractor Ledger privacy policy: client-side calculation processing, local device storage, and transparent data disclosure.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/privacy/">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
+      <a href="/" class="hover:text-text-primary transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-text-primary font-semibold">Privacy Policy</span>
+    </nav>
+
+    <div class="space-y-3">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
+        Privacy Policy
+      </h1>
+      <p class="text-xs text-text-muted">
+        Effective Date: Series 2026 • Last Updated: October 2026
+      </p>
+    </div>
+
+    <div class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-6 text-sm text-text-secondary leading-relaxed">
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-text-primary font-headline">
+          1. Core Architectural Privacy Principle
+        </h2>
+        <p>
+          Contractor Ledger is engineered as a client-side computational utility. All numerical figures you enter into our calculators—including labor rates, material supply costs, subcontractor estimates, overhead values, and profit margins—are processed in real time inside your web browser.
+        </p>
+        <p>
+          <strong>No Server Databases:</strong> We do not operate a backend database for job bids. Your proprietary bidding figures are never transmitted to, collected by, or stored on our servers.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-text-primary font-headline">
+          2. Local Storage Usage
+        </h2>
+        <p>
+          If you choose to customize your default labor rate, employer burden percentage, overhead percentage, or target profit margin using the "Cost Settings" drawer, these preferences are saved exclusively in your browser's local device storage (<code class="text-xs bg-canvas px-1 py-0.5 rounded border border-border-default">localStorage</code>). You may reset or erase this data at any time directly through the interface or by clearing your browser cache.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-text-primary font-headline">
+          3. Third-Party Network Requests &amp; Advertising
+        </h2>
+        <p>
+          To deliver typography and performance assets, this website requests web fonts from Google Fonts (<code class="text-xs bg-canvas px-1 py-0.5 rounded border border-border-default">fonts.googleapis.com</code>).
+        </p>
+        <p>
+          When approved and activated, Google AdSense and its advertising partners may use cookies and web beacons to serve non-intrusive advertisements based on prior visits. Users may manage personalized advertising settings through their Google Ad Settings or through standard browser cookie controls.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-text-primary font-headline">
+          4. Contact Information
+        </h2>
+        <p>
+          For questions regarding this technical privacy specification, contact our team through the <a href="/contact/" class="text-brand-green font-semibold hover:underline">Contact Desk</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
