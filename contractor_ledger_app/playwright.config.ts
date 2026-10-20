@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 import { createServer } from 'node:net';
 
 process.env.PUBLIC_SITE_URL ||= 'https://contractor-ledger-1nx.pages.dev';
@@ -49,26 +49,44 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-1440',
+      testIgnore: /mobile-webkit\.spec\.ts/,
       use: {
         viewport: { width: 1440, height: 900 },
       },
     },
     {
       name: 'tablet-1024',
+      testIgnore: /mobile-webkit\.spec\.ts/,
       use: {
         viewport: { width: 1024, height: 768 },
       },
     },
     {
       name: 'mobile-390',
+      testIgnore: /mobile-webkit\.spec\.ts/,
       use: {
         viewport: { width: 390, height: 844 },
       },
     },
     {
       name: 'mobile-320',
+      testIgnore: /mobile-webkit\.spec\.ts/,
       use: {
         viewport: { width: 320, height: 568 },
+      },
+    },
+    {
+      name: 'ios-webkit-iphone',
+      testMatch: /mobile-webkit\.spec\.ts/,
+      use: {
+        ...devices['iPhone 13'],
+      },
+    },
+    {
+      name: 'ios-webkit-ipad',
+      testMatch: /mobile-webkit\.spec\.ts/,
+      use: {
+        ...devices['iPad (gen 7)'],
       },
     },
   ],

@@ -187,6 +187,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                 <div className="flex h-10 rounded bg-surface border border-border-default shadow-field overflow-hidden">
                   <input
                     type="number"
+                    inputMode="decimal"
                     aria-label="Line item quantity"
                     min="0"
                     max={Number.MAX_SAFE_INTEGER}
@@ -212,6 +213,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   <span className="text-xs text-text-muted mr-1">$</span>
                   <input
                     type="number"
+                    inputMode="decimal"
                     aria-label="Line item unit cost"
                     min="0"
                     max={MAX_SAFE_CURRENCY}
@@ -271,6 +273,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                         <div className="flex items-center gap-1.5 text-xs">
                           <input
                             type="number"
+                            inputMode="decimal"
                             aria-label={`${item.description} quantity`}
                             min="0"
                             max={Number.MAX_SAFE_INTEGER}
@@ -287,6 +290,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                             <span className="text-text-muted text-[11px] mr-1">$</span>
                             <input
                               type="number"
+                              inputMode="decimal"
                               aria-label={`${item.description} unit cost`}
                               min="0"
                               max={MAX_SAFE_CURRENCY}
@@ -382,6 +386,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   <input
                     id="estimate-overhead"
                     type="number"
+                    inputMode="decimal"
                     min="0"
                     max="100"
                     value={overheadValue}
@@ -396,6 +401,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   <input
                     id="estimate-overhead"
                     type="number"
+                    inputMode="decimal"
                     min="0"
                     max={MAX_SAFE_CURRENCY}
                     value={overheadValue}
@@ -414,6 +420,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                 <input
                   id="estimate-margin"
                   type="number"
+                  inputMode="decimal"
                   min="0"
                   max="99"
                   value={targetMarginPct}

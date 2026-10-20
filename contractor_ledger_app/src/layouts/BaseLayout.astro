@@ -2,7 +2,7 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { CostSettingsModal } from '../components/ui/CostSettingsModal';
-import { createBrandJsonLd, createCanonicalUrl } from '../lib/site';
+import { createBrandJsonLd, createBreadcrumbJsonLd, createCanonicalUrl } from '../lib/site';
 import '../styles/global.css';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   ogType?: string;
   robots?: string;
   includeBrandSchema?: boolean;
+  breadcrumbLabel?: string;
 }
 
 const {
@@ -21,12 +22,16 @@ const {
   ogType = 'website',
   robots = 'index, follow',
   includeBrandSchema = false,
+  breadcrumbLabel,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const siteTitle = title.includes('Contractor Ledger') ? title : `${title} | Contractor Ledger`;
 const canonicalUrl = createCanonicalUrl(Astro.site, canonicalPath);
 const brandJsonLd = includeBrandSchema ? createBrandJsonLd(Astro.site) : undefined;
+const breadcrumbJsonLd = breadcrumbLabel
+  ? createBreadcrumbJsonLd(Astro.site, canonicalPath, breadcrumbLabel)
+  : undefined;
 ---
 
 <!DOCTYPE html>
@@ -68,6 +73,9 @@ const brandJsonLd = includeBrandSchema ? createBrandJsonLd(Astro.site) : undefin
 
     {brandJsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(brandJsonLd)} />
+    )}
+    {breadcrumbJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
     )}
   </head>
 

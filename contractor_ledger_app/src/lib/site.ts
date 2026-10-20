@@ -34,6 +34,36 @@ export function createCanonicalUrl(site: URL | undefined, canonicalPath: string)
   return canonical.origin === site.origin ? canonical.toString() : undefined;
 }
 
+export function createBreadcrumbJsonLd(site: URL | undefined, canonicalPath: string, pageName: string) {
+  const pageUrl = createCanonicalUrl(site, canonicalPath);
+  if (!site || !pageUrl || !pageName.trim()) return undefined;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: new URL('/', `${site.origin}/`).toString(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Calculators',
+        item: new URL('/#core-calculators', `${site.origin}/`).toString(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: pageName.trim(),
+        item: pageUrl,
+      },
+    ],
+  };
+}
+
 export function createSitemapXml(site: URL | undefined): string {
   const urls = site
     ? INDEXABLE_ROUTES.map(route => `  <url>\n    <loc>${escapeXml(new URL(route, `${site.origin}/`).toString())}</loc>\n  </url>`).join('\n')

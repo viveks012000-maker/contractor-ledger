@@ -74,6 +74,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         <input
           id={inputId}
           type="number"
+          inputMode={step === 1 ? 'numeric' : 'decimal'}
           min={min}
           max={effectiveMax}
           step={step}

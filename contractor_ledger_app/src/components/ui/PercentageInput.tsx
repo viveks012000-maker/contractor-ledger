@@ -72,6 +72,7 @@ export const PercentageInput: React.FC<PercentageInputProps> = ({
         <input
           id={inputId}
           type="number"
+          inputMode="decimal"
           min={min}
           max={effectiveMax}
           step={step}

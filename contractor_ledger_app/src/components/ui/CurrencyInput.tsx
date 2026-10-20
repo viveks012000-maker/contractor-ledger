@@ -76,6 +76,7 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
         <input
           id={inputId}
           type="number"
+          inputMode="decimal"
           min={min}
           max={effectiveMax}
           step={step}

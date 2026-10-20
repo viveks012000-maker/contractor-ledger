@@ -173,6 +173,7 @@ export const CostSettingsModal: React.FC = () => {
                 <input
                   id="settings-labor-rate"
                   type="number"
+                  inputMode="decimal"
                   min="0"
                   max={MAX_SAFE_CURRENCY}
                   step="any"
@@ -193,6 +194,7 @@ export const CostSettingsModal: React.FC = () => {
                 <input
                   id="settings-burden"
                   type="number"
+                  inputMode="decimal"
                   min="0"
                   max="100"
                   step="any"
@@ -214,6 +216,7 @@ export const CostSettingsModal: React.FC = () => {
                 <input
                   id="settings-overhead"
                   type="number"
+                  inputMode="decimal"
                   min="0"
                   max="100"
                   step="any"
@@ -235,6 +238,7 @@ export const CostSettingsModal: React.FC = () => {
                 <input
                   id="settings-margin"
                   type="number"
+                  inputMode="decimal"
                   min="0"
                   max="99"
                   step="any"

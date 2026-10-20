@@ -502,6 +502,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     expect(robots).toContain(`Sitemap: ${publicOrigin}/sitemap.xml`);
 
     const titles = new Set<string>();
+    const descriptions = new Set<string>();
     for (const route of routes) {
       await gotoInteractiveRoute(page, route);
       await expect(page.locator('h1')).toHaveCount(1);
@@ -509,7 +510,12 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
       expect(title.trim().length).toBeGreaterThan(10);
       expect(titles.has(title), `duplicate title on ${route}: ${title}`).toBe(false);
       titles.add(title);
-      await expect(page.locator('meta[name="description"]')).not.toHaveAttribute('content', '');
+      const description = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(description?.trim().length ?? 0).toBeGreaterThan(50);
+      expect(description?.length ?? 0).toBeLessThan(200);
+      expect(descriptions.has(description!), `duplicate description on ${route}`).toBe(false);
+      descriptions.add(description!);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${publicOrigin}${route}`);
 
       const schema = page.locator('script[type="application/ld+json"]');
@@ -531,6 +537,27 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
         const logoResponse = await request.get('/contractor-ledger-growth-logo.png');
         expect(logoResponse.ok(), 'Organization logo should be publicly fetchable').toBe(true);
         expect(logoResponse.headers()['content-type']).toContain('image/png');
+      } else if (route.startsWith('/calculators/')) {
+        await expect(schema).toHaveCount(1);
+        const structuredData = JSON.parse((await schema.textContent()) ?? '{}');
+        const labelByRoute: Record<string, string> = {
+          '/calculators/job-pricing/': 'Job Pricing',
+          '/calculators/labor-cost/': 'Labor Cost',
+          '/calculators/profit-margin/': 'Profit Margin',
+          '/calculators/break-even/': 'Break-Even',
+          '/calculators/material-markup/': 'Material Markup',
+          '/calculators/project-estimate/': 'Project Estimate',
+        };
+        const label = labelByRoute[route];
+        expect(structuredData).toMatchObject({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+        });
+        expect(structuredData.itemListElement).toEqual([
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${publicOrigin}/` },
+          { '@type': 'ListItem', position: 2, name: 'Calculators', item: `${publicOrigin}/#core-calculators` },
+          { '@type': 'ListItem', position: 3, name: label, item: `${publicOrigin}${route}` },
+        ]);
       } else await expect(schema).toHaveCount(0);
 
       const faviconLinks = page.locator('link[rel="icon"][type="image/png"]');
@@ -539,6 +566,26 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
         const faviconResponse = await request.get(href);
         expect(faviconResponse.ok(), `favicon should load: ${href}`).toBe(true);
         expect(faviconResponse.headers()['content-type']).toContain('image/png');
+      }
+    }
+  });
+
+  test('Calculator pages link to relevant sibling tools with crawlable HTML anchors', async ({ request }) => {
+    const relatedLinks: Record<string, string[]> = {
+      '/calculators/job-pricing/': ['/calculators/labor-cost/', '/calculators/profit-margin/'],
+      '/calculators/labor-cost/': ['/calculators/job-pricing/', '/calculators/project-estimate/'],
+      '/calculators/profit-margin/': ['/calculators/job-pricing/', '/calculators/material-markup/'],
+      '/calculators/break-even/': ['/calculators/job-pricing/'],
+      '/calculators/material-markup/': ['/calculators/project-estimate/'],
+      '/calculators/project-estimate/': ['/calculators/job-pricing/', '/calculators/labor-cost/', '/calculators/material-markup/'],
+    };
+
+    for (const [route, destinations] of Object.entries(relatedLinks)) {
+      const response = await request.get(route);
+      expect(response.status(), `${route} should be directly accessible`).toBe(200);
+      const html = await response.text();
+      for (const destination of destinations) {
+        expect(html, `${route} should expose a crawlable link to ${destination}`).toContain(`href="${destination}"`);
       }
     }
   });

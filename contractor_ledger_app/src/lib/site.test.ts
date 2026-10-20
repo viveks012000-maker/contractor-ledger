@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createCanonicalUrl,
+  createBreadcrumbJsonLd,
   createRobotsTxt,
   createSitemapXml,
   createBrandJsonLd,
@@ -41,6 +42,20 @@ describe('site publication configuration and SEO output', () => {
 
   it('uses an absolute sitemap URL in robots.txt when a site origin is configured', () => {
     expect(createRobotsTxt(site)).toContain('Sitemap: https://release-test.invalid/sitemap.xml');
+  });
+
+  it('creates an accurate breadcrumb trail for calculator pages', () => {
+    expect(createBreadcrumbJsonLd(site, '/calculators/job-pricing/', 'Job Pricing')).toEqual({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://release-test.invalid/' },
+        { '@type': 'ListItem', position: 2, name: 'Calculators', item: 'https://release-test.invalid/#core-calculators' },
+        { '@type': 'ListItem', position: 3, name: 'Job Pricing', item: 'https://release-test.invalid/calculators/job-pricing/' },
+      ],
+    });
+    expect(createBreadcrumbJsonLd(undefined, '/calculators/job-pricing/', 'Job Pricing')).toBeUndefined();
+    expect(createBreadcrumbJsonLd(site, '/calculators/job-pricing/', ' ')).toBeUndefined();
   });
 
   it('creates homepage Organization and WebSite data with an absolute, same-origin logo URL', () => {

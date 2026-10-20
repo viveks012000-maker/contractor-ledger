@@ -45,8 +45,8 @@ jobs:
           npm test
           npm run build
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Run browser regression suite
         run: npx playwright test
