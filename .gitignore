@@ -4,6 +4,7 @@ contractor_ledger_app/dist/
 contractor_ledger_app/.astro/
 contractor_ledger_app/test-results/
 contractor_ledger_app/playwright-report/
+contractor_ledger_app/screenshots/
 *.log
 .DS_Store
 Thumbs.db

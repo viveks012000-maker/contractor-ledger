@@ -4,6 +4,7 @@ dist/
 .astro/
 test-results/
 playwright-report/
+screenshots/
 
 # OS and Environment
 .DS_Store

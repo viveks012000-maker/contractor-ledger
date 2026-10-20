@@ -4,6 +4,7 @@ interface AdSlotProps {
   slotId?: string;
   format?: 'horizontal-leaderboard' | 'rectangle-rail' | 'in-content';
   className?: string;
+  enabled?: boolean;
 }
 
 /**
@@ -12,34 +13,40 @@ interface AdSlotProps {
  * NOTE: As required by Google AdSense policies and architectural specifications:
  * - No fake publisher ID is injected.
  * - Advertisements are disabled by default until official Google AdSense approval.
- * - This container maintains exact dimensions to prevent Cumulative Layout Shift (CLS).
- * - Placed away from vital financial interactive elements (buttons, inputs, results).
- * - When approved, replace the placeholder markup inside the data-ad-container with
- *   your official <ins class="adsbygoogle" ...></ins> tag.
+ * - Inactive ad slots collapse to zero height (hidden) to prevent large useless blank spaces.
+ * - When enabled after approval, this container maintains exact dimensions to prevent CLS.
+ * - Placed safely away from calculator inputs and interactive controls.
  */
 export const AdSlot: React.FC<AdSlotProps> = ({
   slotId = 'standard-slot',
   format = 'horizontal-leaderboard',
   className = '',
+  enabled = false,
 }) => {
-  // Height rules to prevent layout shift
+  if (!enabled) {
+    return (
+      <div
+        data-ad-container={slotId}
+        data-ad-status="pending-approval"
+        aria-hidden="true"
+        className="hidden"
+      />
+    );
+  }
+
   const minHeight = format === 'rectangle-rail' ? 'min-h-[250px]' : 'min-h-[90px]';
 
   return (
     <div
       className={`w-full my-6 flex flex-col items-center justify-center ${className}`}
       data-ad-container={slotId}
-      aria-label="Advertisement Placement Area"
+      data-ad-status="active"
+      aria-label="Advertisement Placement"
     >
       <div
-        className={`w-full max-w-4xl ${minHeight} rounded border border-dashed border-border-default bg-canvas/60 flex flex-col items-center justify-center p-3 text-center`}
+        className={`w-full max-w-4xl ${minHeight} rounded border border-border-default bg-canvas flex items-center justify-center`}
       >
-        <span className="text-[10px] uppercase font-bold tracking-widest text-text-muted mb-1">
-          Advertisement Placement
-        </span>
-        <span className="text-xs text-text-secondary max-w-sm">
-          Clean, non-intrusive ad slot reserved for approved Google AdSense network. Zero layout shift.
-        </span>
+        {/* Approved Google AdSense <ins class="adsbygoogle" ...> will be placed here */}
       </div>
     </div>
   );

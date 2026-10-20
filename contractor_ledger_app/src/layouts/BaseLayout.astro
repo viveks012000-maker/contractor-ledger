@@ -20,7 +20,7 @@ const {
 
 const currentPath = Astro.url.pathname;
 const siteTitle = title.includes('Contractor Ledger') ? title : `${title} | Contractor Ledger`;
-const canonicalUrl = canonicalPath ? new URL(canonicalPath, Astro.site || 'https://contractorledger.com').toString() : undefined;
+const canonicalUrl = canonicalPath && Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
 ---
 
 <!DOCTYPE html>

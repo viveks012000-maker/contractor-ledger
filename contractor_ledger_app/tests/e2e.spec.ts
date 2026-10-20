@@ -115,4 +115,25 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('h1')).toContainText('Ledger Entry Not Found');
     await expect(page.locator('a:has-text("Return to Homepage")')).toBeVisible();
   });
+
+  test('Contact Page renders honest pre-publication status and disabled submission', async ({ page }) => {
+    await page.goto('/contact/');
+    await expect(page.locator('h1')).toContainText('Contact & Field Desk');
+    await expect(page.locator('text=Pre-Publication Status: Direct Contact Channel Pending')).toBeVisible();
+    await expect(page.locator('button:has-text("Dispatch Offline")')).toBeDisabled();
+  });
+
+  test('Supporting pages load with accurate content and headings', async ({ page }) => {
+    await page.goto('/methodology/');
+    await expect(page.locator('h1')).toContainText('Calculation Methodology');
+
+    await page.goto('/about/');
+    await expect(page.locator('h1')).toContainText('About Contractor Ledger');
+
+    await page.goto('/privacy/');
+    await expect(page.locator('h1')).toContainText('Privacy Policy');
+
+    await page.goto('/terms/');
+    await expect(page.locator('h1')).toContainText('Terms of Service');
+  });
 });
