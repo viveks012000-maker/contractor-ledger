@@ -17,27 +17,27 @@ const companyLinks = [
 ];
 ---
 
-<footer class="w-full bg-[#F4F7F5] border-t border-border-default mt-auto">
+<footer class="w-full bg-graphite border-t border-graphite-border mt-auto text-white">
   <div class="max-w-container mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-border-default">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-graphite-border">
       <!-- Col 1: Identity -->
       <div class="md:col-span-5 space-y-4 pr-0 md:pr-6">
         <div class="flex items-center gap-2.5">
-          <div class="w-7 h-7 rounded bg-brand-green flex items-center justify-center text-white">
+          <div class="w-8 h-8 rounded-md bg-brand-copper flex items-center justify-center text-white">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2" />
               <path d="M7 15h0M2 10h20" />
               <circle cx="16" cy="15" r="1" fill="currentColor" />
             </svg>
           </div>
-          <span class="font-bold text-base font-headline text-text-primary tracking-tight">
+          <span class="font-bold text-lg font-headline text-white tracking-tight">
             Contractor Ledger
           </span>
         </div>
-        <p class="text-xs text-text-secondary leading-relaxed max-w-sm">
+        <p class="text-sm text-text-inverse-muted leading-relaxed max-w-sm">
           Browser-based pricing and estimating tools for independent general contractors, trade specialists, and project managers.
         </p>
-        <div class="pt-2 text-[11px] text-text-muted flex items-center gap-2">
+        <div class="pt-2 text-xs text-text-inverse-muted flex flex-wrap items-center gap-x-2 gap-y-1">
           <span>Series 2026</span>
           <span>•</span>
           <span>United States Standard (USD)</span>
@@ -48,17 +48,17 @@ const companyLinks = [
 
       <!-- Col 2: The 6 Tools -->
       <div class="md:col-span-4 space-y-3">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-text-primary font-headline">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-white font-headline">
           Core Financial Calculators
         </h2>
-        <ul class="space-y-2 text-xs">
+        <ul class="space-y-2 text-sm">
           {calculators.map(c => (
             <li>
               <a
                 href={c.href}
-                class="text-text-secondary hover:text-brand-green transition-colors flex items-center gap-1.5 py-0.5"
+                class="text-text-inverse-muted hover:text-white transition-colors flex items-center gap-1.5 py-1"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green shrink-0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-copper shrink-0">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
                 <span>{c.label}</span>
@@ -70,17 +70,17 @@ const companyLinks = [
 
       <!-- Col 3: Framework & Legal -->
       <div class="md:col-span-3 space-y-3">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-text-primary font-headline">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-white font-headline">
           Framework &amp; Policy
         </h2>
-        <ul class="space-y-2 text-xs">
+        <ul class="space-y-2 text-sm">
           {companyLinks.map(l => (
             <li>
               <a
                 href={l.href}
-                class="text-text-secondary hover:text-brand-green transition-colors flex items-center gap-1.5 py-0.5"
+                class="text-text-inverse-muted hover:text-white transition-colors flex items-center gap-1.5 py-1"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green shrink-0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-copper shrink-0">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
                 <span>{l.label}</span>
@@ -92,7 +92,7 @@ const companyLinks = [
     </div>
 
     <!-- Bottom Legals -->
-    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-inverse-muted">
       <p>© 2026 Contractor Ledger. All rights reserved. Free, open financial utility for US contractors.</p>
       <div class="flex items-center gap-4">
         <span>Cost-Divided Arithmetic</span>

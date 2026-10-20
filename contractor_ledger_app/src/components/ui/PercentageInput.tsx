@@ -65,7 +65,7 @@ export const PercentageInput: React.FC<PercentageInputProps> = ({
       </div>
 
       <div
-        className={`h-11 rounded bg-surface border transition-colors flex items-center px-3 focus-within:ring-2 focus-within:ring-brand-green focus-within:border-brand-green ${
+        className={`h-11 rounded bg-surface border transition-colors flex items-center px-3 focus-within:ring-2 focus-within:ring-brand-copper focus-within:border-brand-copper ${
           displayedError ? 'border-error-text bg-error-bg/10' : 'border-border-default'
         } ${disabled ? 'opacity-60 cursor-not-allowed bg-canvas' : ''}`}
       >

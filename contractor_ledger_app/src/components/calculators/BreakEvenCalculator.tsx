@@ -23,11 +23,11 @@ export const BreakEvenCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
+    <div className="calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-border-default gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <ScaleIcon size={22} />
           </div>
           <div>
@@ -97,7 +97,7 @@ export const BreakEvenCalculator: React.FC = () => {
 
         {/* Results Card */}
         <div className="lg:col-span-5">
-          <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+          <div className="result-panel p-6 space-y-5">
             {!result.isValid && (
               <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                 Break-even rate unavailable: {result.errorMessage}
@@ -109,7 +109,7 @@ export const BreakEvenCalculator: React.FC = () => {
                 Minimum Break-Even Rate
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
                   {formatCurrency(result.breakEvenHourlyRate)}
                   <span className="text-sm font-normal text-text-secondary">/hr</span>
                 </span>
@@ -120,7 +120,7 @@ export const BreakEvenCalculator: React.FC = () => {
             </div>
 
             {/* Total Monthly Revenue Required */}
-            <div className="p-4 rounded-lg bg-surface border border-brand-green-border">
+            <div className="p-4 rounded-lg bg-surface border border-brand-copper-border">
               <span className="text-xs text-text-secondary font-medium block">
                 Monthly Revenue Required to Break Even:
               </span>
@@ -134,7 +134,7 @@ export const BreakEvenCalculator: React.FC = () => {
             </div>
 
             {/* Breakdown Rate Details */}
-            <div className="space-y-2 text-xs border-t border-brand-green-border/60 pt-3">
+            <div className="space-y-2 text-xs border-t border-brand-copper-border/60 pt-3">
               <div className="flex justify-between items-center">
                 <span className="text-text-secondary">Fixed Overhead Recovery:</span>
                 <span className="font-semibold text-text-primary tabular-nums">
@@ -149,7 +149,7 @@ export const BreakEvenCalculator: React.FC = () => {
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-border-default font-semibold text-text-primary">
                 <span>Total Break-Even Hourly Cost:</span>
-                <span className="text-brand-green tabular-nums">
+                <span className="text-brand-copper tabular-nums">
                   {formatCurrency(result.breakEvenHourlyRate)} / hr
                 </span>
               </div>

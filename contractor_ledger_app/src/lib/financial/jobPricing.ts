@@ -117,7 +117,7 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
       label: 'Direct Labor',
       amount: labor,
       percentageOfTotal: roundCurrency((labor / denominator) * 100),
-      color: '#4F5B57',
+      color: 'var(--color-chart-labor)',
     });
   }
   if (materials > 0) {
@@ -126,7 +126,7 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
       label: 'Materials',
       amount: materials,
       percentageOfTotal: roundCurrency((materials / denominator) * 100),
-      color: '#6F7974',
+      color: 'var(--color-chart-materials)',
     });
   }
   if (other > 0) {
@@ -135,7 +135,7 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
       label: 'Other Direct Costs',
       amount: other,
       percentageOfTotal: roundCurrency((other / denominator) * 100),
-      color: '#9CA3AF',
+      color: 'var(--color-chart-other)',
     });
   }
   if (allocatedOverhead > 0) {
@@ -144,7 +144,7 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
       label: 'Allocated Overhead',
       amount: allocatedOverhead,
       percentageOfTotal: roundCurrency((allocatedOverhead / denominator) * 100),
-      color: '#D1D5DB',
+      color: 'var(--color-chart-overhead)',
     });
   }
   if (profit > 0 && sellingPrice > 0) {
@@ -153,7 +153,7 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
       label: 'Gross Profit',
       amount: profit,
       percentageOfTotal: roundCurrency((profit / denominator) * 100),
-      color: '#176B53',
+      color: 'var(--color-chart-profit)',
     });
   }
 

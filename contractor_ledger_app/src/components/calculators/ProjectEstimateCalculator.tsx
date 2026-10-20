@@ -107,11 +107,11 @@ export const ProjectEstimateCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8 space-y-8">
+    <div className="calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8 space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border-default gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <ReceiptIcon size={22} />
           </div>
           <div>
@@ -155,7 +155,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   aria-label="Line item category"
                   value={newCategory}
                   onChange={e => setNewCategory(e.target.value as EstimateCategory)}
-                  className="w-full h-10 px-2 rounded bg-surface border border-border-default text-xs font-semibold text-text-primary focus:outline-none focus:border-brand-green"
+                  className="w-full h-10 px-2 rounded bg-surface border border-border-default text-xs font-semibold text-text-primary focus:outline-none focus:border-brand-copper"
                 >
                   {CATEGORIES.map(c => (
                     <option key={c.id} value={c.id}>
@@ -172,7 +172,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   placeholder="Item description (e.g., Drywall hang & tape)"
                   value={newDesc}
                   onChange={e => setNewDesc(e.target.value)}
-                  className="w-full h-10 px-3 rounded bg-surface border border-border-default text-xs font-medium text-text-primary focus:outline-none focus:border-brand-green"
+                  className="w-full h-10 px-3 rounded bg-surface border border-border-default text-xs font-medium text-text-primary focus:outline-none focus:border-brand-copper"
                   required
                 />
               </div>
@@ -217,7 +217,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                 <button
                   type="submit"
                   aria-label="Add line item"
-                  className="h-11 w-11 rounded bg-brand-green text-white hover:bg-brand-green-hover transition-colors flex items-center justify-center shrink-0"
+                  className="h-11 w-11 rounded bg-brand-copper text-white hover:bg-brand-copper-hover transition-colors flex items-center justify-center shrink-0"
                   title="Add Line Item"
                 >
                   <PlusIcon size={16} />
@@ -255,7 +255,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                           aria-label={`${item.description} description`}
                           value={item.description}
                           onChange={e => handleUpdateItem(item.id, 'description', e.target.value)}
-                          className="w-full text-xs font-medium text-text-primary bg-transparent border-b border-transparent hover:border-border-default focus:border-brand-green focus:outline-none py-0.5"
+                          className="w-full text-xs font-medium text-text-primary bg-transparent border-b border-transparent hover:border-border-default focus:border-brand-copper focus:outline-none py-0.5"
                         />
                       </div>
 
@@ -270,7 +270,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                             onChange={e =>
                               handleUpdateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)
                             }
-                            className="min-h-8 w-14 text-right px-1.5 py-0.5 rounded border border-border-default text-xs font-semibold tabular-nums focus:outline-none focus:border-brand-green"
+                            className="min-h-8 w-14 text-right px-1.5 py-0.5 rounded border border-border-default text-xs font-semibold tabular-nums focus:outline-none focus:border-brand-copper"
                           />
                           <span className="text-text-muted w-8">{item.unit}</span>
                           <span className="text-text-muted">@</span>
@@ -347,7 +347,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     onClick={() => setOverheadMode('percentage')}
                     className={`px-2 py-0.5 rounded-l text-[11px] ${
                       overheadMode === 'percentage'
-                        ? 'bg-brand-green text-white'
+                        ? 'bg-brand-copper text-white'
                         : 'bg-canvas text-text-secondary border border-border-default'
                     }`}
                   >
@@ -358,7 +358,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     onClick={() => setOverheadMode('fixed')}
                     className={`px-2 py-0.5 rounded-r text-[11px] ${
                       overheadMode === 'fixed'
-                        ? 'bg-brand-green text-white'
+                        ? 'bg-brand-copper text-white'
                         : 'bg-canvas text-text-secondary border border-border-default'
                     }`}
                   >
@@ -417,7 +417,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
 
         {/* Right: Final Estimate Rail */}
         <div className="lg:col-span-4">
-          <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5 sticky top-24">
+          <div className="result-panel p-6 space-y-5 lg:sticky lg:top-24">
             {!result.isValid && (
               <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                 Estimate unavailable: {result.errorMessage}
@@ -429,7 +429,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                 Estimated Client Bid
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-3xl sm:text-4xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-[34px] sm:text-[42px] md:text-[48px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
                   {formatCurrency(result.sellingPrice)}
                 </span>
               </div>
@@ -439,7 +439,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
             </div>
 
             {/* Subtotal Ledgers */}
-            <div className="space-y-2 text-xs border-t border-brand-green-border/60 pt-3">
+            <div className="space-y-2 text-xs border-t border-brand-copper-border/60 pt-3">
               <div className="flex justify-between items-center">
                 <span className="text-text-secondary">Direct Project Costs:</span>
                 <span className="font-semibold text-text-primary tabular-nums">
@@ -454,11 +454,11 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   +{formatCurrency(result.allocatedOverhead)}
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-1 border-t border-brand-green-border/40 font-bold text-text-primary">
+              <div className="flex justify-between items-center pt-1 border-t border-brand-copper-border/40 font-bold text-text-primary">
                 <span>Total Estimated Cost:</span>
                 <span className="tabular-nums">{formatCurrency(result.totalCost)}</span>
               </div>
-              <div className="flex justify-between items-center text-brand-green font-bold pt-1">
+              <div className="flex justify-between items-center text-profit-inverse font-bold pt-1">
                 <span>Estimated Gross Profit:</span>
                 <span className="tabular-nums">+{formatCurrency(result.profit)}</span>
               </div>

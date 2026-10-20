@@ -101,7 +101,7 @@ export function calculateLaborCost(input: LaborCostInput): LaborCostResult {
       label: 'Regular Wages',
       amount: regularWages,
       percentageOfTotal: roundCurrency((regularWages / denominator) * 100),
-      color: '#4F5B57',
+      color: 'var(--color-chart-labor)',
     });
   }
   if (overtimeWages > 0) {
@@ -110,7 +110,7 @@ export function calculateLaborCost(input: LaborCostInput): LaborCostResult {
       label: 'Overtime Wages',
       amount: overtimeWages,
       percentageOfTotal: roundCurrency((overtimeWages / denominator) * 100),
-      color: '#6F7974',
+      color: 'var(--color-chart-overtime)',
     });
   }
   if (employerBurden > 0) {
@@ -119,7 +119,7 @@ export function calculateLaborCost(input: LaborCostInput): LaborCostResult {
       label: `Payroll Taxes & Burden (${burdenPct}%)`,
       amount: employerBurden,
       percentageOfTotal: roundCurrency((employerBurden / denominator) * 100),
-      color: '#176B53',
+      color: 'var(--color-chart-burden)',
     });
   }
   if (additionalExpenses > 0) {
@@ -128,7 +128,7 @@ export function calculateLaborCost(input: LaborCostInput): LaborCostResult {
       label: 'Additional Labor Expenses',
       amount: additionalExpenses,
       percentageOfTotal: roundCurrency((additionalExpenses / denominator) * 100),
-      color: '#9CA3AF',
+      color: 'var(--color-chart-overhead)',
     });
   }
 

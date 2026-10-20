@@ -13,35 +13,30 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-0 z-40 w-full bg-surface/95 backdrop-blur-md border-b border-border-default shadow-subtle">
+<header class="sticky top-0 z-40 w-full bg-graphite border-b border-graphite-border shadow-subtle">
   <div class="max-w-container mx-auto px-4 sm:px-6 min-h-16 sm:min-h-18 flex items-center justify-between gap-3">
-    <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded p-1">
-      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded bg-brand-green flex items-center justify-center text-white group-hover:bg-brand-green-hover transition-colors" aria-hidden="true">
+    <a href="/" class="flex items-center gap-2.5 sm:gap-3 shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper rounded p-1">
+      <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-brand-copper flex items-center justify-center text-white group-hover:bg-brand-copper-hover transition-colors" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="2" />
           <path d="M7 15h0M2 10h20" />
           <circle cx="16" cy="15" r="1" fill="currentColor" />
         </svg>
       </div>
-      <span class="flex flex-col">
-        <span class="font-bold text-sm sm:text-base tracking-tight text-text-primary font-headline group-hover:text-brand-green transition-colors leading-tight whitespace-nowrap">
+      <span class="font-extrabold text-sm sm:text-base tracking-tight text-white font-headline leading-tight whitespace-nowrap">
           Contractor Ledger
-        </span>
-        <span class="hidden sm:block text-[10px] font-semibold tracking-wider uppercase text-text-secondary leading-none mt-0.5">
-          Fiscal Precision Engine
-        </span>
       </span>
     </a>
 
-    <nav class="hidden lg:flex items-center gap-4 xl:gap-6" aria-label="Main navigation">
+    <nav class="hidden lg:flex items-center gap-4 xl:gap-6 h-full" aria-label="Main navigation">
       {navLinks.map(link => {
-        const isActive = currentPath === link.href;
+        const isActive = currentPath === link.href || (link.href !== '/#core-calculators' && currentPath.startsWith(link.href));
         return (
           <a
             href={link.href}
             aria-current={isActive ? 'page' : undefined}
-            class={`text-sm font-medium transition-colors py-1 whitespace-nowrap ${
-              isActive ? 'text-brand-green font-semibold' : 'text-text-secondary hover:text-text-primary'
+            class={`h-full flex items-center border-b-2 text-sm font-medium transition-colors whitespace-nowrap ${
+              isActive ? 'text-white border-brand-copper font-semibold' : 'text-text-inverse-muted border-transparent hover:text-white'
             }`}
           >
             {link.label}
@@ -54,10 +49,10 @@ const navLinks = [
       <button
         type="button"
         id="open-settings-header-btn"
-        class="h-11 w-11 sm:w-auto sm:px-3 rounded border border-border-default bg-surface hover:bg-canvas text-xs font-semibold text-text-primary transition-colors flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        class="h-11 w-11 sm:w-auto sm:px-3 rounded-md border border-graphite-border bg-graphite-raised hover:bg-graphite-hover text-xs font-semibold text-white transition-colors flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
         aria-label="Open Contractor Cost Settings"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-inverse-muted" aria-hidden="true">
           <circle cx="12" cy="12" r="3" />
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
@@ -66,7 +61,7 @@ const navLinks = [
 
       <a
         href="/calculators/job-pricing/"
-        class="hidden sm:flex min-h-11 px-4 rounded bg-brand-green hover:bg-brand-green-hover text-white text-xs font-semibold transition-colors items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        class="hidden sm:flex min-h-11 px-4 rounded-md bg-brand-copper hover:bg-brand-copper-hover text-white text-sm font-semibold transition-colors items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
       >
         Calculate Job Price
       </a>
@@ -74,7 +69,7 @@ const navLinks = [
       <button
         type="button"
         id="mobile-menu-toggle"
-        class="h-11 w-11 lg:hidden rounded border border-border-default bg-surface hover:bg-canvas text-text-primary flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        class="h-11 w-11 lg:hidden rounded-md border border-graphite-border bg-graphite-raised hover:bg-graphite-hover text-white flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
         aria-label="Open navigation menu"
         aria-controls="mobile-navigation"
         aria-expanded="false"
@@ -89,16 +84,16 @@ const navLinks = [
     </div>
   </div>
 
-  <nav id="mobile-navigation" class="hidden lg:hidden border-t border-border-default bg-surface px-4 sm:px-6 py-3" aria-label="Mobile navigation">
-    <ul class="max-w-container mx-auto divide-y divide-border-default">
+  <nav id="mobile-navigation" class="hidden lg:hidden border-t border-graphite-border bg-graphite px-4 sm:px-6 py-3" aria-label="Mobile navigation">
+    <ul class="max-w-container mx-auto divide-y divide-graphite-border">
       {navLinks.map(link => {
-        const isActive = currentPath === link.href;
+        const isActive = currentPath === link.href || (link.href !== '/#core-calculators' && currentPath.startsWith(link.href));
         return (
           <li>
             <a
               href={link.href}
               aria-current={isActive ? 'page' : undefined}
-              class={`block min-h-11 py-3 text-sm font-medium ${isActive ? 'text-brand-green font-semibold' : 'text-text-secondary hover:text-text-primary'}`}
+              class={`block min-h-11 py-3 text-sm font-medium ${isActive ? 'text-white font-semibold' : 'text-text-inverse-muted hover:text-white'}`}
             >
               {link.label}
             </a>
@@ -108,7 +103,7 @@ const navLinks = [
     </ul>
     <a
       href="/calculators/job-pricing/"
-      class="max-w-container mx-auto mt-3 flex min-h-11 items-center justify-center rounded bg-brand-green px-4 text-sm font-semibold text-white hover:bg-brand-green-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+      class="max-w-container mx-auto mt-3 flex min-h-11 items-center justify-center rounded-md bg-brand-copper px-4 text-sm font-semibold text-white hover:bg-brand-copper-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
     >
       Calculate Job Price
     </a>

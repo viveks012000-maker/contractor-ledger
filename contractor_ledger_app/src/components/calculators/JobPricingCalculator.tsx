@@ -51,11 +51,11 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
   };
 
   return (
-    <div className={`bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8 ${className}`}>
+    <div className={`calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8 ${className}`}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-border-default gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <CalculatorIcon size={22} />
           </div>
           <div>
@@ -70,7 +70,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
 
         <div className="flex items-center gap-2">
           {isPreview ? (
-            <span className="px-2.5 py-1 rounded bg-brand-green-light text-brand-green font-semibold text-xs">
+            <span className="px-2.5 py-1 rounded bg-brand-copper-light text-brand-copper font-semibold text-xs">
               Interactive Live Preview
             </span>
           ) : (
@@ -78,7 +78,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
               <button
                 type="button"
                 onClick={handleApplyDefaults}
-                className="text-xs font-semibold text-brand-green hover:text-brand-green-hover px-2.5 py-1.5 rounded border border-brand-green-border hover:bg-brand-green-light transition-colors"
+                className="text-xs font-semibold text-brand-copper hover:text-brand-copper-hover px-2.5 py-1.5 rounded border border-brand-copper-border hover:bg-brand-copper-light transition-colors"
                 title="Apply your saved settings from the top navigation"
               >
                 Apply Shared Settings
@@ -146,7 +146,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                     onClick={() => setOverheadMode('fixed')}
                     className={`px-3 py-1 rounded-sm transition-colors ${
                       overheadMode === 'fixed'
-                        ? 'bg-brand-green text-white shadow-xs'
+                        ? 'bg-brand-copper text-white shadow-xs'
                         : 'text-text-secondary hover:text-text-primary'
                     }`}
                   >
@@ -158,7 +158,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                     onClick={() => setOverheadMode('percentage')}
                     className={`px-3 py-1 rounded-sm transition-colors ${
                       overheadMode === 'percentage'
-                        ? 'bg-brand-green text-white shadow-xs'
+                        ? 'bg-brand-copper text-white shadow-xs'
                         : 'text-text-secondary hover:text-text-primary'
                     }`}
                   >
@@ -191,7 +191,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
 
         {/* Live Calculation Output Card (Right) */}
         <div className={isPreview ? 'lg:col-span-12' : 'lg:col-span-5'}>
-          <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+          <div className="result-panel p-6 space-y-5">
             {!result.isValid && (
               <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                 Price unavailable: {result.errorMessage}
@@ -199,7 +199,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
             )}
             {result.isValid && <>
             {/* Direct Cost vs Margin Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-brand-green-border/60 text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-brand-copper-border/60 text-xs">
               <div>
                 <span className="text-text-secondary block">Total Job Cost:</span>
                 <span className="font-bold text-text-primary text-base tabular-nums">
@@ -208,7 +208,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
               </div>
               <div className="text-right">
                 <span className="text-text-secondary block">Target Margin:</span>
-                <span className="font-bold text-brand-green text-base tabular-nums">
+                <span className="font-bold text-white text-base tabular-nums">
                   {formatPercent(result.targetMarginPct)}
                 </span>
               </div>
@@ -220,13 +220,13 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                 Recommended Selling Price
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
                   {formatCurrency(result.sellingPrice)}
                 </span>
               </div>
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-brand-green-border/40 text-xs">
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-brand-copper-border/40 text-xs">
                 <span className="text-text-secondary">Estimated Gross Profit:</span>
-                <span className="font-bold text-text-primary tabular-nums">
+                <span className="font-bold text-profit-inverse tabular-nums">
                   {formatCurrency(result.profit)}
                 </span>
               </div>
@@ -247,13 +247,13 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
 
             {/* Preview link out */}
             {isPreview && (
-              <div className="pt-3 border-t border-brand-green-border/60 flex items-center justify-between text-xs">
+              <div className="pt-3 border-t border-brand-copper-border/60 flex items-center justify-between text-xs">
                 <span className="text-text-secondary">
                   Includes overhead &amp; custom bidding scenarios
                 </span>
                 <a
                   href="/calculators/job-pricing/"
-                  className="font-semibold text-brand-green hover:text-brand-green-hover flex items-center gap-1 transition-colors"
+                  className="font-semibold text-brand-copper hover:text-brand-copper-hover flex items-center gap-1 transition-colors"
                 >
                   <span>Open Full Workspace</span>
                   <OpenInNewIcon size={14} />

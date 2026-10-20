@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const outDir = path.resolve(__dirname, '../screenshots');
+const outDir = path.resolve(process.env.SCREENSHOT_OUTPUT_DIR ?? path.resolve(__dirname, '../screenshots'));
 const baseUrl = (process.env.SCREENSHOT_BASE_URL ?? 'http://127.0.0.1:4321').replace(/\/$/, '');
 
 fs.mkdirSync(outDir, { recursive: true });

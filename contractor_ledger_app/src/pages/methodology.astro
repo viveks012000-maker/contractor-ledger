@@ -34,7 +34,7 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           In contractor accounting, gross profit margin represents the share of total contract revenue that remains after satisfying all direct job expenses and allocated overhead. It is governed by:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
-          <div class="font-bold text-brand-green">Selling Price = Total Estimated Cost ÷ (1 − Target Margin)</div>
+          <div class="font-bold text-brand-copper">Selling Price = Total Estimated Cost ÷ (1 − Target Margin)</div>
           <div>Gross Profit = Selling Price − Total Estimated Cost</div>
           <div>Actual Gross Margin = Gross Profit ÷ Selling Price</div>
         </div>
@@ -58,8 +58,8 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div>Overtime Wages = Crew Count × Overtime Hours × Hourly Wage × OT Multiplier</div>
           <div>Gross Wages = Regular Wages + Overtime Wages</div>
           <div>Employer Burden = Gross Wages × Burden Percentage</div>
-          <div class="font-bold text-brand-green">Total Labor Cost = Gross Wages + Employer Burden + Additional Expenses</div>
-          <div class="font-bold text-brand-green">Loaded Hourly Rate = Total Labor Cost ÷ Total Crew Hours</div>
+          <div class="font-bold text-brand-copper">Total Labor Cost = Gross Wages + Employer Burden + Additional Expenses</div>
+          <div class="font-bold text-brand-copper">Loaded Hourly Rate = Total Labor Cost ÷ Total Crew Hours</div>
         </div>
         <p>
           The burden percentage is user-entered. Payroll taxes, unemployment insurance, workers' compensation, and overtime requirements vary with current rules and employer-specific facts, so verify the values that apply to your business.
@@ -78,8 +78,8 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
           <div>Fixed Overhead Recovery / Hr = Monthly Fixed Costs ÷ Monthly Billable Hours</div>
-          <div class="font-bold text-brand-green">Break-Even Rate = Fixed Overhead Recovery / Hr + Variable Cost / Hr</div>
-          <div class="font-bold text-brand-green">Required Monthly Revenue = Fixed Costs + (Variable Cost / Hr × Billable Hours)</div>
+          <div class="font-bold text-brand-copper">Break-Even Rate = Fixed Overhead Recovery / Hr + Variable Cost / Hr</div>
+          <div class="font-bold text-brand-copper">Required Monthly Revenue = Fixed Costs + (Variable Cost / Hr × Billable Hours)</div>
         </div>
         <p>
           A positive billable hour volume is mathematically required to compute a finite hourly rate.
@@ -100,7 +100,7 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           <div>Effective Quantity = Net Specified Quantity × (1 + Waste Allowance %)</div>
           <div>Adjusted Procurement Cost = Effective Quantity × Unit Cost</div>
           <div>Markup Amount = Adjusted Procurement Cost × Markup %</div>
-          <div class="font-bold text-brand-green">Billed Material Price = Adjusted Procurement Cost + Markup Amount</div>
+          <div class="font-bold text-brand-copper">Billed Material Price = Adjusted Procurement Cost + Markup Amount</div>
         </div>
         <p>
           Quantities support precise floating-point decimals to allow fractional procurement for aggregate, linear footage, and yardage.

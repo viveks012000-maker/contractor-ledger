@@ -33,7 +33,7 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
 
       {/* Meter Bar */}
       <div
-        className={`w-full ${heightClass} rounded bg-[#E2EAE6] flex overflow-hidden`}
+        className={`profit-breakdown-track w-full ${heightClass} rounded flex overflow-hidden`}
         aria-hidden="true"
       >
         {validItems.length === 0 ? (
@@ -44,10 +44,10 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
             return (
               <div
                 key={item.id}
-                className="h-full transition-all duration-300"
+                className="h-full"
                 style={{
                   width: `${pct}%`,
-                  backgroundColor: item.color || '#4F5B57',
+                  backgroundColor: item.color || 'var(--color-chart-labor)',
                 }}
                 title={`${item.label}: ${formatCurrency(item.amount)} (${formatPercent(pct)})`}
               />
@@ -57,21 +57,21 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
       </div>
 
       {/* Color Keys & Figures */}
-      <div className="flex flex-wrap items-center justify-between gap-y-1.5 gap-x-4 pt-1 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-3 pt-1 text-[13px]">
         {validItems.map(item => {
           const pct = (item.amount / total) * 100;
           return (
-            <div key={item.id} className="flex items-center gap-1.5">
+            <div key={item.id} className="min-w-0 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
               <span
                 className="w-2.5 h-2.5 rounded-sm shrink-0"
-                style={{ backgroundColor: item.color || '#4F5B57' }}
+                style={{ backgroundColor: item.color || 'var(--color-chart-labor)' }}
                 aria-hidden="true"
               />
               <span className="text-text-secondary font-normal">{item.label}:</span>
-              <span className="text-text-primary font-semibold tabular-nums">
+              <span className="text-text-primary font-semibold tabular-nums whitespace-nowrap">
                 {formatCurrency(item.amount)}
               </span>
-              <span className="text-text-muted tabular-nums">
+              <span className="text-text-muted tabular-nums whitespace-nowrap">
                 ({formatPercent(pct)})
               </span>
             </div>

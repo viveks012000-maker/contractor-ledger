@@ -48,21 +48,22 @@ const calculators = [
 
 <BaseLayout title={title} description={description} canonicalPath="/" includeWebApplicationSchema={true}>
   <!-- PART ONE: HERO WITH REAL TWO-COLUMN COMPOSITION & CALCULATOR PREVIEW -->
-  <section class="w-full max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-16">
+  <section class="home-hero w-full bg-graphite text-white">
+    <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
       <!-- Left Column: Command Typography & Value Proposition -->
       <div class="lg:col-span-6 flex flex-col justify-center pr-0 lg:pr-4">
-        <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-text-primary tracking-tight leading-[1.08] font-headline mb-4">
+        <h1 class="home-hero-title text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-white tracking-tight leading-[1.08] font-headline mb-4">
           Price Your Work With Confidence.
         </h1>
-        <p class="text-lg sm:text-xl text-text-secondary max-w-xl leading-relaxed mb-8">
+        <p class="text-lg sm:text-xl text-text-inverse-muted max-w-xl leading-relaxed mb-8">
           Free calculators for job pricing, labor costs, profit margins, and project estimates, using the figures you enter.
         </p>
 
         <div class="flex flex-wrap items-center gap-4">
           <a
             href="/calculators/job-pricing/"
-            class="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-brand-green text-white font-semibold text-sm hover:bg-brand-green-hover transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+            class="inline-flex items-center gap-2 px-7 py-3.5 rounded-md bg-brand-copper text-white font-semibold text-sm hover:bg-brand-copper-hover transition-colors shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-copper"
           >
             <span>Calculate a Job Price</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -73,7 +74,7 @@ const calculators = [
 
           <a
             href="#core-calculators"
-            class="inline-flex items-center gap-1.5 text-sm font-semibold text-text-secondary hover:text-text-primary transition-colors py-2 px-3 rounded hover:bg-canvas"
+            class="inline-flex items-center gap-1.5 text-sm font-semibold text-text-inverse-muted hover:text-white transition-colors py-2 px-3 rounded hover:bg-graphite-raised"
           >
             <span>Explore all 6 tools</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -84,9 +85,9 @@ const calculators = [
         </div>
 
         <!-- Architectural Micro-Legend -->
-        <div class="mt-10 pt-6 border-t border-border-default/60 flex flex-wrap items-center gap-6 text-text-secondary text-xs font-semibold">
+        <div class="mt-10 pt-6 border-t border-graphite-border flex flex-wrap items-center gap-6 text-text-inverse-muted text-sm font-semibold">
           <div class="flex items-center gap-1.5">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-copper">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <polyline points="9 12 11 14 15 10" />
             </svg>
@@ -94,7 +95,7 @@ const calculators = [
           </div>
 
           <div class="flex items-center gap-1.5">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-copper">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             <span>No Account Required</span>
@@ -106,6 +107,7 @@ const calculators = [
       <div class="lg:col-span-6 w-full">
         <JobPricingCalculator isPreview={true} client:load />
       </div>
+    </div>
     </div>
   </section>
 
@@ -124,15 +126,15 @@ const calculators = [
       {calculators.map(c => (
         <a
           href={c.href}
-          class="group bg-surface rounded-xl p-7 border border-border-default shadow-card hover:border-brand-green/60 hover:shadow-md transition-all duration-150 flex flex-col justify-between"
+          class="group bg-surface rounded-xl p-7 border border-border-default shadow-card hover:border-brand-copper transition-colors flex flex-col justify-between"
         >
           <div>
             <div class="flex items-center gap-3 mb-3">
               <div
-                class="w-11 h-11 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green group-hover:bg-brand-green group-hover:text-white transition-colors"
+                class="w-11 h-11 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper group-hover:bg-brand-copper group-hover:text-white transition-colors"
                 set:html={c.iconSvg}
               />
-              <h3 class="text-xl font-bold font-headline text-text-primary group-hover:text-brand-green transition-colors tracking-tight">
+              <h3 class="text-xl font-bold font-headline text-text-primary group-hover:text-brand-copper transition-colors tracking-tight">
                 {c.title}
               </h3>
             </div>
@@ -141,9 +143,9 @@ const calculators = [
             </p>
           </div>
 
-          <div class="pt-4 border-t border-border-default/60 mt-5 flex items-center justify-between text-sm font-semibold text-brand-green">
+          <div class="pt-4 border-t border-border-default/60 mt-5 flex items-center justify-between text-sm font-semibold text-brand-copper">
             <span>Launch Calculator</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-1 transition-transform">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
@@ -186,27 +188,27 @@ const calculators = [
           <span class="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1">
             Target Profit Margin
           </span>
-          <span class="text-2xl font-bold text-brand-green tabular-nums tracking-tight">
+          <span class="text-2xl font-bold text-profit-positive tabular-nums tracking-tight">
             25.0%
           </span>
           <span class="block text-xs text-text-muted mt-1">Yield on selling price</span>
         </div>
 
         <div>
-          <span class="block text-xs font-semibold text-brand-green uppercase tracking-wider mb-1">
+          <span class="block text-xs font-semibold text-brand-copper uppercase tracking-wider mb-1">
             Recommended Selling Price
           </span>
-          <span class="text-3xl sm:text-4xl font-bold text-brand-green tabular-nums tracking-tight leading-none block">
+          <span class="text-3xl sm:text-4xl font-bold text-brand-copper tabular-nums tracking-tight leading-none block">
             $1,600.00
           </span>
-          <span class="block text-xs text-brand-green font-medium mt-1">Client billed figure</span>
+          <span class="block text-xs text-text-secondary font-medium mt-1">Client billed figure</span>
         </div>
 
         <div>
           <span class="block text-xs font-semibold text-text-secondary uppercase tracking-wider mb-1">
             Estimated Gross Profit
           </span>
-          <span class="text-2xl font-bold text-text-primary tabular-nums tracking-tight">
+          <span class="text-2xl font-bold text-profit-positive tabular-nums tracking-tight">
             $400.00
           </span>
           <span class="block text-xs text-text-muted mt-1">Exact 25% of $1,600.00</span>
@@ -220,9 +222,9 @@ const calculators = [
           <span class="font-bold text-text-primary">$1,600.00 Total Job Value</span>
         </div>
 
-        <div class="w-full h-4 rounded bg-[#E2EAE6] flex overflow-hidden">
+        <div class="profit-breakdown-track w-full h-4 rounded flex overflow-hidden">
           <div class="h-full bg-text-secondary" style="width: 75%;" title="Cost Basis: $1,200.00 (75%)"></div>
-          <div class="h-full bg-brand-green" style="width: 25%;" title="Gross Profit: $400.00 (25%)"></div>
+          <div class="h-full bg-profit-positive" style="width: 25%;" title="Gross Profit: $400.00 (25%)"></div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs pt-1">
@@ -234,9 +236,9 @@ const calculators = [
               <span class="text-text-muted">(75.0%)</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-sm bg-brand-green"></span>
+              <span class="w-2.5 h-2.5 rounded-sm bg-profit-positive"></span>
               <span class="text-text-secondary">Gross Profit:</span>
-              <span class="font-bold text-brand-green">$400.00</span>
+              <span class="font-bold text-profit-positive">$400.00</span>
               <span class="text-text-muted">(25.0%)</span>
             </div>
           </div>
@@ -248,7 +250,7 @@ const calculators = [
 
       <!-- Formula Pill -->
       <div class="mt-6 p-4 rounded-lg bg-canvas border border-border-default flex items-center gap-3 text-xs text-text-secondary">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green shrink-0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-copper shrink-0">
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
           <path d="M8 7h8M8 11h8" />
         </svg>

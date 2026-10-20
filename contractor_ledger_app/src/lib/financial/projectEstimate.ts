@@ -16,11 +16,11 @@ const CATEGORY_LABELS: Record<EstimateCategory, string> = {
 };
 
 const CATEGORY_COLORS: Record<EstimateCategory, string> = {
-  labor: '#4F5B57',
-  materials: '#6F7974',
-  equipment: '#8B9B95',
-  subcontractors: '#A4B4AE',
-  other: '#C3D0CA',
+  labor: 'var(--color-chart-labor)',
+  materials: 'var(--color-chart-materials)',
+  equipment: 'var(--color-chart-equipment)',
+  subcontractors: 'var(--color-chart-subcontractors)',
+  other: 'var(--color-chart-other)',
 };
 
 function emptyCategorySummaries(): Record<EstimateCategory, CategorySummary> {
@@ -200,7 +200,7 @@ export function calculateProjectEstimate(input: ProjectEstimateInput): ProjectEs
       label: 'Allocated Overhead',
       amount: allocatedOverhead,
       percentageOfTotal: roundCurrency((allocatedOverhead / denominator) * 100),
-      color: '#CBD5E1',
+      color: 'var(--color-chart-overhead)',
     });
   }
 
@@ -210,7 +210,7 @@ export function calculateProjectEstimate(input: ProjectEstimateInput): ProjectEs
       label: 'Net Gross Profit',
       amount: profit,
       percentageOfTotal: roundCurrency((profit / denominator) * 100),
-      color: '#176B53',
+      color: 'var(--color-chart-profit)',
     });
   }
 

@@ -119,14 +119,14 @@ export const CostSettingsModal: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto p-2 sm:p-4 bg-black/40 backdrop-blur-xs transition-opacity"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center overflow-y-auto p-2 sm:p-4 bg-black/60"
       onClick={event => {
         if (event.target === event.currentTarget) setIsOpen(false);
       }}
     >
       <div
         ref={dialogRef}
-        className="bg-surface rounded-xl border border-border-default shadow-card max-w-lg w-full max-h-[calc(100dvh-1rem)] overflow-hidden p-4 sm:p-6 flex flex-col animate-in fade-in zoom-in-95 duration-150"
+        className="settings-dialog bg-surface rounded-xl border border-border-default shadow-card max-w-lg w-full max-h-[calc(100dvh-1rem)] overflow-hidden p-4 sm:p-6 flex flex-col"
         role="dialog"
         aria-modal="true"
         aria-labelledby="settings-modal-title"
@@ -134,7 +134,7 @@ export const CostSettingsModal: React.FC = () => {
       >
         <div className="shrink-0 flex items-center justify-between pb-4 border-b border-border-default">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded bg-brand-green-light flex items-center justify-center text-brand-green">
+            <div className="w-8 h-8 rounded bg-brand-copper-light flex items-center justify-center text-brand-copper">
               <SettingsIcon size={18} />
             </div>
             <div>
@@ -168,7 +168,7 @@ export const CostSettingsModal: React.FC = () => {
               <label htmlFor="settings-labor-rate" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Default Labor Rate ($/hr)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-green">
+              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
                 <span className="text-sm text-text-muted mr-1.5">$</span>
                 <input
                   id="settings-labor-rate"
@@ -189,7 +189,7 @@ export const CostSettingsModal: React.FC = () => {
               <label htmlFor="settings-burden" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Employer Burden (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-green">
+              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-burden"
                   type="number"
@@ -210,7 +210,7 @@ export const CostSettingsModal: React.FC = () => {
               <label htmlFor="settings-overhead" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Default Overhead (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-green">
+              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-overhead"
                   type="number"
@@ -231,7 +231,7 @@ export const CostSettingsModal: React.FC = () => {
               <label htmlFor="settings-margin" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Target Gross Margin (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-green">
+              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-margin"
                   type="number"
@@ -277,7 +277,7 @@ export const CostSettingsModal: React.FC = () => {
               </button>
               <button
                 type="submit"
-                className="min-h-11 text-xs font-semibold text-white bg-brand-green hover:bg-brand-green-hover px-5 rounded transition-colors flex items-center gap-1.5 shadow-xs"
+                className="min-h-11 text-xs font-semibold text-white bg-brand-copper hover:bg-brand-copper-hover px-5 rounded transition-colors flex items-center gap-1.5 shadow-xs"
                 aria-live="polite"
                 aria-atomic="true"
               >

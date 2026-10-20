@@ -22,11 +22,11 @@ export const ProfitMarginCalculator: React.FC = () => {
   const resultB = calculateRequiredPrice({ totalCost: costB, targetMarginPct: marginB });
 
   return (
-    <div className="bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
+    <div className="calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-border-default gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <PercentIcon size={22} />
           </div>
           <div>
@@ -45,9 +45,9 @@ export const ProfitMarginCalculator: React.FC = () => {
             type="button"
             aria-pressed={activeMode === 'analyze'}
             onClick={() => setActiveMode('analyze')}
-            className={`px-3 py-1.5 rounded transition-all ${
+            className={`px-3 py-1.5 rounded transition-colors ${
               activeMode === 'analyze'
-                ? 'bg-surface text-brand-green shadow-xs border border-border-default'
+                ? 'bg-surface text-brand-copper shadow-xs border border-border-default'
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
@@ -57,9 +57,9 @@ export const ProfitMarginCalculator: React.FC = () => {
             type="button"
             aria-pressed={activeMode === 'required'}
             onClick={() => setActiveMode('required')}
-            className={`px-3 py-1.5 rounded transition-all ${
+            className={`px-3 py-1.5 rounded transition-colors ${
               activeMode === 'required'
-                ? 'bg-surface text-brand-green shadow-xs border border-border-default'
+                ? 'bg-surface text-brand-copper shadow-xs border border-border-default'
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
@@ -115,11 +115,7 @@ export const ProfitMarginCalculator: React.FC = () => {
           {/* Mode A Results */}
           <div className="lg:col-span-5">
             <div
-              className={`rounded-xl border p-6 shadow-subtle space-y-5 ${
-                resultA.isLoss
-                  ? 'bg-error-bg/20 border-error-border'
-                  : 'bg-brand-green-light/40 border-brand-green-border/80'
-              }`}
+              className={`result-panel p-6 space-y-5 ${resultA.isLoss ? 'result-panel--loss' : ''}`}
             >
               {!resultA.isValid && (
                 <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
@@ -134,8 +130,8 @@ export const ProfitMarginCalculator: React.FC = () => {
                 <span
                   aria-live="polite"
                   aria-atomic="true"
-                  className={`text-4xl md:text-5xl font-bold font-sans tracking-tight tabular-nums block mt-1 ${
-                    resultA.isLoss ? 'text-error-text' : 'text-brand-green'
+                  className={`text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight tabular-nums block mt-1 ${
+                    resultA.isLoss ? 'text-error-text' : 'text-profit-inverse'
                   }`}
                 >
                   {formatCurrency(resultA.profit)}
@@ -154,7 +150,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                   </span>
                   <span
                     className={`text-2xl font-bold tabular-nums block mt-1 ${
-                      resultA.isLoss ? 'text-error-text' : 'text-brand-green'
+                      resultA.isLoss ? 'text-error-text' : 'text-profit-inverse'
                     }`}
                   >
                     {formatPercent(resultA.marginPct)}
@@ -238,7 +234,7 @@ export const ProfitMarginCalculator: React.FC = () => {
 
           {/* Mode B Results */}
           <div className="lg:col-span-5">
-            <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+            <div className="result-panel p-6 space-y-5">
               {!resultB.isValid && (
                 <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                   Required price unavailable: {resultB.errorMessage}
@@ -249,7 +245,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                 <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                   Required Selling Price
                 </span>
-                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums block mt-1">
+                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums block mt-1">
                   {formatCurrency(resultB.sellingPrice)}
                 </span>
                 <span className="text-xs text-text-secondary block mt-1">
@@ -262,7 +258,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                   <span className="text-xs text-text-secondary font-medium block">
                     Estimated Profit:
                   </span>
-                  <span className="text-xl font-bold text-brand-green tabular-nums block mt-1">
+                  <span className="text-xl font-bold text-profit-inverse tabular-nums block mt-1">
                     {formatCurrency(resultB.profit)}
                   </span>
                 </div>
@@ -276,7 +272,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                 </div>
               </div>
 
-              <div className="text-xs text-text-secondary space-y-1.5 pt-3 border-t border-brand-green-border/60">
+              <div className="text-xs text-text-secondary space-y-1.5 pt-3 border-t border-brand-copper-border/60">
                 <div className="flex justify-between">
                   <span>Base Job Cost:</span>
                   <span className="font-semibold text-text-primary tabular-nums">
@@ -285,7 +281,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Gross Profit Added:</span>
-                  <span className="font-semibold text-brand-green tabular-nums">
+                  <span className="font-semibold text-profit-inverse tabular-nums">
                     +{formatCurrency(resultB.profit)}
                   </span>
                 </div>

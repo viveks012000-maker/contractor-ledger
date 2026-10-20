@@ -29,11 +29,11 @@ export const MaterialMarkupCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
+    <div className="calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-border-default gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-brand-green-light flex items-center justify-center text-brand-green shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <LayersIcon size={22} />
           </div>
           <div>
@@ -76,7 +76,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                   aria-label="Material unit name"
                   value={unitLabel}
                   onChange={e => setUnitLabel(e.target.value)}
-                  className="px-2 py-0.5 rounded border border-border-default text-xs font-medium w-24 bg-canvas focus:outline-none focus:border-brand-green"
+                  className="px-2 py-0.5 rounded border border-border-default text-xs font-medium w-24 bg-canvas focus:outline-none focus:border-brand-copper"
                   placeholder="e.g. sq ft"
                 />
               </div>
@@ -119,7 +119,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 {formatQuantity(result.initialQuantity)} {unitLabel}
               </strong>{' '}
               to{' '}
-              <strong className="text-brand-green font-semibold">
+              <strong className="text-brand-copper font-semibold">
                 {formatQuantity(result.effectiveQuantity)} {unitLabel}
               </strong>
               . This protects your margins from onsite cutting losses and supplier variances.
@@ -129,7 +129,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
 
         {/* Results Card */}
         <div className="lg:col-span-5">
-          <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+          <div className="result-panel p-6 space-y-5">
             {!result.isValid && (
               <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                 Material estimate unavailable: {result.errorMessage}
@@ -141,7 +141,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 Billed Material Price
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
                   {formatCurrency(result.sellingPrice)}
                 </span>
               </div>
@@ -151,7 +151,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
             </div>
 
             {/* Procurement Quantity Card */}
-            <div className="p-4 rounded-lg bg-surface border border-brand-green-border space-y-1">
+            <div className="p-4 rounded-lg bg-surface border border-brand-copper-border space-y-1">
               <span className="text-xs text-text-secondary font-medium block">
                 Procurement Quantity to Order:
               </span>
@@ -162,7 +162,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 <span className="text-xs text-text-secondary font-medium">{unitLabel}</span>
               </div>
               {result.wasteAllowancePct > 0 && (
-                <span className="text-xs text-brand-green font-medium block">
+                <span className="text-xs text-brand-copper font-medium block">
                   Includes {result.wasteAllowancePct}% waste buffer (+
                   {formatQuantity(result.effectiveQuantity - result.initialQuantity)} {unitLabel})
                 </span>
@@ -170,7 +170,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
             </div>
 
             {/* Financial Details */}
-            <div className="space-y-2 text-xs border-t border-brand-green-border/60 pt-3">
+            <div className="space-y-2 text-xs border-t border-brand-copper-border/60 pt-3">
               <div className="flex justify-between items-center">
                 <span className="text-text-secondary">Base Material Cost (Net):</span>
                 <span className="font-semibold text-text-primary tabular-nums">
@@ -187,13 +187,13 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 <span className="text-text-secondary">
                   Material Markup ({result.markupPct}%):
                 </span>
-                <span className="font-semibold text-brand-green tabular-nums">
+                <span className="font-semibold text-profit-inverse tabular-nums">
                   +{formatCurrency(result.markupAmount)}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-border-default font-semibold text-text-primary">
                 <span>Resulting Profit Margin:</span>
-                <span className="text-brand-green tabular-nums">
+                <span className="text-profit-inverse tabular-nums">
                   {formatPercent(result.profitMarginPct)}
                 </span>
               </div>

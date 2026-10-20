@@ -3,21 +3,53 @@
 
 @layer base {
   :root {
-    --canvas: #FAFAF8;
-    --surface: #FFFFFF;
-    --brand-green: #176B53;
-    --brand-green-hover: #10523F;
-    --text-primary: #18211F;
-    --text-secondary: #4F5B57;
-    --text-muted: #66716C;
-    --border-default: #E5E8E5;
+    --color-canvas: #F5F4F0;
+    --color-surface: #FFFFFF;
+    --color-surface-subtle: #EEEDE8;
+    --color-surface-tint: #F7E9E3;
+    --color-surface-tint-hover: #EED9CE;
+    --color-graphite: #16242D;
+    --color-graphite-raised: #20313B;
+    --color-graphite-hover: #2A3D48;
+    --color-graphite-border: #40515B;
+    --color-brand-copper: #B94E26;
+    --color-brand-copper-hover: #963C1C;
+    --color-brand-copper-light: #FFF6F2;
+    --color-brand-copper-border: #E4BBA8;
+    --color-profit-positive: #137A55;
+    --color-profit-inverse: #65D9A6;
+    --color-text-primary: #17252D;
+    --color-text-secondary: #52616A;
+    --color-text-muted: #5F6C72;
+    --color-border-default: #D9DFDC;
+    --color-text-inverse: #FFFFFF;
+    --color-text-inverse-muted: #C7D1D5;
+    --color-text-inverse-subtle: #AAB8BE;
+    --color-error-text: #B44343;
+    --color-error-bg: #FDECEB;
+    --color-error-border: #E6B9B5;
+    --color-error-inverse: #FFD4D0;
+    --color-error-border-inverse: #FF9E96;
+    --color-error-panel-bg: rgba(180, 67, 67, 0.18);
+    --color-graphite-divider: #33464F;
+    --color-graphite-track-empty: #65757D;
+    --color-profit-breakdown-track: #E4E8E6;
+    --color-chart-labor: #AAB7BC;
+    --color-chart-materials: #70838C;
+    --color-chart-overtime: #70838C;
+    --color-chart-other: #92A3AA;
+    --color-chart-overhead: #CBA47D;
+    --color-chart-profit: #65D9A6;
+    --color-chart-burden: #B94E26;
+    --color-chart-equipment: #70838C;
+    --color-chart-subcontractors: #CBA47D;
   }
 
   html {
     scroll-behavior: smooth;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #FAFAF8;
-    color: #18211F;
+    background-color: var(--color-canvas);
+    color: var(--color-text-primary);
   }
 
   body {
@@ -41,6 +73,98 @@
 
 /* Accessible focus ring */
 :focus-visible {
-  outline: 2px solid #176B53;
+  outline: 2px solid var(--color-brand-copper);
   outline-offset: 2px;
+}
+
+#main-content h1:not(.home-hero-title) {
+  font-size: clamp(2rem, 3vw, 2.625rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.calculator-workspace label {
+  font-size: 0.9375rem;
+  line-height: 1.3;
+}
+
+.settings-dialog label {
+  font-size: 0.9375rem;
+  line-height: 1.3;
+}
+
+.calculator-workspace button:not([aria-label]),
+.settings-dialog button:not([aria-label]) {
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+.calculator-workspace input[type='number']::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.result-panel {
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-graphite-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 12px 28px rgba(22, 36, 45, 0.12);
+  color: var(--color-text-inverse);
+}
+
+.result-panel .text-text-primary,
+.result-panel .text-brand-copper {
+  color: var(--color-text-inverse);
+}
+
+.result-panel .text-text-secondary {
+  color: var(--color-text-inverse-muted);
+}
+
+.result-panel .text-text-muted {
+  color: var(--color-text-inverse-subtle);
+}
+
+.result-panel .text-profit-positive,
+.result-panel .text-profit-inverse {
+  color: var(--color-profit-inverse);
+}
+
+.result-panel .text-error-text {
+  color: var(--color-error-inverse);
+}
+
+.result-panel [class~='bg-surface'],
+.result-panel [class~='bg-canvas'],
+.result-panel [class~='bg-brand-copper-light'] {
+  background-color: var(--color-graphite-raised);
+}
+
+.result-panel [class*='border-border-default'],
+.result-panel [class*='border-brand-copper-border'] {
+  border-color: var(--color-graphite-border);
+}
+
+.result-panel [class*='bg-error-bg'] {
+  background-color: var(--color-error-panel-bg);
+}
+
+.result-panel [class*='border-error-border'] {
+  border-color: var(--color-error-border-inverse);
+}
+
+.result-panel .profit-breakdown-track {
+  background-color: var(--color-graphite-divider);
+}
+
+.result-panel .profit-breakdown-track .bg-border-default {
+  background-color: var(--color-graphite-track-empty);
+}
+
+.result-panel--loss {
+  border-color: var(--color-error-text);
+}
+
+.profit-breakdown-track {
+  background-color: var(--color-profit-breakdown-track);
 }

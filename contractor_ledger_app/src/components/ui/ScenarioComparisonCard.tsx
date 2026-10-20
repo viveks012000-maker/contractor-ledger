@@ -64,9 +64,9 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
           return (
             <div
               key={sc.id}
-              className={`rounded-lg p-4 transition-all border flex flex-col justify-between ${
+              className={`rounded-lg p-4 transition-colors border flex flex-col justify-between ${
                 isTarget
-                  ? 'bg-brand-green-light/40 border-brand-green ring-1 ring-brand-green/30'
+                  ? 'bg-brand-copper-light/40 border-brand-copper ring-1 ring-brand-copper/30'
                   : 'bg-canvas border-border-default'
               }`}
             >
@@ -76,7 +76,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                     {sc.label}
                   </span>
                   {isTarget && (
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-brand-green text-white">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-brand-copper text-white">
                       Active Target
                     </span>
                   )}
@@ -90,7 +90,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                   </span>
                   <span
                     className={`text-2xl font-bold font-sans tabular-nums block ${
-                      isTarget ? 'text-brand-green' : 'text-text-primary'
+                      isTarget ? 'text-brand-copper' : 'text-text-primary'
                     }`}
                   >
                     {sc.isValid ? formatCurrency(sc.sellingPrice) : '—'}
@@ -102,7 +102,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                 <div className="space-y-1.5 pt-2 border-t border-border-default text-xs">
                   <div className="flex justify-between items-center">
                     <span className="text-text-secondary">Gross Profit:</span>
-                    <span className="font-semibold text-text-primary tabular-nums">
+                    <span className="font-semibold text-profit-positive tabular-nums">
                       {sc.isValid ? formatCurrency(sc.profit) : '—'}
                     </span>
                   </div>
@@ -140,7 +140,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                         parseFloat(e.target.value) || 0
                       )
                     }
-                    className="w-full accent-brand-green cursor-pointer h-11 rounded bg-border-default"
+                    className="w-full accent-brand-copper cursor-pointer h-11 rounded bg-border-default"
                   />
                   <span className="text-xs font-semibold text-text-primary tabular-nums w-12 text-right">
                     {formatPercent(sc.marginPct)}
