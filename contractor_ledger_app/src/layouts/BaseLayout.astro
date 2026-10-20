@@ -88,5 +88,20 @@ const webApplicationJsonLd = includeWebApplicationSchema
     </main>
 
     <Footer />
+
+    <script is:inline>
+      for (const island of document.querySelectorAll('astro-island[ssr]')) {
+        island.inert = true;
+        island.setAttribute('aria-busy', 'true');
+        island.addEventListener('astro:hydrate', () => {
+          island.inert = false;
+          island.removeAttribute('aria-busy');
+        }, { once: true });
+        island.addEventListener('astro:hydration-error', () => {
+          island.removeAttribute('aria-busy');
+          island.setAttribute('aria-disabled', 'true');
+        }, { once: true });
+      }
+    </script>
   </body>
 </html>

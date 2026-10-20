@@ -1,8 +1,52 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
+async function waitForInteractiveIslands(page: Page): Promise<void> {
+  await page.waitForFunction(() =>
+    Array.from(document.querySelectorAll('astro-island[client="load"]'))
+      .every(island => !island.hasAttribute('ssr'))
+  );
+}
+
+async function gotoInteractiveRoute(
+  page: Page,
+  route: string,
+  options?: Parameters<Page['goto']>[1],
+): Promise<Awaited<ReturnType<Page['goto']>>> {
+  const response = await page.goto(route, options);
+  await waitForInteractiveIslands(page);
+  return response;
+}
+
+async function reloadInteractivePage(page: Page): Promise<void> {
+  await page.reload();
+  await waitForInteractiveIslands(page);
+}
 test.describe('Contractor Ledger End-to-End Suite', () => {
+  test('Calculator controls stay unavailable until their React island is hydrated', async ({ page }) => {
+    let releaseModules: (() => void) | undefined;
+    const moduleGate = new Promise<void>(resolve => {
+      releaseModules = resolve;
+    });
+    await page.route('**/_astro/*.js', async route => {
+      await moduleGate;
+      await route.continue();
+    });
+    await page.goto('/calculators/job-pricing/', { waitUntil: 'commit' });
+    const calculator = page.locator('#job-labor').locator('xpath=ancestor::astro-island[1]');
+    await expect(calculator).toHaveAttribute('aria-busy', 'true');
+    await expect(calculator).toHaveAttribute('inert', '');
+    releaseModules?.();
+    await page.waitForFunction(() =>
+      Array.from(document.querySelectorAll('astro-island[client="load"]'))
+        .every(island => !island.hasAttribute('ssr'))
+    );
+    await expect(calculator).not.toHaveAttribute('inert');
+    await expect(calculator).not.toHaveAttribute('aria-busy');
+    await page.locator('#job-labor').fill('1000');
+    await expect(page.getByText('$2,133.33', { exact: true }).first()).toBeVisible();
+  });
   test('Homepage explains its contractor audience and makes calculator selection the primary action', async ({ page }) => {
-    await page.goto('/');
+    await gotoInteractiveRoute(page, '/');
     await expect(page).toHaveTitle(/Contractor Ledger/);
 
     const heroHeading = page.locator('h1');
@@ -42,7 +86,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Job Pricing Calculator interactive workflow and live calculation', async ({ page }) => {
-    await page.goto('/calculators/job-pricing/');
+    await gotoInteractiveRoute(page, '/calculators/job-pricing/');
     await expect(page.locator('h1')).toContainText('Job Pricing Calculator');
 
     // Default sample values: Labor 600, Materials 450, Other 150, Margin 25% -> $1,600.00
@@ -58,7 +102,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Labor Cost Calculator loaded hourly rate calculation', async ({ page }) => {
-    await page.goto('/calculators/labor-cost/');
+    await gotoInteractiveRoute(page, '/calculators/labor-cost/');
     await expect(page.locator('h1')).toContainText('Labor Cost & Burden Calculator');
 
     // Prompt test case: 1 worker, 10 hrs, $30 wage, 20% burden -> $360.00 total, $36.00/hr
@@ -74,7 +118,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Profit Margin Calculator Mode A and Mode B', async ({ page }) => {
-    await page.goto('/calculators/profit-margin/');
+    await gotoInteractiveRoute(page, '/calculators/profit-margin/');
     await expect(page.locator('h1')).toContainText('Profit Margin vs. Markup Calculator');
 
     // Mode A: Cost $100, Selling Price $125 -> Profit $25, Margin 20%, Markup 25%
@@ -89,7 +133,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Profit Margin conversion matrix renders correct engine-derived values for every row', async ({ page }) => {
-    await page.goto('/calculators/profit-margin/');
+    await gotoInteractiveRoute(page, '/calculators/profit-margin/');
 
     const matrix = page.getByRole('region', { name: 'Margin to markup conversion matrix' });
     const matrixBounds = await matrix.evaluate(region => ({ client: region.clientWidth, scroll: region.scrollWidth }));
@@ -157,7 +201,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     ];
 
     for (const check of checks) {
-      await page.goto(check.route);
+      await gotoInteractiveRoute(page, check.route);
       const mainText = await page.locator('main').innerText();
       for (const formula of check.expected) expect(mainText).toContain(formula);
       expect(mainText).not.toContain('Profit + Selling Price');
@@ -170,7 +214,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Break-Even Calculator rate computation', async ({ page }) => {
-    await page.goto('/calculators/break-even/');
+    await gotoInteractiveRoute(page, '/calculators/break-even/');
     await expect(page.locator('h1')).toContainText('Break-Even Rate Calculator');
 
     // Fixed $5000, 100 hrs, $20/hr variable -> $70.00/hr, $7,000.00/mo
@@ -179,7 +223,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Material Markup Calculator waste and markup calculation', async ({ page }) => {
-    await page.goto('/calculators/material-markup/');
+    await gotoInteractiveRoute(page, '/calculators/material-markup/');
     await expect(page.locator('h1')).toContainText('Material Markup & Waste Calculator');
 
     // Qty 1, Cost $100, Waste 0%, Markup 25% -> $125.00
@@ -188,7 +232,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Project Estimate Calculator line items and totals', async ({ page }) => {
-    await page.goto('/calculators/project-estimate/');
+    await gotoInteractiveRoute(page, '/calculators/project-estimate/');
     await expect(page.locator('h1')).toContainText('Project Estimate & Itemized Bid Ledger');
 
     // Prompt test case baseline: Direct $6,841.00, OH $820.92, Margin 22% -> $9,822.97
@@ -197,7 +241,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Project Estimate rejects numeric values outside field limits without desynchronizing totals', async ({ page }) => {
-    await page.goto('/calculators/project-estimate/');
+    await gotoInteractiveRoute(page, '/calculators/project-estimate/');
 
     const quantity = page.getByRole('spinbutton', { name: 'Framing & structural rough-in carpentry quantity' });
     const unitCost = page.getByRole('spinbutton', { name: 'Framing & structural rough-in carpentry unit cost' });
@@ -217,7 +261,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Cost Settings Modal opens, saves, and closes cleanly', async ({ page }) => {
-    await page.goto('/');
+    await gotoInteractiveRoute(page, '/');
 
     // Click Cost Settings in header
     await page.click('#open-settings-header-btn');
@@ -231,7 +275,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Cost Settings dialog keeps keyboard focus inside, fits the viewport, and restores focus', async ({ page }) => {
-    await page.goto('/');
+    await gotoInteractiveRoute(page, '/');
     const trigger = page.locator('#open-settings-header-btn');
     await trigger.click();
 
@@ -263,7 +307,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
 
   test('Mobile navigation opens, closes with Escape, and returns focus to its trigger', async ({ page }) => {
     test.skip((page.viewportSize()?.width ?? 0) >= 1024, 'Mobile navigation is replaced by the desktop navigation at 1024px.');
-    await page.goto('/calculators/project-estimate/');
+    await gotoInteractiveRoute(page, '/calculators/project-estimate/');
 
     const trigger = page.locator('#mobile-menu-toggle');
     const navigation = page.locator('#mobile-navigation');
@@ -291,7 +335,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page).toHaveURL('/');
     await expect(navigation).toBeHidden();
 
-    await page.goto('/calculators/project-estimate/');
+    await gotoInteractiveRoute(page, '/calculators/project-estimate/');
     await trigger.click();
     await page.keyboard.press('Escape');
     await expect(navigation).toBeHidden();
@@ -306,7 +350,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Saved shared defaults persist and can be explicitly applied, including zero values', async ({ page }) => {
-    await page.goto('/calculators/labor-cost/');
+    await gotoInteractiveRoute(page, '/calculators/labor-cost/');
     await expect(page.locator('#labor-wage')).toHaveValue('30');
     await expect(page.locator('#labor-burden')).toHaveValue('20');
 
@@ -321,7 +365,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     // Saving defaults alone does not overwrite the current job's entered values.
     await expect(page.locator('#labor-wage')).toHaveValue('30');
     await expect(page.locator('#labor-burden')).toHaveValue('20');
-    await page.reload();
+    await reloadInteractivePage(page);
     await expect(page.locator('#labor-wage')).toHaveValue('30');
     const applyLaborDefaults = page.getByRole('button', { name: 'Apply Shared Settings' });
     await expect.poll(async () => {
@@ -330,7 +374,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     }).toBe('85');
     await expect(page.locator('#labor-burden')).toHaveValue('0');
 
-    await page.goto('/calculators/job-pricing/');
+    await gotoInteractiveRoute(page, '/calculators/job-pricing/');
     const jobLabor = page.locator('#job-labor');
     const jobMargin = page.locator('#job-margin');
     const jobOverhead = page.locator('#job-overhead-pct');
@@ -352,7 +396,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Very large currency input is rejected visibly instead of producing a zero result', async ({ page }) => {
-    await page.goto('/calculators/job-pricing/');
+    await gotoInteractiveRoute(page, '/calculators/job-pricing/');
     await page.locator('#job-labor').fill('1e308');
     await expect(page.locator('#job-labor')).toHaveAttribute('aria-invalid', 'true');
     await expect(page.getByText('Enter a finite value within the supported range.')).toBeVisible();
@@ -360,7 +404,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Large valid job prices stay inside the result panel at every viewport size', async ({ page }) => {
-    await page.goto('/calculators/job-pricing/');
+    await gotoInteractiveRoute(page, '/calculators/job-pricing/');
     await page.locator('#job-labor').fill('60098766574743');
 
     const resultPanel = page.locator('.result-panel').first();
@@ -392,7 +436,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Scenario comparison accepts target margins above 65 percent up to 99 percent', async ({ page }) => {
-    await page.goto('/calculators/job-pricing/');
+    await gotoInteractiveRoute(page, '/calculators/job-pricing/');
     const lower = page.locator('#scenario-margin-lower');
     const margin = page.locator('#scenario-margin-target');
     const higher = page.locator('#scenario-margin-higher');
@@ -415,7 +459,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('404 Page renders correctly for unknown route', async ({ page }) => {
-    const response = await page.goto('/non-existent-page/');
+    const response = await gotoInteractiveRoute(page, '/non-existent-page/');
     expect(response?.status()).toBe(404);
     await expect(page.locator('h1')).toContainText('Ledger Entry Not Found');
     await expect(page.locator('a:has-text("Return to Homepage")')).toBeVisible();
@@ -425,7 +469,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Contact page uses a configured email link or accurately explains that no address is configured', async ({ page }) => {
-    await page.goto('/contact/');
+    await gotoInteractiveRoute(page, '/contact/');
     await expect(page.locator('h1')).toContainText('Contact Contractor Ledger');
     if (process.env.PUBLIC_CONTACT_EMAIL?.trim()) {
       const email = process.env.PUBLIC_CONTACT_EMAIL.trim();
@@ -459,7 +503,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
 
     const titles = new Set<string>();
     for (const route of routes) {
-      await page.goto(route);
+      await gotoInteractiveRoute(page, route);
       await expect(page.locator('h1')).toHaveCount(1);
       const title = await page.title();
       expect(title.trim().length).toBeGreaterThan(10);
@@ -486,7 +530,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
       '/methodology/', '/about/', '/contact/', '/privacy/', '/terms/', '/non-existent-page',
     ];
     for (const route of routes) {
-      await page.goto(route === '/non-existent-page' ? '/non-existent-page/' : route, { waitUntil: 'domcontentloaded' });
+      await gotoInteractiveRoute(page, route === '/non-existent-page' ? '/non-existent-page/' : route, { waitUntil: 'domcontentloaded' });
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
       expect(overflow, `${route} overflows at ${page.viewportSize()?.width}px`).toBe(false);
     }
@@ -494,7 +538,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
 
   test('Inactive advertising markers stay hidden and reserve no layout space', async ({ page }) => {
     for (const route of ['/', '/about/', '/methodology/', '/calculators/job-pricing/']) {
-      await page.goto(route);
+      await gotoInteractiveRoute(page, route);
       await expect(page.locator('[data-ad-status="active"]')).toHaveCount(0);
       await expect(page.locator('ins.adsbygoogle, script[src*="adsbygoogle"]')).toHaveCount(0);
       const markers = page.locator('[data-ad-container]');
@@ -506,16 +550,16 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
   });
 
   test('Supporting pages load with accurate content and headings', async ({ page }) => {
-    await page.goto('/methodology/');
+    await gotoInteractiveRoute(page, '/methodology/');
     await expect(page.locator('h1')).toContainText('Calculation Methods & Assumptions');
 
-    await page.goto('/about/');
+    await gotoInteractiveRoute(page, '/about/');
     await expect(page.locator('h1')).toContainText('About Contractor Ledger');
 
-    await page.goto('/privacy/');
+    await gotoInteractiveRoute(page, '/privacy/');
     await expect(page.locator('h1')).toContainText('Privacy Policy');
 
-    await page.goto('/terms/');
+    await gotoInteractiveRoute(page, '/terms/');
     await expect(page.locator('h1')).toContainText('Terms of Service');
   });
 });
