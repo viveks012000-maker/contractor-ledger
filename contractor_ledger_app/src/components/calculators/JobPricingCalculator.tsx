@@ -51,29 +51,29 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
   };
 
   return (
-    <div className={`calculator-workspace bg-surface rounded-xl border border-border-default shadow-card p-6 md:p-8 ${className}`}>
+    <div className={`calculator-workspace bg-surface rounded-xl border border-border-default shadow-card ${isPreview ? 'p-5 sm:p-6' : 'p-6 md:p-8'} ${className}`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-border-default gap-3">
+      <div className={`flex flex-col sm:flex-row sm:items-center justify-between border-b border-border-default gap-3 ${isPreview ? 'pb-3 mb-4' : 'pb-4 mb-6'}`}>
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-brand-copper-light flex items-center justify-center text-brand-copper shrink-0">
             <CalculatorIcon size={22} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-text-primary tracking-tight font-headline">
-              {isPreview ? 'Job Pricing Calculator' : 'Job Pricing & Margin Engine'}
+              {isPreview ? 'Job Pricing Calculator' : 'Job price and margin'}
             </h2>
             <p className="text-xs text-text-secondary mt-0.5">
-              Cost-divided gross margin formula: <code className="font-semibold text-text-primary">Price = Cost ÷ (1 − Margin)</code>
+              {isPreview ? (
+                'Adjust the sample costs to see the estimated price.'
+              ) : (
+                <>Cost-divided gross margin formula: <code className="font-semibold text-text-primary">Price = Cost ÷ (1 − Margin)</code></>
+              )}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          {isPreview ? (
-            <span className="px-2.5 py-1 rounded bg-brand-copper-light text-brand-copper font-semibold text-xs">
-              Interactive Live Preview
-            </span>
-          ) : (
+          {!isPreview && (
             <>
               <button
                 type="button"
@@ -191,7 +191,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
 
         {/* Live Calculation Output Card (Right) */}
         <div className={isPreview ? 'lg:col-span-12' : 'lg:col-span-5'}>
-          <div className="result-panel p-6 space-y-5">
+          <div className={`result-panel ${isPreview ? 'p-4 sm:p-5 space-y-4' : 'p-6 space-y-5'}`}>
             {!result.isValid && (
               <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
                 Price unavailable: {result.errorMessage}
@@ -230,32 +230,33 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                   {formatCurrency(result.profit)}
                 </span>
               </div>
-              <div className="flex items-center justify-between mt-1 text-xs">
-                <span className="text-text-secondary">Markup on Total Cost:</span>
-                <span className="font-semibold text-text-secondary tabular-nums">
-                  {formatPercent(result.markupEquivalentPct)}
-                </span>
-              </div>
+              {!isPreview && (
+                <div className="flex items-center justify-between mt-1 text-xs">
+                  <span className="text-text-secondary">Markup on Total Cost:</span>
+                  <span className="font-semibold text-text-secondary tabular-nums">
+                    {formatPercent(result.markupEquivalentPct)}
+                  </span>
+                </div>
+              )}
             </div>
 
-            {/* Meter Breakdown Bar */}
-            <ProfitBreakdownBar
-              totalAmount={result.sellingPrice}
-              items={result.breakdown}
-              className="pt-2"
-            />
+            {!isPreview && (
+              <ProfitBreakdownBar
+                totalAmount={result.sellingPrice}
+                items={result.breakdown}
+                className="pt-2"
+              />
+            )}
 
             {/* Preview link out */}
             {isPreview && (
               <div className="pt-3 border-t border-brand-copper-border/60 flex items-center justify-between text-xs">
-                <span className="text-text-secondary">
-                  Includes overhead &amp; custom bidding scenarios
-                </span>
+                <span className="text-text-secondary">Add overhead and compare scenarios</span>
                 <a
                   href="/calculators/job-pricing/"
                   className="font-semibold text-brand-copper hover:text-brand-copper-hover flex items-center gap-1 transition-colors"
                 >
-                  <span>Open Full Workspace</span>
+                  <span>Full calculator</span>
                   <OpenInNewIcon size={14} />
                 </a>
               </div>

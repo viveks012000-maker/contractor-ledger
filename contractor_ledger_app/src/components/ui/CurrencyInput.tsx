@@ -58,11 +58,11 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
-      <div className="flex items-center justify-between">
-        <label htmlFor={inputId} className="text-sm font-semibold text-text-primary">
+      <div className="flex flex-col gap-0.5">
+        <label htmlFor={inputId} className="text-sm font-semibold leading-snug text-text-primary">
           {label}
         </label>
-        {hint && <span className="text-xs text-text-secondary">{hint}</span>}
+        {hint && <span className="text-xs leading-snug text-text-secondary">{hint}</span>}
       </div>
 
       <div

@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Contractor Ledger End-to-End Suite', () => {
-  test('Homepage loads with premium 2-column hero and live preview', async ({ page }) => {
+  test('Homepage presents a contractor-focused hero and live preview', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Contractor Ledger/);
 
     // Headline exists and visible
     const heading = page.locator('h1');
-    await expect(heading).toContainText('Price Your Work With Confidence.');
+    await expect(heading).toContainText('Know the cost. Price the work.');
 
     // 6 calculators section exists
-    const toolsHeading = page.locator('h2:has-text("Tools Built for Better Estimates")');
+    const toolsHeading = page.locator('h2:has-text("Calculators for everyday estimating")');
     await expect(toolsHeading).toBeVisible();
 
     // Verify all 6 tools are rendered
@@ -179,13 +179,24 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('#labor-burden')).toHaveValue('0');
 
     await page.goto('/calculators/job-pricing/');
-    await page.locator('#job-labor').fill('777');
-    await expect(page.locator('#job-labor')).toHaveValue('777');
+    const jobLabor = page.locator('#job-labor');
+    const jobMargin = page.locator('#job-margin');
+    const jobOverhead = page.locator('#job-overhead-pct');
+    const applySharedSettings = page.getByRole('button', { name: 'Apply Shared Settings' });
+    // Retry this idempotent action until the calculator's visible state confirms it is interactive.
+    await expect.poll(async () => {
+      await applySharedSettings.click();
+      return jobMargin.inputValue();
+    }).toBe('0');
+    await page.getByRole('button', { name: 'Reset Example' }).click();
+    await expect(jobMargin).toHaveValue('25');
+    await jobLabor.fill('777');
+    await expect(jobLabor).toHaveValue('777');
     await expect(page.getByText('$1,836.00', { exact: true }).first()).toBeVisible();
-    await page.getByRole('button', { name: 'Apply Shared Settings' }).click();
-    await expect(page.locator('#job-labor')).toHaveValue('777');
-    await expect(page.locator('#job-margin')).toHaveValue('0');
-    await expect(page.locator('#job-overhead-pct')).toHaveValue('0');
+    await applySharedSettings.click();
+    await expect(jobLabor).toHaveValue('777');
+    await expect(jobMargin).toHaveValue('0');
+    await expect(jobOverhead).toHaveValue('0');
   });
 
   test('Very large currency input is rejected visibly instead of producing a zero result', async ({ page }) => {
