@@ -155,7 +155,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   aria-label="Line item category"
                   value={newCategory}
                   onChange={e => setNewCategory(e.target.value as EstimateCategory)}
-                  className="w-full h-10 px-2 rounded bg-surface border border-border-default text-xs font-semibold text-text-primary focus:outline-none focus:border-brand-copper"
+                  className="w-full h-10 px-2 rounded bg-surface border border-border-default shadow-field text-xs font-semibold text-text-primary focus:outline-none focus:border-brand-copper"
                 >
                   {CATEGORIES.map(c => (
                     <option key={c.id} value={c.id}>
@@ -172,13 +172,13 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   placeholder="Item description (e.g., Drywall hang & tape)"
                   value={newDesc}
                   onChange={e => setNewDesc(e.target.value)}
-                  className="w-full h-10 px-3 rounded bg-surface border border-border-default text-xs font-medium text-text-primary focus:outline-none focus:border-brand-copper"
+                  className="w-full h-10 px-3 rounded bg-surface border border-border-default shadow-field text-xs font-medium text-text-primary focus:outline-none focus:border-brand-copper"
                   required
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <div className="flex h-10 rounded bg-surface border border-border-default overflow-hidden">
+                <div className="flex h-10 rounded bg-surface border border-border-default shadow-field overflow-hidden">
                   <input
                     type="number"
                     aria-label="Line item quantity"
@@ -201,7 +201,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
               </div>
 
               <div className="sm:col-span-2 flex items-center gap-1.5">
-                <div className="flex h-10 w-full rounded bg-surface border border-border-default items-center px-2">
+                <div className="flex h-10 w-full rounded bg-surface border border-border-default shadow-field items-center px-2">
                   <span className="text-xs text-text-muted mr-1">$</span>
                   <input
                     type="number"
@@ -270,11 +270,11 @@ export const ProjectEstimateCalculator: React.FC = () => {
                             onChange={e =>
                               handleUpdateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)
                             }
-                            className="min-h-8 w-14 text-right px-1.5 py-0.5 rounded border border-border-default text-xs font-semibold tabular-nums focus:outline-none focus:border-brand-copper"
+                            className="min-h-8 w-14 text-right px-1.5 py-0.5 rounded border border-border-default shadow-field text-xs font-semibold tabular-nums focus:outline-none focus:border-brand-copper"
                           />
                           <span className="text-text-muted w-8">{item.unit}</span>
                           <span className="text-text-muted">@</span>
-                          <div className="flex items-center rounded border border-border-default px-1.5 py-0.5 w-20">
+                          <div className="flex items-center rounded border border-border-default shadow-field px-1.5 py-0.5 w-20">
                             <span className="text-text-muted text-[11px] mr-1">$</span>
                             <input
                               type="number"
@@ -368,7 +368,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
               </div>
 
               {overheadMode === 'percentage' ? (
-                <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3">
+                <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3">
                   <input
                     id="estimate-overhead"
                     type="number"
@@ -381,7 +381,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   <span className="text-xs text-text-muted ml-1">%</span>
                 </div>
               ) : (
-                <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3">
+                <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3">
                   <span className="text-xs text-text-muted mr-1">$</span>
                   <input
                     id="estimate-overhead"
@@ -399,7 +399,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
               <label htmlFor="estimate-margin" className="text-xs font-bold uppercase tracking-wider text-text-primary block mb-1.5">
                 Target Gross Profit Margin (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3">
+              <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3">
                 <input
                   id="estimate-margin"
                   type="number"

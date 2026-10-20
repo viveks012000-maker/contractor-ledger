@@ -174,18 +174,21 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('#labor-burden')).toHaveValue('20');
     await page.reload();
     await expect(page.locator('#labor-wage')).toHaveValue('30');
-    await page.getByRole('button', { name: 'Apply Shared Settings' }).click();
-    await expect(page.locator('#labor-wage')).toHaveValue('85');
+    const applyLaborDefaults = page.getByRole('button', { name: 'Apply Shared Settings' });
+    await expect.poll(async () => {
+      await applyLaborDefaults.click();
+      return page.locator('#labor-wage').inputValue();
+    }).toBe('85');
     await expect(page.locator('#labor-burden')).toHaveValue('0');
 
     await page.goto('/calculators/job-pricing/');
     const jobLabor = page.locator('#job-labor');
     const jobMargin = page.locator('#job-margin');
     const jobOverhead = page.locator('#job-overhead-pct');
-    const applySharedSettings = page.getByRole('button', { name: 'Apply Shared Settings' });
+    const applyJobDefaults = page.getByRole('button', { name: 'Apply Shared Settings' });
     // Retry this idempotent action until the calculator's visible state confirms it is interactive.
     await expect.poll(async () => {
-      await applySharedSettings.click();
+      await applyJobDefaults.click();
       return jobMargin.inputValue();
     }).toBe('0');
     await page.getByRole('button', { name: 'Reset Example' }).click();
@@ -193,7 +196,7 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await jobLabor.fill('777');
     await expect(jobLabor).toHaveValue('777');
     await expect(page.getByText('$1,836.00', { exact: true }).first()).toBeVisible();
-    await applySharedSettings.click();
+    await applyJobDefaults.click();
     await expect(jobLabor).toHaveValue('777');
     await expect(jobMargin).toHaveValue('0');
     await expect(jobOverhead).toHaveValue('0');

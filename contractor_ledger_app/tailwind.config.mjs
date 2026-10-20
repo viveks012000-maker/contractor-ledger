@@ -36,8 +36,9 @@ export default {
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       boxShadow: {
-        subtle: '0 1px 3px rgba(22, 36, 45, 0.06)',
-        card: '0 1px 4px rgba(22, 36, 45, 0.07), 0 8px 20px -8px rgba(22, 36, 45, 0.12)',
+        subtle: '0 1px 3px rgba(22, 36, 45, 0.06), 0 6px 14px -8px rgba(22, 36, 45, 0.14)',
+        card: '0 1px 4px rgba(22, 36, 45, 0.08), 0 12px 24px -10px rgba(22, 36, 45, 0.16)',
+        field: 'inset 0 1px 2px rgba(22, 36, 45, 0.05)',
       },
       borderRadius: {
         DEFAULT: '0.5rem',

@@ -76,7 +76,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                   aria-label="Material unit name"
                   value={unitLabel}
                   onChange={e => setUnitLabel(e.target.value)}
-                  className="px-2 py-0.5 rounded border border-border-default text-xs font-medium w-24 bg-canvas focus:outline-none focus:border-brand-copper"
+                  className="px-2 py-0.5 rounded border border-border-default shadow-field text-xs font-medium w-24 bg-canvas focus:outline-none focus:border-brand-copper"
                   placeholder="e.g. sq ft"
                 />
               </div>

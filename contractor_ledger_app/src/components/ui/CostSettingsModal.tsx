@@ -165,10 +165,10 @@ export const CostSettingsModal: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="settings-labor-rate" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
+              <label htmlFor="settings-labor-rate" className="text-sm font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Default Labor Rate ($/hr)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
+              <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3 focus-within:border-brand-copper">
                 <span className="text-sm text-text-muted mr-1.5">$</span>
                 <input
                   id="settings-labor-rate"
@@ -186,10 +186,10 @@ export const CostSettingsModal: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="settings-burden" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
+              <label htmlFor="settings-burden" className="text-sm font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Employer Burden (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
+              <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-burden"
                   type="number"
@@ -207,10 +207,10 @@ export const CostSettingsModal: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="settings-overhead" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
+              <label htmlFor="settings-overhead" className="text-sm font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Default Overhead (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
+              <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-overhead"
                   type="number"
@@ -228,10 +228,10 @@ export const CostSettingsModal: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="settings-margin" className="text-xs font-semibold text-text-primary uppercase tracking-wider block mb-1">
+              <label htmlFor="settings-margin" className="text-sm font-semibold text-text-primary uppercase tracking-wider block mb-1">
                 Target Gross Margin (%)
               </label>
-              <div className="h-10 rounded bg-canvas border border-border-default flex items-center px-3 focus-within:border-brand-copper">
+              <div className="h-10 rounded bg-canvas border border-border-default shadow-field flex items-center px-3 focus-within:border-brand-copper">
                 <input
                   id="settings-margin"
                   type="number"

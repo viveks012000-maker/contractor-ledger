@@ -80,7 +80,14 @@
 #main-content h1:not(.home-hero-title) {
   font-size: clamp(2rem, 3vw, 2.625rem);
   line-height: 1.1;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+#main-content h2,
+#main-content h3 {
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 .calculator-workspace label {
