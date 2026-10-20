@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
 import { PercentageInput } from '../ui/PercentageInput';
 import { NumberInput } from '../ui/NumberInput';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { calculateMaterialMarkup } from '../../lib/financial/materialMarkup';
 import { formatCurrency, formatPercent, formatQuantity } from '../../lib/financial/formatters';
 import { LayersIcon } from '../ui/Icons';
@@ -140,11 +141,12 @@ export const MaterialMarkupCalculator: React.FC = () => {
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Billed Material Price
               </span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
-                  {formatCurrency(result.sellingPrice)}
-                </span>
-              </div>
+              <CurrencyAmount
+                value={result.sellingPrice}
+                aria-live="polite"
+                aria-atomic="true"
+                className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums"
+              />
               <p className="text-xs text-text-secondary mt-1">
                 Yields <strong className="text-text-primary">{formatPercent(result.profitMarginPct)}</strong> profit margin on the billed invoice
               </p>

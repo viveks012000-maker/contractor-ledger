@@ -24,9 +24,9 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
 
   return (
     <div className={`flex flex-col gap-2.5 ${className}`}>
-      <div className="flex items-center justify-between text-xs text-text-secondary font-medium">
-        <span>{title}</span>
-        <span className="font-semibold text-text-primary tabular-nums">
+      <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 text-xs text-text-secondary font-medium">
+        <span className="min-w-0">{title}</span>
+        <span className="min-w-0 max-w-full text-right font-semibold text-text-primary tabular-nums break-words">
           {formatCurrency(totalAmount)} {totalLabel}
         </span>
       </div>
@@ -68,7 +68,7 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
                 aria-hidden="true"
               />
               <span className="text-text-secondary font-normal">{item.label}:</span>
-              <span className="text-text-primary font-semibold tabular-nums whitespace-nowrap">
+              <span className="max-w-full text-text-primary font-semibold tabular-nums break-words">
                 {formatCurrency(item.amount)}
               </span>
               <span className="text-text-muted tabular-nums whitespace-nowrap">

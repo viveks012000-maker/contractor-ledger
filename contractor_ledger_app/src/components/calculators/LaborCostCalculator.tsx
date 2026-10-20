@@ -3,6 +3,7 @@ import { CurrencyInput } from '../ui/CurrencyInput';
 import { PercentageInput } from '../ui/PercentageInput';
 import { NumberInput } from '../ui/NumberInput';
 import { ProfitBreakdownBar } from '../ui/ProfitBreakdownBar';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { calculateLaborCost } from '../../lib/financial/laborCost';
 import { formatCurrency } from '../../lib/financial/formatters';
 import { loadSharedSettings } from '../../lib/financial/storage';
@@ -166,11 +167,12 @@ export const LaborCostCalculator: React.FC = () => {
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Total Labor Cost
               </span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
-                  {formatCurrency(result.totalLaborCost)}
-                </span>
-              </div>
+              <CurrencyAmount
+                value={result.totalLaborCost}
+                aria-live="polite"
+                aria-atomic="true"
+                className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums"
+              />
               <p className="text-xs text-text-secondary mt-1">
                 For {result.totalHours} total hours worked across {result.totalWorkers} worker{result.totalWorkers === 1 ? '' : 's'}
               </p>

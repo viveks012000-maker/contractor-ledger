@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
 import { PercentageInput } from '../ui/PercentageInput';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { analyzeProfitMargin, calculateRequiredPrice } from '../../lib/financial/profitMargin';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
 import { PercentIcon } from '../ui/Icons';
@@ -127,15 +128,14 @@ export const ProfitMarginCalculator: React.FC = () => {
                 <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                   Net Profit Generated
                 </span>
-                <span
+                <CurrencyAmount
+                  value={resultA.profit}
                   aria-live="polite"
                   aria-atomic="true"
-                  className={`text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight tabular-nums block mt-1 ${
+                  className={`leading-tight font-bold font-sans tracking-tight tabular-nums mt-1 ${
                     resultA.isLoss ? 'text-error-text' : 'text-profit-inverse'
                   }`}
-                >
-                  {formatCurrency(resultA.profit)}
-                </span>
+                />
                 {resultA.isLoss && (
                   <span className="text-xs text-error-text font-bold block mt-1">
                     Warning: Selling price is below cost basis (operating at a loss).
@@ -245,9 +245,12 @@ export const ProfitMarginCalculator: React.FC = () => {
                 <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                   Required Selling Price
                 </span>
-                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums block mt-1">
-                  {formatCurrency(resultB.sellingPrice)}
-                </span>
+                <CurrencyAmount
+                  value={resultB.sellingPrice}
+                  aria-live="polite"
+                  aria-atomic="true"
+                  className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums mt-1"
+                />
                 <span className="text-xs text-text-secondary block mt-1">
                   Target margin is {formatPercent(resultB.targetMarginPct)} of the invoice total; currency is rounded to cents.
                 </span>

@@ -3,6 +3,7 @@ import { CurrencyInput } from '../ui/CurrencyInput';
 import { PercentageInput } from '../ui/PercentageInput';
 import { ProfitBreakdownBar } from '../ui/ProfitBreakdownBar';
 import { ScenarioComparisonCard } from '../ui/ScenarioComparisonCard';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { calculateJobPricing } from '../../lib/financial/jobPricing';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
 import { loadSharedSettings } from '../../lib/financial/storage';
@@ -199,10 +200,10 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
             )}
             {result.isValid && <>
             {/* Direct Cost vs Margin Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-brand-copper-border/60 text-xs">
-              <div>
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pb-3 border-b border-brand-copper-border/60 text-xs">
+              <div className="min-w-0 w-full sm:flex-1">
                 <span className="text-text-secondary block">Total Job Cost:</span>
-                <span className="font-bold text-text-primary text-base tabular-nums">
+                <span className="font-bold text-text-primary text-sm sm:text-base tabular-nums break-words">
                   {formatCurrency(result.totalCost)}
                 </span>
               </div>
@@ -219,20 +220,21 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Recommended Selling Price
               </span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
-                  {formatCurrency(result.sellingPrice)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between mt-2 pt-2 border-t border-brand-copper-border/40 text-xs">
-                <span className="text-text-secondary">Estimated Gross Profit:</span>
-                <span className="font-bold text-profit-inverse tabular-nums">
+              <CurrencyAmount
+                value={result.sellingPrice}
+                aria-live="polite"
+                aria-atomic="true"
+                className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums"
+              />
+              <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5 mt-2 pt-2 border-t border-brand-copper-border/40 text-xs">
+                <span className="min-w-0 text-text-secondary">Estimated Gross Profit:</span>
+                <span className="max-w-full text-right font-bold text-profit-inverse tabular-nums break-words">
                   {formatCurrency(result.profit)}
                 </span>
               </div>
               {!isPreview && (
-                <div className="flex items-center justify-between mt-1 text-xs">
-                  <span className="text-text-secondary">Markup on Total Cost:</span>
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5 mt-1 text-xs">
+                  <span className="min-w-0 text-text-secondary">Markup on Total Cost:</span>
                   <span className="font-semibold text-text-secondary tabular-nums">
                     {formatPercent(result.markupEquivalentPct)}
                   </span>

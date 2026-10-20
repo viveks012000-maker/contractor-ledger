@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ScenarioComparisonResult } from '../../lib/financial/types';
 import { calculatePriceScenarios } from '../../lib/financial/scenarios';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
+import { CurrencyAmount } from './CurrencyAmount';
 
 interface ScenarioComparisonCardProps {
   directCost: number;
@@ -37,7 +38,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
   };
 
   return (
-    <div className={`bg-surface rounded-lg border border-border-default p-5 shadow-subtle ${className}`}>
+    <div className={`scenario-comparison-card bg-surface rounded-lg border border-border-default p-5 shadow-subtle ${className}`}>
       {!comparison.isValid && (
         <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
           Price comparison unavailable: {comparison.errorMessage}
@@ -88,33 +89,33 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                   <span className="text-[11px] uppercase tracking-wider text-text-muted font-semibold block">
                     Selling Price
                   </span>
-                  <span
-                    className={`text-2xl font-bold font-sans tabular-nums block ${
+                  {sc.isValid ? <CurrencyAmount
+                    value={sc.sellingPrice}
+                    scale="compact"
+                    className={`font-bold font-sans tabular-nums ${
                       isTarget ? 'text-brand-copper' : 'text-text-primary'
                     }`}
-                  >
-                    {sc.isValid ? formatCurrency(sc.sellingPrice) : '—'}
-                  </span>
+                  /> : <span className="text-2xl font-bold font-sans tabular-nums block">—</span>}
                   {!sc.isValid && <span role="status" className="mt-1 block text-xs font-medium text-error-text">{sc.errorMessage}</span>}
                 </div>
 
                 {/* Profit & Markup Details */}
                 <div className="space-y-1.5 pt-2 border-t border-border-default text-xs">
-                  <div className="flex justify-between items-center">
-                    <span className="text-text-secondary">Gross Profit:</span>
-                    <span className="font-semibold text-profit-positive tabular-nums">
+                  <div className="flex flex-wrap justify-between items-start gap-x-2 gap-y-0.5">
+                    <span className="min-w-0 text-text-secondary">Gross Profit:</span>
+                    <span className="max-w-full text-right font-semibold text-profit-positive tabular-nums break-words">
                       {sc.isValid ? formatCurrency(sc.profit) : '—'}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-wrap justify-between items-start gap-x-2 gap-y-0.5">
                     <span className="text-text-secondary">Markup on Cost:</span>
                     <span className="font-medium text-text-secondary tabular-nums">
                       {sc.isValid ? formatPercent(sc.markupPct) : '—'}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-text-secondary">Total Job Cost:</span>
-                    <span className="text-text-muted tabular-nums">
+                  <div className="flex flex-wrap justify-between items-start gap-x-2 gap-y-0.5">
+                    <span className="min-w-0 text-text-secondary">Total Job Cost:</span>
+                    <span className="max-w-full text-right text-text-muted tabular-nums break-words">
                       {formatCurrency(sc.totalCost)}
                     </span>
                   </div>

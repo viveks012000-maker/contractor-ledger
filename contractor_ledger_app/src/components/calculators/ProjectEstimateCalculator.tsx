@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { EstimateCategory, EstimateLineItem, OverheadMode } from '../../lib/financial/types';
 import { calculateProjectEstimate } from '../../lib/financial/projectEstimate';
 import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { ProfitBreakdownBar } from '../ui/ProfitBreakdownBar';
 import { ScenarioComparisonCard } from '../ui/ScenarioComparisonCard';
 import { ReceiptIcon, PlusIcon, TrashIcon } from '../ui/Icons';
@@ -428,11 +429,12 @@ export const ProjectEstimateCalculator: React.FC = () => {
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Estimated Client Bid
               </span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-[34px] sm:text-[42px] md:text-[48px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
-                  {formatCurrency(result.sellingPrice)}
-                </span>
-              </div>
+              <CurrencyAmount
+                value={result.sellingPrice}
+                aria-live="polite"
+                aria-atomic="true"
+                className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums"
+              />
               <p className="text-xs text-text-secondary mt-1">
                 Target margin {formatPercent(result.targetMarginPct)}; actual after cent rounding: <strong className="text-text-primary">{formatPercent(result.actualMarginPct)}</strong>
               </p>

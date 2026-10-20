@@ -119,6 +119,55 @@
   color: var(--color-text-inverse);
 }
 
+.currency-amount-container {
+  container-type: inline-size;
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.currency-amount-fit {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  overflow-wrap: anywhere;
+  white-space: nowrap;
+  font-size: clamp(0.875rem, 6.25cqi, 3.125rem);
+}
+
+.currency-amount-container--compact .currency-amount-fit {
+  font-size: clamp(0.75rem, 6.25cqi, 2rem);
+}
+
+.currency-amount-suffix {
+  font-size: 0.3em;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@supports (font-size: calc(100cqi / 10 * 1.6)) {
+  .currency-amount-fit {
+    font-size: clamp(0.875rem, calc(100cqi / var(--currency-amount-characters, 1) * 1.6), 3.125rem);
+  }
+
+  .currency-amount-container--compact .currency-amount-fit {
+    font-size: clamp(0.75rem, calc(100cqi / var(--currency-amount-characters, 1) * 1.6), 2rem);
+  }
+}
+
+@supports not (font-size: 1cqi) {
+  .currency-amount-container {
+    container-type: normal;
+  }
+
+  .currency-amount-fit,
+  .currency-amount-container--compact .currency-amount-fit {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+}
+
 .result-panel .text-text-primary,
 .result-panel .text-brand-copper {
   color: var(--color-text-inverse);

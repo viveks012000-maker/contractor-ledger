@@ -210,6 +210,38 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.getByText('$1,600.00', { exact: true }).first()).toBeVisible();
   });
 
+  test('Large valid job prices stay inside the result panel at every viewport size', async ({ page }) => {
+    await page.goto('/calculators/job-pricing/');
+    await page.locator('#job-labor').fill('60098766574743');
+
+    const resultPanel = page.locator('.result-panel').first();
+    const sellingPrice = resultPanel.locator('[aria-live="polite"]');
+    await expect(sellingPrice).toHaveText('$80,131,688,767,124.00');
+
+    const geometry = await sellingPrice.evaluate(element => {
+      const panel = element.closest('.result-panel');
+      if (!panel) throw new Error('Result panel not found');
+      const textRange = document.createRange();
+      textRange.selectNodeContents(element);
+      const textRight = Math.max(...Array.from(textRange.getClientRects(), rect => rect.right));
+      const panelRect = panel.getBoundingClientRect();
+      const style = getComputedStyle(panel);
+      const innerRight = panelRect.right - parseFloat(style.paddingRight) - parseFloat(style.borderRightWidth);
+      return { textRight, innerRight };
+    });
+    expect(geometry.textRight).toBeLessThanOrEqual(geometry.innerRight + 1);
+
+    const panelOverflow = await resultPanel.evaluate(panel => [...panel.querySelectorAll('*')]
+      .filter(element => element.scrollWidth > element.clientWidth + 1)
+      .map(element => element.textContent?.trim().replace(/\s+/g, ' ').slice(0, 80) ?? ''));
+    expect(panelOverflow).toEqual([]);
+
+    const comparisonOverflow = await page.locator('.scenario-comparison-card').evaluate(card => [...card.querySelectorAll('*')]
+      .filter(element => element.scrollWidth > element.clientWidth + 1)
+      .map(element => element.textContent?.trim().replace(/\s+/g, ' ').slice(0, 80) ?? ''));
+    expect(comparisonOverflow).toEqual([]);
+  });
+
   test('Scenario comparison accepts target margins above 65 percent up to 99 percent', async ({ page }) => {
     await page.goto('/calculators/job-pricing/');
     const lower = page.locator('#scenario-margin-lower');

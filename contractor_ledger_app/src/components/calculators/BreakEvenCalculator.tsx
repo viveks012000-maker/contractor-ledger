@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
 import { NumberInput } from '../ui/NumberInput';
+import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { calculateBreakEven } from '../../lib/financial/breakEven';
 import { formatCurrency } from '../../lib/financial/formatters';
 import { ScaleIcon } from '../ui/Icons';
@@ -108,12 +109,13 @@ export const BreakEvenCalculator: React.FC = () => {
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Minimum Break-Even Rate
               </span>
-              <div className="flex items-baseline justify-between mt-1">
-                <span aria-live="polite" aria-atomic="true" className="text-[36px] sm:text-[42px] md:text-[50px] leading-tight font-bold font-sans tracking-tight text-white tabular-nums">
-                  {formatCurrency(result.breakEvenHourlyRate)}
-                  <span className="text-sm font-normal text-text-secondary">/hr</span>
-                </span>
-              </div>
+              <CurrencyAmount
+                value={result.breakEvenHourlyRate}
+                suffix="/hr"
+                aria-live="polite"
+                aria-atomic="true"
+                className="leading-tight font-bold font-sans tracking-tight text-white tabular-nums"
+              />
               <p className="text-xs text-text-secondary mt-1">
                 Minimum hourly charge to cover all monthly overhead &amp; variable costs
               </p>
