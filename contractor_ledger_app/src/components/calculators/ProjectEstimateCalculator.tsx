@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { EstimateCategory, EstimateLineItem, OverheadMode } from '../../lib/financial/types';
 import { calculateProjectEstimate } from '../../lib/financial/projectEstimate';
-import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
+import { formatCurrency, formatPercent, MAX_SAFE_CURRENCY } from '../../lib/financial/formatters';
 import { CurrencyAmount } from '../ui/CurrencyAmount';
 import { ProfitBreakdownBar } from '../ui/ProfitBreakdownBar';
 import { ScenarioComparisonCard } from '../ui/ScenarioComparisonCard';
@@ -41,6 +41,11 @@ const CATEGORIES: { id: EstimateCategory; label: string }[] = [
   { id: 'subcontractors', label: 'Subcontractors' },
   { id: 'other', label: 'Other Direct' },
 ];
+
+function updateValidNumberInput(input: HTMLInputElement, onChange: (value: number) => void) {
+  const value = input.value === '' ? 0 : input.valueAsNumber;
+  if (input.validity.valid && Number.isFinite(value)) onChange(value);
+}
 
 export const ProjectEstimateCalculator: React.FC = () => {
   const [items, setItems] = useState<EstimateLineItem[]>(INITIAL_ITEMS);
@@ -184,10 +189,11 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     type="number"
                     aria-label="Line item quantity"
                     min="0"
+                    max={Number.MAX_SAFE_INTEGER}
                     step="any"
                     placeholder="Qty"
                     value={newQty}
-                    onChange={e => setNewQty(parseFloat(e.target.value) || 0)}
+                    onChange={e => updateValidNumberInput(e.currentTarget, setNewQty)}
                     className="w-full px-2 text-xs font-semibold tabular-nums focus:outline-none text-right"
                   />
                   <input
@@ -208,10 +214,11 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     type="number"
                     aria-label="Line item unit cost"
                     min="0"
+                    max={MAX_SAFE_CURRENCY}
                     step="any"
                     placeholder="Cost"
                     value={newCost}
-                    onChange={e => setNewCost(parseFloat(e.target.value) || 0)}
+                    onChange={e => updateValidNumberInput(e.currentTarget, setNewCost)}
                     className="w-full text-xs font-semibold tabular-nums focus:outline-none text-right"
                   />
                 </div>
@@ -266,11 +273,12 @@ export const ProjectEstimateCalculator: React.FC = () => {
                             type="number"
                             aria-label={`${item.description} quantity`}
                             min="0"
+                            max={Number.MAX_SAFE_INTEGER}
                             step="any"
                             value={item.quantity}
-                            onChange={e =>
-                              handleUpdateItem(item.id, 'quantity', parseFloat(e.target.value) || 0)
-                            }
+                            onChange={e => updateValidNumberInput(e.currentTarget, value =>
+                              handleUpdateItem(item.id, 'quantity', value)
+                            )}
                             className="min-h-8 w-14 text-right px-1.5 py-0.5 rounded border border-border-default shadow-field text-xs font-semibold tabular-nums focus:outline-none focus:border-brand-copper"
                           />
                           <span className="text-text-muted w-8">{item.unit}</span>
@@ -281,11 +289,12 @@ export const ProjectEstimateCalculator: React.FC = () => {
                               type="number"
                               aria-label={`${item.description} unit cost`}
                               min="0"
+                              max={MAX_SAFE_CURRENCY}
                               step="any"
                               value={item.unitCost}
-                              onChange={e =>
-                                handleUpdateItem(item.id, 'unitCost', parseFloat(e.target.value) || 0)
-                              }
+                              onChange={e => updateValidNumberInput(e.currentTarget, value =>
+                                handleUpdateItem(item.id, 'unitCost', value)
+                              )}
                               className="min-h-8 w-full text-right text-xs font-semibold tabular-nums focus:outline-none"
                             />
                           </div>
@@ -376,7 +385,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     min="0"
                     max="100"
                     value={overheadValue}
-                    onChange={e => setOverheadValue(parseFloat(e.target.value) || 0)}
+                    onChange={e => updateValidNumberInput(e.currentTarget, setOverheadValue)}
                     className="w-full bg-transparent text-sm font-semibold tabular-nums focus:outline-none"
                   />
                   <span className="text-xs text-text-muted ml-1">%</span>
@@ -388,8 +397,9 @@ export const ProjectEstimateCalculator: React.FC = () => {
                     id="estimate-overhead"
                     type="number"
                     min="0"
+                    max={MAX_SAFE_CURRENCY}
                     value={overheadValue}
-                    onChange={e => setOverheadValue(parseFloat(e.target.value) || 0)}
+                    onChange={e => updateValidNumberInput(e.currentTarget, setOverheadValue)}
                     className="w-full bg-transparent text-sm font-semibold tabular-nums focus:outline-none"
                   />
                 </div>
@@ -407,7 +417,7 @@ export const ProjectEstimateCalculator: React.FC = () => {
                   min="0"
                   max="99"
                   value={targetMarginPct}
-                  onChange={e => setTargetMarginPct(parseFloat(e.target.value) || 0)}
+                  onChange={e => updateValidNumberInput(e.currentTarget, setTargetMarginPct)}
                   className="w-full bg-transparent text-sm font-semibold tabular-nums focus:outline-none"
                 />
                 <span className="text-xs text-text-muted ml-1">%</span>

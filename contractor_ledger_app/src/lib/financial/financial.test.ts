@@ -14,6 +14,8 @@ describe('Financial Formatters & Precision Utilities', () => {
     expect(roundCurrency(0.1 + 0.2)).toBe(0.3);
     expect(roundCurrency(1234.567)).toBe(1234.57);
     expect(roundCurrency(1234.561)).toBe(1234.56);
+    expect(roundCurrency(-1.005)).toBe(-1.01);
+    expect(roundCurrency(-1.004)).toBe(-1);
     expect(roundCurrency(NaN)).toBe(0);
     expect(roundCurrency(Infinity)).toBe(0);
     expect(roundCurrency(Number.MAX_VALUE)).toBe(0);

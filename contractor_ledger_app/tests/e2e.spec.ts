@@ -177,6 +177,26 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('text=$2,161.05').first()).toBeVisible();
   });
 
+  test('Project Estimate rejects numeric values outside field limits without desynchronizing totals', async ({ page }) => {
+    await page.goto('/calculators/project-estimate/');
+
+    const quantity = page.getByRole('spinbutton', { name: 'Framing & structural rough-in carpentry quantity' });
+    const unitCost = page.getByRole('spinbutton', { name: 'Framing & structural rough-in carpentry unit cost' });
+    const overhead = page.locator('#estimate-overhead');
+    const margin = page.locator('#estimate-margin');
+
+    await quantity.fill('-1');
+    await expect(quantity).toHaveValue('44');
+    await unitCost.fill('-1');
+    await expect(unitCost).toHaveValue('70');
+    await overhead.fill('101');
+    await expect(overhead).toHaveValue('12');
+    await margin.fill('100');
+    await expect(margin).toHaveValue('22');
+
+    await expect(page.locator('.result-panel').getByText('$9,822.97').first()).toBeVisible();
+  });
+
   test('Cost Settings Modal opens, saves, and closes cleanly', async ({ page }) => {
     await page.goto('/');
 

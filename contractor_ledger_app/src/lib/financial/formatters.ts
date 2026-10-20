@@ -7,8 +7,9 @@ export const MAX_SAFE_CURRENCY = Number.MAX_SAFE_INTEGER / 100;
 
 export function roundCurrency(value: number): number {
   if (!Number.isFinite(value) || Math.abs(value) > MAX_SAFE_CURRENCY) return 0;
-  const cents = Math.round((value + Number.EPSILON) * 100);
-  return Number.isSafeInteger(cents) ? cents / 100 : 0;
+  const sign = value < 0 ? -1 : 1;
+  const cents = Math.round((Math.abs(value) + Number.EPSILON) * 100);
+  return Number.isSafeInteger(cents) ? sign * cents / 100 : 0;
 }
 
 export function roundPrecision(value: number, decimals: number = 2): number {
