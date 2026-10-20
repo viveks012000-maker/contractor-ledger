@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AdSlot } from '../components/ui/AdSlot';
 
-const title = 'Calculation Methodology & Mathematical Standards | Contractor Ledger';
-const description = 'Complete technical methodology and arithmetic standards powering Contractor Ledger: gross margin formulas, labor burden, break-even recovery, and waste buffers.';
+const title = 'Calculation Methods & Assumptions | Contractor Ledger';
+const description = 'Formulas used by Contractor Ledger for gross margin, labor cost, monthly break-even, and material waste calculations, with key assumptions.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/methodology/">
@@ -17,10 +17,10 @@ const description = 'Complete technical methodology and arithmetic standards pow
 
     <div class="space-y-3">
       <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
-        Calculation Methodology &amp; Engineering Standards
+        Calculation Methods &amp; Assumptions
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        The financial arithmetic governing Contractor Ledger follows rigorous managerial accounting principles. Below is the complete mathematical specification for every calculation performed across the platform.
+        These formulas describe how the calculators combine the values you enter. Results depend on those inputs and do not verify local wages, tax rules, insurance rates, or contract requirements.
       </p>
     </div>
 
@@ -39,7 +39,7 @@ const description = 'Complete technical methodology and arithmetic standards pow
           <div>Actual Gross Margin = Gross Profit ÷ Selling Price</div>
         </div>
         <p>
-          <strong>Why Markup Multiplication Fails:</strong> Multiplying a $1,000 cost by 1.25 produces a selling price of $1,250 with a $250 profit. However, $250 divided by $1,250 yields an actual margin of only <strong>20.0%</strong>, leaving the contractor 5.0% short of their operational target. Contractor Ledger enforces the divisor standard across all pricing routines.
+          <strong>Margin versus markup:</strong> Multiplying a $1,000 cost by 1.25 produces a selling price of $1,250 with a $250 profit. The resulting margin is <strong>20.0%</strong> because $250 ÷ $1,250 = 20%; a 25% target margin instead divides total cost by 0.75. The job pricing and project estimate calculators use this margin divisor.
         </p>
       </div>
     </article>
@@ -47,7 +47,7 @@ const description = 'Complete technical methodology and arithmetic standards pow
     <!-- Section 2: Loaded Labor Burden -->
     <article class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
       <h2 class="text-xl font-bold text-text-primary font-headline">
-        2. Fully Loaded Labor Burden Standard
+        2. Loaded Labor Cost Formula
       </h2>
       <div class="space-y-3 text-sm text-text-secondary leading-relaxed">
         <p>
@@ -62,7 +62,7 @@ const description = 'Complete technical methodology and arithmetic standards pow
           <div class="font-bold text-brand-green">Loaded Hourly Rate = Total Labor Cost ÷ Total Crew Hours</div>
         </div>
         <p>
-          <strong>Burden Inclusions:</strong> Typical US payroll taxes include FICA (Social Security 6.2%, Medicare 1.45%), FUTA (0.6%), State Unemployment Insurance (SUTA), and mandatory Workers' Compensation classifications.
+          The burden percentage is user-entered. Payroll taxes, unemployment insurance, workers' compensation, and overtime requirements vary with current rules and employer-specific facts, so verify the values that apply to your business.
         </p>
       </div>
     </article>
@@ -105,10 +105,13 @@ const description = 'Complete technical methodology and arithmetic standards pow
         <p>
           Quantities support precise floating-point decimals to allow fractional procurement for aggregate, linear footage, and yardage.
         </p>
+        <p>
+          Currency inputs and project line items are rounded to cents before totals are summed. Material quantities preserve up to four decimal places; other displayed quantities may be rounded by their calculator's documented output precision.
+        </p>
       </div>
     </article>
 
     <!-- AdSense Placement -->
-    <AdSlot client:idle slotId="methodology-banner" />
+    <AdSlot slotId="methodology-banner" />
   </div>
 </BaseLayout>

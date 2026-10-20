@@ -3,11 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { LaborCostCalculator } from '../../components/calculators/LaborCostCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
 
-const title = 'Labor Cost & Burden Calculator | Loaded Hourly Rates';
-const description = 'Calculate fully loaded contractor labor costs including regular wages, overtime premiums, employer payroll taxes, and workers compensation.';
+const title = 'Labor Cost & Burden Calculator | Loaded Hourly Cost';
+const description = 'Estimate loaded contractor labor costs from user-entered wages, hours, overtime multipliers, burden percentages, and additional expenses.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/labor-cost/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/labor-cost/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,7 +24,7 @@ const description = 'Calculate fully loaded contractor labor costs including reg
         Labor Cost &amp; Burden Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Determine the true loaded cost of your trade workforce. Incorporate base wages, overtime premiums, mandatory payroll taxes, and worker compensation insurance into every billable estimate.
+        Estimate loaded labor cost from the wages, hours, overtime multiplier, burden percentage, and expenses you enter. This calculator does not determine statutory tax or overtime obligations.
       </p>
     </div>
 
@@ -32,7 +32,7 @@ const description = 'Calculate fully loaded contractor labor costs including reg
     <LaborCostCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="labor-cost-bottom-banner" />
+    <AdSlot slotId="labor-cost-bottom-banner" />
 
     <!-- Technical Guide & Worked Example -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
@@ -43,7 +43,7 @@ const description = 'Calculate fully loaded contractor labor costs including reg
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            A common reason contractors lose money on labor is pricing workers at their net take-home wage. Employer burden adds substantial real costs to every hour worked:
+            A loaded labor estimate combines the entered wage and hours with an overtime multiplier, a user-supplied burden percentage, and any additional expenses:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Regular Wages = Workers × Regular Hours × Hourly Wage</div>
@@ -54,7 +54,7 @@ const description = 'Calculate fully loaded contractor labor costs including reg
             <div class="font-bold text-brand-green">Loaded Hourly Cost = Total Cost ÷ Total Hours</div>
           </div>
           <p>
-            <strong>What comprises Employer Burden?</strong> Typical US contractor burden includes Social Security (6.2%), Medicare (1.45%), Federal Unemployment / FUTA (0.6%), State Unemployment / SUTA (typically 1.5%–6%), and trade-specific Workers' Compensation (often 8%–25%+ depending on classification code).
+            <strong>Burden is an estimate:</strong> Payroll taxes, unemployment insurance, workers' compensation, and overtime obligations depend on current rules and employer-specific facts. Verify the rates that apply to your business; this tool applies the percentage you enter.
           </p>
         </div>
       </div>

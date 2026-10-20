@@ -1,21 +1,55 @@
 import type { JobPricingInput, JobPricingResult, CurrencyBreakdownItem } from './types';
-import { roundCurrency, safeDivide } from './formatters';
+import { MAX_SAFE_CURRENCY, roundCurrency, safeDivide } from './formatters';
+
+function invalidJobPricingResult(errorMessage: string, targetMarginPct = 0): JobPricingResult {
+  return {
+    directCost: 0,
+    allocatedOverhead: 0,
+    totalCost: 0,
+    targetMarginPct,
+    sellingPrice: 0,
+    profit: 0,
+    actualMarginPct: 0,
+    markupEquivalentPct: 0,
+    isValid: false,
+    errorMessage,
+    breakdown: [],
+  };
+}
 
 export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
-  const labor = Math.max(0, input.laborCost || 0);
-  const materials = Math.max(0, input.materialCost || 0);
-  const other = Math.max(0, input.otherCost || 0);
-  const directCost = roundCurrency(labor + materials + other);
+  const rawNumbers = [input.laborCost, input.materialCost, input.otherCost, input.overheadValue, input.targetMarginPct];
+  if (rawNumbers.some(value => !Number.isFinite(value) || Math.abs(value) > MAX_SAFE_CURRENCY)) {
+    return invalidJobPricingResult('One or more values exceed the safe calculation range. Enter a smaller amount.');
+  }
+
+  // Normalize each displayed cost component to cents before summing so the breakdown reconciles.
+  const labor = roundCurrency(Math.max(0, input.laborCost || 0));
+  const materials = roundCurrency(Math.max(0, input.materialCost || 0));
+  const other = roundCurrency(Math.max(0, input.otherCost || 0));
+  const rawDirectCost = labor + materials + other;
+  if (!Number.isFinite(rawDirectCost) || rawDirectCost > MAX_SAFE_CURRENCY) {
+    return invalidJobPricingResult('Total direct costs exceed the safe calculation range.', input.targetMarginPct);
+  }
+  const directCost = roundCurrency(rawDirectCost);
 
   let allocatedOverhead = 0;
   if (input.overheadMode === 'percentage') {
     const overheadPct = Math.max(0, input.overheadValue || 0);
-    allocatedOverhead = roundCurrency(directCost * (overheadPct / 100));
+    const rawOverhead = directCost * (overheadPct / 100);
+    if (!Number.isFinite(rawOverhead) || rawOverhead > MAX_SAFE_CURRENCY) {
+      return invalidJobPricingResult('Allocated overhead exceeds the safe calculation range.', input.targetMarginPct);
+    }
+    allocatedOverhead = roundCurrency(rawOverhead);
   } else {
     allocatedOverhead = roundCurrency(Math.max(0, input.overheadValue || 0));
   }
 
-  const totalCost = roundCurrency(directCost + allocatedOverhead);
+  const rawTotalCost = directCost + allocatedOverhead;
+  if (!Number.isFinite(rawTotalCost) || rawTotalCost > MAX_SAFE_CURRENCY) {
+    return invalidJobPricingResult('Total job cost exceeds the safe calculation range.', input.targetMarginPct);
+  }
+  const totalCost = roundCurrency(rawTotalCost);
   const targetMarginPct = input.targetMarginPct || 0;
 
   // Validation
@@ -58,7 +92,11 @@ export function calculateJobPricing(input: JobPricingInput): JobPricingResult {
 
   if (totalCost > 0) {
     const marginRatio = targetMarginPct / 100;
-    sellingPrice = roundCurrency(totalCost / (1 - marginRatio));
+    const rawSellingPrice = totalCost / (1 - marginRatio);
+    if (!Number.isFinite(rawSellingPrice) || rawSellingPrice > MAX_SAFE_CURRENCY) {
+      return invalidJobPricingResult('The target margin produces a price outside the safe calculation range.', targetMarginPct);
+    }
+    sellingPrice = roundCurrency(rawSellingPrice);
     profit = roundCurrency(sellingPrice - totalCost);
     actualMarginPct = roundCurrency(safeDivide(profit, sellingPrice, 0) * 100);
     markupEquivalentPct = roundCurrency(safeDivide(profit, totalCost, 0) * 100);

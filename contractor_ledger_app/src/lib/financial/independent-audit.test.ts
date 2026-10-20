@@ -6,6 +6,7 @@ import { calculateBreakEven } from './breakEven';
 import { calculateMaterialMarkup } from './materialMarkup';
 import { calculateProjectEstimate } from './projectEstimate';
 import { calculatePriceScenarios } from './scenarios';
+import { MAX_SAFE_CURRENCY } from './formatters';
 import {
   loadSharedSettings,
   saveSharedSettings,
@@ -196,6 +197,54 @@ describe('INDEPENDENT AUDIT: Mathematical Oracles & Precision', () => {
     expect(result.profit).toBe(55.58);
     expect(result.actualMarginPct).toBe(20.0);
   });
+
+  it('Oracle Audit 7: Repeated fractional-cent line items round per row before summing', () => {
+    const result = calculateProjectEstimate({
+      items: [1, 2, 3].map(id => ({
+        id: String(id),
+        category: 'materials' as const,
+        description: `Fractional material ${id}`,
+        quantity: 1.25,
+        unit: 'ea',
+        unitCost: 0.1,
+      })),
+      overheadMode: 'fixed',
+      overheadValue: 0,
+      targetMarginPct: 0,
+    });
+
+    // Each row is $0.125 and rounds to $0.13. Three displayed line items sum to $0.39.
+    expect(result.isValid).toBe(true);
+    expect(result.categorySummaries.materials.subtotal).toBe(0.39);
+    expect(result.directCosts).toBe(0.39);
+    expect(result.sellingPrice).toBe(0.39);
+  });
+
+  it('Oracle Audit 8: Displayed job and labor components reconcile after cent rounding', () => {
+    const job = calculateJobPricing({
+      laborCost: 0.005,
+      materialCost: 0.005,
+      otherCost: 0,
+      overheadMode: 'fixed',
+      overheadValue: 0,
+      targetMarginPct: 0,
+    });
+    expect(job.totalCost).toBe(0.02);
+    expect(job.breakdown.reduce((sum, item) => sum + item.amount, 0)).toBe(0.02);
+    expect(job.sellingPrice).toBe(0.02);
+
+    const labor = calculateLaborCost({
+      workersCount: 1,
+      regularHoursPerWorker: 1,
+      hourlyWage: 1.005,
+      overtimeHoursPerWorker: 0,
+      overtimeMultiplier: 1.5,
+      burdenPercentage: 0,
+      additionalExpenses: 0.005,
+    });
+    expect(labor.totalLaborCost).toBe(1.02);
+    expect(labor.breakdown.reduce((sum, item) => sum + item.amount, 0)).toBe(1.02);
+  });
 });
 
 describe('INDEPENDENT AUDIT: Shared Capabilities & Storage Robustness', () => {
@@ -240,6 +289,28 @@ describe('INDEPENDENT AUDIT: Shared Capabilities & Storage Robustness', () => {
     // 4. Reset returns to defaults
     const reset = resetSharedSettings();
     expect(reset.defaultLaborRate).toBe(DEFAULT_SHARED_SETTINGS.defaultLaborRate);
+  });
+
+  it('Storage Audit 1b: Persists intentional zero defaults', () => {
+    expect(saveSharedSettings({
+      defaultLaborRate: 0,
+      defaultBurdenPercent: 0,
+      defaultOverheadPercent: 0,
+      defaultTargetMarginPercent: 0,
+    })).toBe(true);
+
+    expect(loadSharedSettings()).toMatchObject({
+      defaultLaborRate: 0,
+      defaultBurdenPercent: 0,
+      defaultOverheadPercent: 0,
+      defaultTargetMarginPercent: 0,
+    });
+  });
+
+  it('Storage Audit 1c: Rejects unsafe defaults without replacing the prior saved values', () => {
+    expect(saveSharedSettings({ defaultLaborRate: 85 })).toBe(true);
+    expect(saveSharedSettings({ defaultLaborRate: Number.POSITIVE_INFINITY })).toBe(false);
+    expect(loadSharedSettings().defaultLaborRate).toBe(85);
   });
 
   it('Storage Audit 2: Handles Corrupted and Malformed LocalStorage Without Crashing', () => {
@@ -295,5 +366,75 @@ describe('INDEPENDENT AUDIT: Shared Capabilities & Storage Robustness', () => {
     expect(target.profit).toBe(400);
     expect(lower.sellingPrice).toBeCloseTo(1333.33, 2);
     expect(higher.sellingPrice).toBeCloseTo(1846.15, 2);
+  });
+
+  it('Scenario Audit: rejects non-finite percentages and marks only overflowing margin cards unavailable', () => {
+    expect(calculatePriceScenarios(100, 0, Number.POSITIVE_INFINITY).isValid).toBe(false);
+    expect(calculatePriceScenarios(100, 0, 25, { higher: Number.NaN }).isValid).toBe(false);
+
+    const capped = calculatePriceScenarios(100, 0, 100);
+    expect(capped.isValid).toBe(true);
+    expect(capped.scenarios[1].marginPct).toBe(99);
+
+    const boundary = calculatePriceScenarios(MAX_SAFE_CURRENCY * 0.02, 0, 99, { higher: 99 });
+    expect(boundary.isValid).toBe(true);
+    expect(boundary.scenarios[0].isValid).toBe(true);
+    expect(boundary.scenarios[1].isValid).toBe(false);
+    expect(boundary.scenarios[2].isValid).toBe(false);
+  });
+
+  it('Scenario Audit: lower and higher defaults stay on the correct side of the selected target', () => {
+    const zeroTarget = calculatePriceScenarios(100, 0, 0);
+    expect(zeroTarget.scenarios.map(scenario => scenario.marginPct)).toEqual([0, 0, 10]);
+
+    const highTarget = calculatePriceScenarios(100, 0, 80);
+    expect(highTarget.scenarios.map(scenario => scenario.marginPct)).toEqual([70, 80, 90]);
+
+    const upperBoundary = calculatePriceScenarios(100, 0, 99);
+    expect(upperBoundary.scenarios.map(scenario => scenario.marginPct)).toEqual([89, 99, 99]);
+  });
+
+  it('rejects non-finite and unsafe monetary calculations instead of displaying zero as a valid result', () => {
+    expect(calculateJobPricing({
+      laborCost: Number.POSITIVE_INFINITY,
+      materialCost: 0,
+      otherCost: 0,
+      overheadMode: 'fixed',
+      overheadValue: 0,
+      targetMarginPct: 25,
+    }).isValid).toBe(false);
+
+    expect(calculateLaborCost({
+      workersCount: 1,
+      regularHoursPerWorker: 1,
+      hourlyWage: Number.POSITIVE_INFINITY,
+      overtimeHoursPerWorker: 0,
+      overtimeMultiplier: 1.5,
+      burdenPercentage: 0,
+      additionalExpenses: 0,
+    }).isValid).toBe(false);
+
+    expect(analyzeProfitMargin({ totalCost: 10, sellingPrice: Number.POSITIVE_INFINITY }).isValid).toBe(false);
+    expect(calculateRequiredPrice({ totalCost: Number.MAX_VALUE, targetMarginPct: 25 }).isValid).toBe(false);
+
+    expect(calculateBreakEven({
+      fixedMonthlyCosts: 0,
+      variableCostPerHour: 100,
+      expectedMonthlyBillableHours: 1_000_000_000_000,
+    }).isValid).toBe(false);
+
+    expect(calculateMaterialMarkup({
+      quantity: Number.MAX_SAFE_INTEGER,
+      unitCost: 1,
+      wasteAllowancePct: 0,
+      targetMarkupPct: 25,
+    }).isValid).toBe(false);
+
+    expect(calculateProjectEstimate({
+      items: [{ id: 'large', category: 'materials', description: 'Large amount', quantity: 1_000_000_000, unit: 'ea', unitCost: 1_000_000_000 }],
+      overheadMode: 'fixed',
+      overheadValue: 0,
+      targetMarginPct: 25,
+    }).isValid).toBe(false);
   });
 });

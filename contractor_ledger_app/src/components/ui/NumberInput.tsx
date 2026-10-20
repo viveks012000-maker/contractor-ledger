@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
 
 interface NumberInputProps {
   label: string;
@@ -33,17 +33,28 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 }) => {
   const generatedId = useId();
   const inputId = customId || generatedId;
+  const [inputError, setInputError] = useState<string>();
+  const effectiveMax = max ?? Number.MAX_SAFE_INTEGER;
+  const displayedError = inputError ?? error;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
     if (raw === '') {
+      if (e.currentTarget.validity.badInput) {
+        setInputError('Enter a finite value within the supported range.');
+        return;
+      }
+      setInputError(undefined);
       onChange(0);
       return;
     }
-    const parsed = parseFloat(raw);
-    if (!isNaN(parsed)) {
-      onChange(parsed);
+    const parsed = e.currentTarget.valueAsNumber;
+    if (!Number.isFinite(parsed) || parsed < min || parsed > effectiveMax) {
+      setInputError('Enter a finite value within the supported range.');
+      return;
     }
+    setInputError(undefined);
+    onChange(parsed);
   };
 
   return (
@@ -57,21 +68,21 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
       <div
         className={`h-11 rounded bg-surface border transition-colors flex items-center px-3 focus-within:ring-2 focus-within:ring-brand-green focus-within:border-brand-green ${
-          error ? 'border-error-text bg-error-bg/10' : 'border-border-default'
+          displayedError ? 'border-error-text bg-error-bg/10' : 'border-border-default'
         } ${disabled ? 'opacity-60 cursor-not-allowed bg-canvas' : ''}`}
       >
         <input
           id={inputId}
           type="number"
           min={min}
-          max={max}
+          max={effectiveMax}
           step={step}
           value={value === 0 && !placeholder ? '' : value}
           onChange={handleChange}
           disabled={disabled}
           placeholder={placeholder}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${inputId}-error` : undefined}
+          aria-invalid={!!displayedError}
+          aria-describedby={displayedError ? `${inputId}-error` : undefined}
           className="w-full bg-transparent font-medium text-text-primary text-base focus:outline-none tabular-nums"
         />
         {unitLabel && (
@@ -81,9 +92,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         )}
       </div>
 
-      {error && (
+      {displayedError && (
         <span id={`${inputId}-error`} className="text-xs text-error-text font-medium mt-0.5">
-          {error}
+          {displayedError}
         </span>
       )}
     </div>

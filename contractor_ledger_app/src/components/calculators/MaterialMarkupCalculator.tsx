@@ -73,6 +73,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 <span>Unit:</span>
                 <input
                   type="text"
+                  aria-label="Material unit name"
                   value={unitLabel}
                   onChange={e => setUnitLabel(e.target.value)}
                   className="px-2 py-0.5 rounded border border-border-default text-xs font-medium w-24 bg-canvas focus:outline-none focus:border-brand-green"
@@ -108,7 +109,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
             />
           </div>
 
-          <div className="p-4 rounded-lg bg-canvas border border-border-default text-xs text-text-secondary leading-relaxed space-y-2">
+          {result.isValid && <div className="p-4 rounded-lg bg-canvas border border-border-default text-xs text-text-secondary leading-relaxed space-y-2">
             <span className="font-bold text-text-primary text-sm font-headline block">
               Procurement Note on Waste Buffer
             </span>
@@ -123,18 +124,24 @@ export const MaterialMarkupCalculator: React.FC = () => {
               </strong>
               . This protects your margins from onsite cutting losses and supplier variances.
             </p>
-          </div>
+          </div>}
         </div>
 
         {/* Results Card */}
         <div className="lg:col-span-5">
           <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+            {!result.isValid && (
+              <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                Material estimate unavailable: {result.errorMessage}
+              </p>
+            )}
+            {result.isValid && <>
             <div>
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Billed Material Price
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
                   {formatCurrency(result.sellingPrice)}
                 </span>
               </div>
@@ -191,6 +198,7 @@ export const MaterialMarkupCalculator: React.FC = () => {
                 </span>
               </div>
             </div>
+            </>}
           </div>
         </div>
       </div>

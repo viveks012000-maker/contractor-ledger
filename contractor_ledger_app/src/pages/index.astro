@@ -3,26 +3,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { JobPricingCalculator } from '../components/calculators/JobPricingCalculator';
 import { AdSlot } from '../components/ui/AdSlot';
 
-const title = 'Contractor Ledger | Accurate Financial Software for Trade Contractors';
-const description = 'Free, accurate-to-your-input calculators for US contractors: job pricing, loaded labor costs, gross profit margins, break-even rates, and itemized estimates.';
+const title = 'Contractor Ledger | Contractor Pricing and Estimate Calculators';
+const description = 'Free browser-based calculators for US contractors: job pricing, loaded labor costs, gross profit margins, break-even rates, and itemized estimates.';
 
 const calculators = [
   {
     title: 'Job Pricing',
     href: '/calculators/job-pricing/',
-    description: 'Find an accurate, profitable selling price based on project expenses and your target gross profit margin.',
+    description: 'Estimate a selling price based on project expenses and your target gross profit margin.',
     iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" /><line x1="8" y1="6" x2="16" y2="6" /><line x1="16" y1="14" x2="16" y2="14" /><line x1="12" y1="14" x2="12" y2="14" /><line x1="8" y1="14" x2="8" y2="14" /><line x1="16" y1="18" x2="16" y2="18" /><line x1="12" y1="18" x2="12" y2="18" /><line x1="8" y1="18" x2="8" y2="18" /></svg>`,
   },
   {
     title: 'Labor Cost',
     href: '/calculators/labor-cost/',
-    description: 'Calculate true hourly labor expenses including regular base wages, overtime premiums, and employer payroll tax burden.',
+    description: 'Estimate hourly labor costs from regular wages, overtime premiums, and the burden percentage you enter.',
     iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>`,
   },
   {
     title: 'Profit Margin',
     href: '/calculators/profit-margin/',
-    description: 'Understand the exact relationship between project cost, selling price, revenue margin, and markup on cost.',
+    description: 'Understand the relationship between project cost, selling price, gross margin, and markup on cost.',
     iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg>`,
   },
   {
@@ -34,7 +34,7 @@ const calculators = [
   {
     title: 'Material Markup',
     href: '/calculators/material-markup/',
-    description: 'Calculate profitable client prices for job supplies, raw materials, and incidentals with an optional waste allowance.',
+    description: 'Estimate client prices for job supplies, raw materials, and incidentals with an optional waste allowance.',
     iconSvg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
   },
   {
@@ -46,7 +46,7 @@ const calculators = [
 ];
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} canonicalPath="/" includeWebApplicationSchema={true}>
   <!-- PART ONE: HERO WITH REAL TWO-COLUMN COMPOSITION & CALCULATOR PREVIEW -->
   <section class="w-full max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -56,7 +56,7 @@ const calculators = [
           Price Your Work With Confidence.
         </h1>
         <p class="text-lg sm:text-xl text-text-secondary max-w-xl leading-relaxed mb-8">
-          Free, accurate-to-your-input calculators for job pricing, labor costs, profit margins, and project estimates.
+          Free calculators for job pricing, labor costs, profit margins, and project estimates, using the figures you enter.
         </p>
 
         <div class="flex flex-wrap items-center gap-4">
@@ -155,7 +155,7 @@ const calculators = [
 
   <!-- Non-intrusive AdSense Slot Placement -->
   <section class="max-w-container mx-auto px-4 sm:px-6">
-    <AdSlot client:idle slotId="homepage-middle-leaderboard" />
+    <AdSlot slotId="homepage-middle-leaderboard" />
   </section>
 
   <!-- PART THREE: WORKED MATHEMATICAL ILLUSTRATION (ACCURATE MARGIN EXAMPLE) -->

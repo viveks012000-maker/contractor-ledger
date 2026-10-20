@@ -7,7 +7,7 @@ const title = 'Job Pricing Calculator | Defensible Cost-Plus Recovery';
 const description = 'Calculate profitable job prices based on direct labor, materials, equipment, overhead allocation, and target gross margin.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/job-pricing/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/job-pricing/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,7 +24,7 @@ const description = 'Calculate profitable job prices based on direct labor, mate
         Job Pricing Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Price contracting jobs accurately using cost-divided gross profit margin. Ensure labor, job supplies, equipment, and allocated overhead are fully recovered before committing to client bids.
+        Estimate a job price from the direct costs and overhead you enter, using a target gross margin as a share of the selling price.
       </p>
     </div>
 
@@ -32,7 +32,7 @@ const description = 'Calculate profitable job prices based on direct labor, mate
     <JobPricingCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="job-pricing-bottom-banner" />
+    <AdSlot slotId="job-pricing-bottom-banner" />
 
     <!-- Technical Guide & Worked Example -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
@@ -65,7 +65,7 @@ const description = 'Calculate profitable job prices based on direct labor, mate
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Consider a typical residential remodeling job with the following direct cost structure:
+            Illustrative job using the following entered cost assumptions:
           </p>
           <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
             <li>Direct Labor: $600.00</li>
@@ -83,6 +83,9 @@ const description = 'Calculate profitable job prices based on direct labor, mate
             <div>Actual Margin = $400 ÷ $1,600 = 25.0%</div>
             <div>Markup on Cost = $400 ÷ $1,200 = 33.3%</div>
           </div>
+          <p class="text-xs text-text-secondary leading-relaxed">
+            The result includes only entered costs and the selected overhead method. Add applicable taxes, fees, permits, and other costs separately when they are part of your estimate.
+          </p>
         </div>
       </div>
     </div>

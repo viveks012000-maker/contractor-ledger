@@ -7,7 +7,7 @@ const title = 'Project Estimate Calculator | Itemized Contractor Bid Ledger';
 const description = 'Build itemized commercial and residential bids across labor, materials, equipment, subcontractors, overhead, and margin.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/project-estimate/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/project-estimate/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -32,7 +32,7 @@ const description = 'Build itemized commercial and residential bids across labor
     <ProjectEstimateCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="project-estimate-bottom-banner" />
+    <AdSlot slotId="project-estimate-bottom-banner" />
 
     <!-- Technical Guide & Worked Example -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
@@ -43,7 +43,7 @@ const description = 'Build itemized commercial and residential bids across labor
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Professional commercial and residential estimating groups direct expenses into five segregated cost pools to avoid double-counting and misallocated markups:
+            Keeping direct expenses in separate categories helps make omissions and duplicate entries easier to spot:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
             <div>Line Item Total = Quantity × Unit Cost</div>
@@ -55,7 +55,7 @@ const description = 'Build itemized commercial and residential bids across labor
             <div>Gross Profit = Client Bid Price − Total Estimated Cost</div>
           </div>
           <p>
-            <strong>Subcontractor Markup:</strong> Subcontractors must be isolated from direct in-house labor because trade subs already carry their own labor burden and insurance.
+            <strong>Subcontractor costs:</strong> Track subcontractor quotes separately from in-house labor and check what each quote includes before adding other labor, burden, or insurance costs.
           </p>
         </div>
       </div>
@@ -67,12 +67,12 @@ const description = 'Build itemized commercial and residential bids across labor
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Standard multi-trade structural renovation scope:
+            Illustrative multi-trade scope:
           </p>
           <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
             <li>Direct Labor (44 hrs @ $70/hr): $3,080.00</li>
             <li>Direct Materials (Framing package): $2,111.00</li>
-            <li>Subcontractors (Licensed Electrical): $1,650.00</li>
+            <li>Subcontractor scope: $1,650.00</li>
             <li>Equipment &amp; Other: $0.00</li>
             <li>Overhead Rate: 12.0% of direct costs</li>
             <li>Target Profit Margin: 22.0%</li>
@@ -87,6 +87,9 @@ const description = 'Build itemized commercial and residential bids across labor
             <div class="font-bold text-brand-green">Estimated Gross Profit = $9,822.97 − $7,661.92 = $2,161.05</div>
             <div>Markup Equivalent = $2,161.05 ÷ $7,661.92 = 28.2% on total cost</div>
           </div>
+          <p class="text-xs text-text-secondary leading-relaxed">
+            The estimate includes entered line items and the selected overhead method. Add taxes, fees, and other project costs when they apply; the calculator does not verify supplier or subcontractor quotes.
+          </p>
         </div>
       </div>
     </div>

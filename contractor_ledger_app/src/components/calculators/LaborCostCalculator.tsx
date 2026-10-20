@@ -19,8 +19,8 @@ export const LaborCostCalculator: React.FC = () => {
 
   const handleApplyDefaults = () => {
     const settings = loadSharedSettings();
-    if (settings.defaultLaborRate > 0) setHourlyWage(settings.defaultLaborRate);
-    if (settings.defaultBurdenPercent > 0) setBurdenPercentage(settings.defaultBurdenPercent);
+    setHourlyWage(settings.defaultLaborRate);
+    setBurdenPercentage(settings.defaultBurdenPercent);
   };
 
   const result = calculateLaborCost({
@@ -156,12 +156,18 @@ export const LaborCostCalculator: React.FC = () => {
         {/* Output Card */}
         <div className="lg:col-span-5">
           <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+            {!result.isValid && (
+              <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                Labor cost unavailable: {result.errorMessage}
+              </p>
+            )}
+            {result.isValid && <>
             <div>
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Total Labor Cost
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
                   {formatCurrency(result.totalLaborCost)}
                 </span>
               </div>
@@ -228,6 +234,7 @@ export const LaborCostCalculator: React.FC = () => {
               items={result.breakdown}
               className="pt-2"
             />
+            </>}
           </div>
         </div>
       </div>

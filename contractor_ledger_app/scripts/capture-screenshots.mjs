@@ -1,15 +1,14 @@
 import { chromium } from '@playwright/test';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const outDir = path.resolve(__dirname, '../screenshots');
+const baseUrl = (process.env.SCREENSHOT_BASE_URL ?? 'http://127.0.0.1:4321').replace(/\/$/, '');
 
-if (!fs.existsSync(outDir)) {
-  fs.mkdirSync(outDir, { recursive: true });
-}
+fs.mkdirSync(outDir, { recursive: true });
 
 const routes = [
   { name: 'homepage', path: '/' },
@@ -24,68 +23,109 @@ const routes = [
   { name: 'contact', path: '/contact/' },
   { name: 'privacy', path: '/privacy/' },
   { name: 'terms', path: '/terms/' },
-  { name: '404', path: '/non-existent-page' },
+  { name: '404', path: '/non-existent-page/' },
 ];
 
 const viewports = [
   { name: 'desktop-1440', width: 1440, height: 900 },
   { name: 'desktop-1280', width: 1280, height: 800 },
+  { name: 'tablet-1024', width: 1024, height: 768 },
   { name: 'mobile-390', width: 390, height: 844 },
+  { name: 'mobile-375', width: 375, height: 812 },
   { name: 'mobile-320', width: 320, height: 568 },
 ];
 
 async function run() {
   const browser = await chromium.launch();
-  const consoleErrors = [];
+  const failures = [];
+  const homepageMetrics = [];
+  let screenshotCount = 0;
 
-  for (const vp of viewports) {
-    const context = await browser.newContext({
-      viewport: { width: vp.width, height: vp.height },
-    });
-    const page = await context.newPage();
+  try {
+    for (const viewport of viewports) {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+      });
+      const page = await context.newPage();
+      let currentRoute = '';
 
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
-        consoleErrors.push(`[${vp.name}] ${page.url()}: ${msg.text()}`);
-      }
-    });
-
-    for (const r of routes) {
-      await page.goto(`http://localhost:4321${r.path}`, { waitUntil: 'networkidle' });
-      
-      // Check horizontal overflow
-      const hasHorizontalScroll = await page.evaluate(() => {
-        return document.documentElement.scrollWidth > window.innerWidth;
+      page.on('console', message => {
+        const expected404Document = currentRoute === '/non-existent-page/' &&
+          message.text().includes('server responded with a status of 404 (Not Found)');
+        if (message.type() === 'error' && !expected404Document) {
+          failures.push(`[${viewport.name}] console ${page.url()}: ${message.text()}`);
+        }
+      });
+      page.on('pageerror', error => failures.push(`[${viewport.name}] page error ${page.url()}: ${error.message}`));
+      page.on('response', response => {
+        if (response.status() >= 400 && response.request().resourceType() !== 'document') {
+          failures.push(`[${viewport.name}] resource ${response.status()} ${response.url()}`);
+        }
       });
 
-      if (hasHorizontalScroll) {
-        console.warn(`OVERFLOW DETECTED: ${r.name} at ${vp.name} (${vp.width}px)`);
+      for (const route of routes) {
+        currentRoute = route.path;
+        const response = await page.goto(`${baseUrl}${route.path}`, { waitUntil: 'networkidle' });
+        const expectedStatus = route.name === '404' ? 404 : 200;
+        if (response?.status() !== expectedStatus) {
+          failures.push(`[${viewport.name}] ${route.path}: expected ${expectedStatus}, received ${response?.status() ?? 'no response'}`);
+        }
+
+        const hasHorizontalScroll = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+        if (hasHorizontalScroll) failures.push(`[${viewport.name}] horizontal overflow on ${route.path} (${viewport.width}px)`);
+
+        if (route.name === 'homepage') {
+          homepageMetrics.push({
+            viewport: viewport.name,
+            ...await page.evaluate(() => {
+              const navigation = performance.getEntriesByType('navigation')[0];
+              const sameOriginResources = performance.getEntriesByType('resource').filter(entry =>
+                new URL(entry.name).origin === location.origin
+              );
+              const bytesFor = (extension) => sameOriginResources
+                .filter(entry => new URL(entry.name).pathname.endsWith(extension))
+                .reduce((total, entry) => total + entry.transferSize, 0);
+              return {
+                ttfbMs: Math.round(navigation.responseStart),
+                domContentLoadedMs: Math.round(navigation.domContentLoadedEventEnd),
+                loadEventMs: Math.round(navigation.loadEventEnd),
+                sameOriginJsTransferBytes: bytesFor('.js'),
+                sameOriginCssTransferBytes: bytesFor('.css'),
+              };
+            }),
+          });
+        }
+
+        await page.screenshot({
+          path: path.join(outDir, `${route.name}_${viewport.name}.png`),
+          fullPage: true,
+        });
+        screenshotCount += 1;
       }
 
-      const filePath = path.join(outDir, `${r.name}_${vp.name}.png`);
-      await page.screenshot({ path: filePath, fullPage: false });
+      await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+      currentRoute = '/';
+      await page.locator('#open-settings-header-btn').click();
+      await page.getByRole('dialog', { name: 'Contractor Cost Settings' }).waitFor({ state: 'visible' });
+      await page.screenshot({ path: path.join(outDir, `modal-settings_${viewport.name}.png`) });
+      screenshotCount += 1;
+      await context.close();
     }
-
-    // Capture settings modal
-    await page.goto('http://localhost:4321/');
-    await page.click('#open-settings-header-btn');
-    await page.waitForTimeout(300);
-    await page.screenshot({ path: path.join(outDir, `modal-settings_${vp.name}.png`) });
-
-    await context.close();
+  } finally {
+    await browser.close();
   }
 
-  await browser.close();
-
-  console.log(`Screenshots captured in: ${outDir}`);
-  if (consoleErrors.length > 0) {
-    console.error('Console Errors detected:', consoleErrors);
+  console.log(`Captured ${screenshotCount} screenshots in ${outDir}.`);
+  console.log(`Local Chromium homepage navigation samples: ${JSON.stringify(homepageMetrics)}`);
+  if (failures.length > 0) {
+    console.error(`Visual/release checks found ${failures.length} issue(s):\n${failures.join('\n')}`);
+    process.exitCode = 1;
   } else {
-    console.log('Zero browser console errors detected.');
+    console.log('All routes loaded with expected statuses, no browser errors, and no horizontal overflow.');
   }
 }
 
-run().catch(err => {
-  console.error(err);
-  process.exit(1);
+run().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
 });

@@ -4,10 +4,10 @@ import { BreakEvenCalculator } from '../../components/calculators/BreakEvenCalcu
 import { AdSlot } from '../../components/ui/AdSlot';
 
 const title = 'Break-Even Calculator | Monthly Contractor Overhead Recovery';
-const description = 'Calculate your contractor break-even hourly rate and monthly billable revenue required to cover fixed overhead expenses.';
+const description = 'Estimate the hourly rate and monthly revenue needed to cover the fixed costs and variable hourly costs you enter.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/break-even/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/break-even/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,7 +24,7 @@ const description = 'Calculate your contractor break-even hourly rate and monthl
         Break-Even Rate Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Identify the financial threshold below which your business loses money. Calculate the exact hourly billing rate and total monthly revenue required to cover company fixed overhead and variable job expenses.
+        Estimate an hourly break-even rate and monthly revenue from the fixed costs, variable hourly costs, and billable hours you enter.
       </p>
     </div>
 
@@ -32,7 +32,7 @@ const description = 'Calculate your contractor break-even hourly rate and monthl
     <BreakEvenCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="break-even-bottom-banner" />
+    <AdSlot slotId="break-even-bottom-banner" />
 
     <!-- Technical Guide & Worked Example -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
@@ -51,7 +51,7 @@ const description = 'Calculate your contractor break-even hourly rate and monthl
             <div class="font-bold text-brand-green">Monthly Revenue Required = Fixed Costs + (Variable / Hr × Hours)</div>
           </div>
           <p>
-            <strong>Realistic Billable Hours:</strong> Do not assume a 40-hour work week is 100% billable. For independent trade contractors, non-billable time (estimating, transit, supply runs, administrative tasks) typically limits individual billable capacity to 25–30 hours per week (100–120 hours monthly).
+            Enter the hours you expect to bill, accounting for time spent on estimating, travel, supply runs, administration, and other work that is not billed to a job.
           </p>
         </div>
       </div>
@@ -63,7 +63,7 @@ const description = 'Calculate your contractor break-even hourly rate and monthl
         </h3>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
-            Standard solo plumbing or electrical contractor operating baseline:
+            Illustrative monthly cost assumptions:
           </p>
           <ul class="list-disc list-inside space-y-1 text-text-primary font-medium">
             <li>Fixed Monthly Costs: $5,000.00 (Van note, insurance, shop space, software, phone)</li>
@@ -78,7 +78,7 @@ const description = 'Calculate your contractor break-even hourly rate and monthl
             <div class="font-bold text-brand-green">Monthly Revenue Required = $5,000 + ($20 × 100) = $7,000.00 / mo</div>
           </div>
           <p class="text-text-muted">
-            Billing at $70/hr yields zero profit; every dollar billed above $70/hr represents real operating income.
+            Under these assumptions, $70 per billed hour covers the modeled $50 overhead allocation and $20 variable cost. Additional costs or taxes not entered here are not included.
           </p>
         </div>
       </div>

@@ -15,7 +15,7 @@ export default {
         'brand-green-border': '#A4F2D4',
         'text-primary': '#18211F',
         'text-secondary': '#4F5B57',
-        'text-muted': '#6F7974',
+        'text-muted': '#66716C',
         'border-default': '#E5E8E5',
         'border-focus': '#176B53',
         'error-text': '#B44545',

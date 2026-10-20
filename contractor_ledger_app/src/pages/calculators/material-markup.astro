@@ -7,7 +7,7 @@ const title = 'Material Markup Calculator | Contractor Supply & Waste Estimator'
 const description = 'Calculate profitable billing prices for construction supplies, lumber, and hardware with optional procurement waste allowances.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/material-markup/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/material-markup/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -32,7 +32,7 @@ const description = 'Calculate profitable billing prices for construction suppli
     <MaterialMarkupCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="material-markup-bottom-banner" />
+    <AdSlot slotId="material-markup-bottom-banner" />
 
     <!-- Technical Guide & Worked Example -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">

@@ -43,6 +43,7 @@ export const ProfitMarginCalculator: React.FC = () => {
         <div className="flex rounded-lg border border-border-default bg-canvas p-1 text-xs font-semibold self-start sm:self-auto">
           <button
             type="button"
+            aria-pressed={activeMode === 'analyze'}
             onClick={() => setActiveMode('analyze')}
             className={`px-3 py-1.5 rounded transition-all ${
               activeMode === 'analyze'
@@ -54,6 +55,7 @@ export const ProfitMarginCalculator: React.FC = () => {
           </button>
           <button
             type="button"
+            aria-pressed={activeMode === 'required'}
             onClick={() => setActiveMode('required')}
             className={`px-3 py-1.5 rounded transition-all ${
               activeMode === 'required'
@@ -93,9 +95,9 @@ export const ProfitMarginCalculator: React.FC = () => {
             </div>
 
             <div className="space-y-3 text-xs text-text-secondary leading-relaxed bg-surface rounded-lg border border-border-default p-4">
-              <h4 className="font-bold text-text-primary text-sm font-headline">
+              <h3 className="font-bold text-text-primary text-sm font-headline">
                 The Margin vs. Markup Mathematical Law
-              </h4>
+              </h3>
               <p>
                 <strong>Gross Profit Margin:</strong> The percentage of the <em>selling price</em> that is profit:{' '}
                 <code className="text-text-primary font-semibold">Profit ÷ Selling Price</code>.
@@ -119,11 +121,19 @@ export const ProfitMarginCalculator: React.FC = () => {
                   : 'bg-brand-green-light/40 border-brand-green-border/80'
               }`}
             >
+              {!resultA.isValid && (
+                <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                  Margin analysis unavailable: {resultA.errorMessage}
+                </p>
+              )}
+              {resultA.isValid && <>
               <div>
                 <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                   Net Profit Generated
                 </span>
                 <span
+                  aria-live="polite"
+                  aria-atomic="true"
                   className={`text-4xl md:text-5xl font-bold font-sans tracking-tight tabular-nums block mt-1 ${
                     resultA.isLoss ? 'text-error-text' : 'text-brand-green'
                   }`}
@@ -181,6 +191,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                   </span>
                 </div>
               </div>
+              </>}
             </div>
           </div>
         </div>
@@ -228,15 +239,21 @@ export const ProfitMarginCalculator: React.FC = () => {
           {/* Mode B Results */}
           <div className="lg:col-span-5">
             <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+              {!resultB.isValid && (
+                <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                  Required price unavailable: {resultB.errorMessage}
+                </p>
+              )}
+              {resultB.isValid && <>
               <div>
                 <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                   Required Selling Price
                 </span>
-                <span className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums block mt-1">
+                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums block mt-1">
                   {formatCurrency(resultB.sellingPrice)}
                 </span>
                 <span className="text-xs text-text-secondary block mt-1">
-                  Guarantees an exact {formatPercent(resultB.targetMarginPct)} margin on invoice total
+                  Target margin is {formatPercent(resultB.targetMarginPct)} of the invoice total; currency is rounded to cents.
                 </span>
               </div>
 
@@ -273,6 +290,7 @@ export const ProfitMarginCalculator: React.FC = () => {
                   </span>
                 </div>
               </div>
+              </>}
             </div>
           </div>
         </div>

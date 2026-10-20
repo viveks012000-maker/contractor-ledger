@@ -34,11 +34,7 @@ export const ProfitBreakdownBar: React.FC<ProfitBreakdownBarProps> = ({
       {/* Meter Bar */}
       <div
         className={`w-full ${heightClass} rounded bg-[#E2EAE6] flex overflow-hidden`}
-        role="progressbar"
-        aria-label={title}
-        aria-valuenow={100}
-        aria-valuemin={0}
-        aria-valuemax={100}
+        aria-hidden="true"
       >
         {validItems.length === 0 ? (
           <div className="w-full h-full bg-border-default" />

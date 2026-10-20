@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
 
 @layer base {
   :root {
@@ -10,6 +9,7 @@
     --brand-green-hover: #10523F;
     --text-primary: #18211F;
     --text-secondary: #4F5B57;
+    --text-muted: #66716C;
     --border-default: #E5E8E5;
   }
 

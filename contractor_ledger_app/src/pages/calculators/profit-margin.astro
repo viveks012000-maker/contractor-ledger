@@ -7,7 +7,7 @@ const title = 'Profit Margin Calculator | Margin vs. Markup Engine';
 const description = 'Calculate gross profit margin vs markup on cost. Analyze existing prices or compute the required selling price to hit your margin target.';
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/calculators/profit-margin/">
+<BaseLayout title={title} description={description} canonicalPath="/calculators/profit-margin/" includeWebApplicationSchema={true}>
   <div class="max-w-container mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-10">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
@@ -24,7 +24,7 @@ const description = 'Calculate gross profit margin vs markup on cost. Analyze ex
         Profit Margin vs. Markup Calculator
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Eliminate the dangerous confusion between margin and markup. Use Mode A to audit an existing proposal or Mode B to compute the mandatory selling price required to safeguard your net company earnings.
+        Compare gross margin with markup on cost. Use Mode A to analyze an entered price or Mode B to calculate a price for your selected gross margin.
       </p>
     </div>
 
@@ -32,15 +32,15 @@ const description = 'Calculate gross profit margin vs markup on cost. Analyze ex
     <ProfitMarginCalculator client:load />
 
     <!-- AdSense Non-Intrusive Slot -->
-    <AdSlot client:idle slotId="profit-margin-bottom-banner" />
+    <AdSlot slotId="profit-margin-bottom-banner" />
 
     <!-- Technical Guide & Comparison Table -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
       <!-- Left: Theoretical Principles -->
       <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
-        <h3 class="text-lg font-bold font-headline text-text-primary">
+        <h2 class="text-lg font-bold font-headline text-text-primary">
           Why Margin and Markup Are Different
-        </h3>
+        </h2>
         <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
           <p>
             Although both metrics describe profitability, they measure against two completely different denominators:
@@ -52,16 +52,16 @@ const description = 'Calculate gross profit margin vs markup on cost. Analyze ex
             <div>Measures the percentage added on top of your job expenses.</div>
           </div>
           <p>
-            Because the selling price is always higher than the cost on a profitable job, <strong>markup is always a higher percentage number than margin</strong>. Confusing the two results in underpricing and severe cash flow shortages.
+            On a profitable job, markup is a higher percentage than margin because it uses the smaller total-cost amount as its denominator. Confusing the two can lead to a price below the one needed for your selected margin.
           </p>
         </div>
       </div>
 
       <!-- Right: Conversion Matrix Reference -->
       <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
-        <h3 class="text-lg font-bold font-headline text-text-primary">
+        <h2 class="text-lg font-bold font-headline text-text-primary">
           Margin to Markup Conversion Matrix
-        </h3>
+        </h2>
         <div class="overflow-x-auto">
           <table class="w-full text-xs text-left">
             <thead class="bg-canvas border-b border-border-default text-text-primary font-bold">
@@ -115,22 +115,26 @@ const description = 'Calculate gross profit margin vs markup on cost. Analyze ex
       </div>
     </div>
 
+    <p class="text-xs text-text-secondary leading-relaxed">
+      Calculated profit reflects only the cost and selling price entered. It excludes expenses, taxes, or fees not included in those amounts; currency results are rounded to cents.
+    </p>
+
     <!-- Related Calculators Directory -->
     <div class="pt-8 border-t border-border-default">
-      <h3 class="text-sm font-bold uppercase tracking-wider text-text-primary font-headline mb-4">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-text-primary font-headline mb-4">
         Related Financial Tools
-      </h3>
+      </h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <a href="/calculators/job-pricing/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
-          <h4 class="text-sm font-bold text-text-primary mb-1">Job Pricing Calculator</h4>
+          <h3 class="text-sm font-bold text-text-primary mb-1">Job Pricing Calculator</h3>
           <p class="text-xs text-text-secondary">Apply your target margin directly to direct expenses and allocated overhead.</p>
         </a>
         <a href="/calculators/material-markup/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
-          <h4 class="text-sm font-bold text-text-primary mb-1">Material Markup Calculator</h4>
+          <h3 class="text-sm font-bold text-text-primary mb-1">Material Markup Calculator</h3>
           <p class="text-xs text-text-secondary">Determine markups specifically on lumber, supplies, and fixtures.</p>
         </a>
         <a href="/calculators/break-even/" class="p-4 rounded-lg bg-surface border border-border-default hover:border-brand-green transition-colors block">
-          <h4 class="text-sm font-bold text-text-primary mb-1">Break-Even Calculator</h4>
+          <h3 class="text-sm font-bold text-text-primary mb-1">Break-Even Calculator</h3>
           <p class="text-xs text-text-secondary">Calculate the minimum hourly revenue needed before generating profit.</p>
         </a>
       </div>

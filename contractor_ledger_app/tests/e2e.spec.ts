@@ -14,12 +14,12 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(toolsHeading).toBeVisible();
 
     // Verify all 6 tools are rendered
-    await expect(page.locator('a[href="/calculators/job-pricing/"]').first()).toBeVisible();
-    await expect(page.locator('a[href="/calculators/labor-cost/"]').first()).toBeVisible();
-    await expect(page.locator('a[href="/calculators/profit-margin/"]').first()).toBeVisible();
-    await expect(page.locator('a[href="/calculators/break-even/"]').first()).toBeVisible();
-    await expect(page.locator('a[href="/calculators/material-markup/"]').first()).toBeVisible();
-    await expect(page.locator('a[href="/calculators/project-estimate/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/job-pricing/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/labor-cost/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/profit-margin/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/break-even/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/material-markup/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/calculators/project-estimate/"]').first()).toBeVisible();
   });
 
   test('Job Pricing Calculator interactive workflow and live calculation', async ({ page }) => {
@@ -110,22 +110,208 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('#settings-modal-title')).not.toBeVisible();
   });
 
-  test('404 Page renders correctly for unknown route', async ({ page }) => {
-    await page.goto('/non-existent-page');
-    await expect(page.locator('h1')).toContainText('Ledger Entry Not Found');
-    await expect(page.locator('a:has-text("Return to Homepage")')).toBeVisible();
+  test('Cost Settings dialog keeps keyboard focus inside, fits the viewport, and restores focus', async ({ page }) => {
+    await page.goto('/');
+    const trigger = page.locator('#open-settings-header-btn');
+    await trigger.click();
+
+    const dialog = page.getByRole('dialog', { name: 'Contractor Cost Settings' });
+    await expect(dialog).toBeVisible();
+    const first = page.locator('#settings-close');
+    const last = page.getByRole('button', { name: 'Save Defaults' });
+    await expect(first).toBeFocused();
+
+    const dialogBox = await dialog.boundingBox();
+    const viewport = page.viewportSize();
+    expect(dialogBox).not.toBeNull();
+    expect(viewport).not.toBeNull();
+    expect(dialogBox!.y).toBeGreaterThanOrEqual(0);
+    expect(dialogBox!.y + dialogBox!.height).toBeLessThanOrEqual(viewport!.height + 1);
+    const saveBox = await last.boundingBox();
+    expect(saveBox).not.toBeNull();
+    expect(saveBox!.y).toBeGreaterThanOrEqual(dialogBox!.y);
+    expect(saveBox!.y + saveBox!.height).toBeLessThanOrEqual(dialogBox!.y + dialogBox!.height + 1);
+
+    await page.keyboard.press('Shift+Tab');
+    await expect(last).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(first).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(dialog).not.toBeVisible();
+    await expect(trigger).toBeFocused();
   });
 
-  test('Contact Page renders honest pre-publication status and disabled submission', async ({ page }) => {
+  test('Mobile navigation opens, closes with Escape, and returns focus to its trigger', async ({ page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) >= 1024, 'Mobile navigation is replaced by the desktop navigation at 1024px.');
+    await page.goto('/');
+
+    const trigger = page.locator('#mobile-menu-toggle');
+    const navigation = page.locator('#mobile-navigation');
+    await trigger.click();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(navigation).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(navigation).toBeHidden();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toBeFocused();
+  });
+
+  test('Saved shared defaults persist and can be explicitly applied, including zero values', async ({ page }) => {
+    await page.goto('/calculators/labor-cost/');
+    await expect(page.locator('#labor-wage')).toHaveValue('30');
+    await expect(page.locator('#labor-burden')).toHaveValue('20');
+
+    await page.locator('#open-settings-header-btn').click();
+    await page.locator('#settings-labor-rate').fill('85');
+    await page.locator('#settings-burden').fill('0');
+    await page.locator('#settings-overhead').fill('0');
+    await page.locator('#settings-margin').fill('0');
+    await page.getByRole('button', { name: 'Save Defaults' }).click();
+    await expect(page.getByRole('dialog')).not.toBeVisible();
+
+    // Saving defaults alone does not overwrite the current job's entered values.
+    await expect(page.locator('#labor-wage')).toHaveValue('30');
+    await expect(page.locator('#labor-burden')).toHaveValue('20');
+    await page.reload();
+    await expect(page.locator('#labor-wage')).toHaveValue('30');
+    await page.getByRole('button', { name: 'Apply Shared Settings' }).click();
+    await expect(page.locator('#labor-wage')).toHaveValue('85');
+    await expect(page.locator('#labor-burden')).toHaveValue('0');
+
+    await page.goto('/calculators/job-pricing/');
+    await page.locator('#job-labor').fill('777');
+    await expect(page.locator('#job-labor')).toHaveValue('777');
+    await expect(page.getByText('$1,836.00', { exact: true }).first()).toBeVisible();
+    await page.getByRole('button', { name: 'Apply Shared Settings' }).click();
+    await expect(page.locator('#job-labor')).toHaveValue('777');
+    await expect(page.locator('#job-margin')).toHaveValue('0');
+    await expect(page.locator('#job-overhead-pct')).toHaveValue('0');
+  });
+
+  test('Very large currency input is rejected visibly instead of producing a zero result', async ({ page }) => {
+    await page.goto('/calculators/job-pricing/');
+    await page.locator('#job-labor').fill('1e308');
+    await expect(page.locator('#job-labor')).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByText('Enter a finite value within the supported range.')).toBeVisible();
+    await expect(page.getByText('$1,600.00', { exact: true }).first()).toBeVisible();
+  });
+
+  test('Scenario comparison accepts target margins above 65 percent up to 99 percent', async ({ page }) => {
+    await page.goto('/calculators/job-pricing/');
+    const lower = page.locator('#scenario-margin-lower');
+    const margin = page.locator('#scenario-margin-target');
+    const higher = page.locator('#scenario-margin-higher');
+    await expect(margin).toHaveAttribute('max', '99');
+
+    await lower.fill('10');
+    await expect(lower).toHaveValue('10');
+    await expect(margin).toHaveValue('25');
+    await expect(higher).toHaveValue('35');
+
+    await margin.fill('80');
+    await expect(margin).toHaveValue('80');
+    await expect(lower).toHaveValue('10');
+    await expect(higher).toHaveValue('90');
+
+    await higher.fill('95');
+    await expect(higher).toHaveValue('95');
+    await expect(margin).toHaveValue('80');
+    await expect(page.getByText('80.0%', { exact: true }).first()).toBeVisible();
+  });
+
+  test('404 Page renders correctly for unknown route', async ({ page }) => {
+    const response = await page.goto('/non-existent-page/');
+    expect(response?.status()).toBe(404);
+    await expect(page.locator('h1')).toContainText('Ledger Entry Not Found');
+    await expect(page.locator('a:has-text("Return to Homepage")')).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+    await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(0);
+  });
+
+  test('Contact page uses a configured email link or accurately explains that no address is configured', async ({ page }) => {
     await page.goto('/contact/');
-    await expect(page.locator('h1')).toContainText('Contact & Field Desk');
-    await expect(page.locator('text=Pre-Publication Status: Direct Contact Channel Pending')).toBeVisible();
-    await expect(page.locator('button:has-text("Dispatch Offline")')).toBeDisabled();
+    await expect(page.locator('h1')).toContainText('Contact Contractor Ledger');
+    if (process.env.PUBLIC_CONTACT_EMAIL?.trim()) {
+      const email = process.env.PUBLIC_CONTACT_EMAIL.trim();
+      await expect(page.getByRole('link', { name: `Email ${email}` })).toHaveAttribute('href', `mailto:${email}`);
+    } else {
+      await expect(page.getByText('A contact address has not been configured for this deployment.')).toBeVisible();
+      await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+    }
+    await expect(page.locator('form')).toHaveCount(0);
+  });
+
+  test('Sitemap, robots, and indexable route metadata match the configured public origin', async ({ page, request }) => {
+    const publicOrigin = process.env.PUBLIC_SITE_URL?.trim()
+      ? new URL(process.env.PUBLIC_SITE_URL.trim()).origin
+      : undefined;
+    const routes = [
+      '/', '/calculators/job-pricing/', '/calculators/labor-cost/',
+      '/calculators/profit-margin/', '/calculators/break-even/',
+      '/calculators/material-markup/', '/calculators/project-estimate/',
+      '/methodology/', '/about/', '/contact/', '/privacy/', '/terms/',
+    ];
+
+    const sitemapResponse = await request.get('/sitemap.xml');
+    expect(sitemapResponse.ok()).toBe(true);
+    const sitemap = await sitemapResponse.text();
+    expect((sitemap.match(/<loc>/g) ?? []).length).toBe(publicOrigin ? routes.length : 0);
+    expect(sitemap).not.toContain('/404');
+
+    const robotsResponse = await request.get('/robots.txt');
+    expect(robotsResponse.ok()).toBe(true);
+    const robots = await robotsResponse.text();
+    if (publicOrigin) expect(robots).toContain(`Sitemap: ${publicOrigin}/sitemap.xml`);
+    else expect(robots).not.toContain('Sitemap:');
+
+    const schemaRoutes = new Set(['/', ...routes.filter(route => route.startsWith('/calculators/'))]);
+    for (const route of routes) {
+      await page.goto(route);
+      const canonical = page.locator('link[rel="canonical"]');
+      if (publicOrigin) await expect(canonical).toHaveAttribute('href', `${publicOrigin}${route}`);
+      else await expect(canonical).toHaveCount(0);
+
+      const schema = page.locator('script[type="application/ld+json"]');
+      if (schemaRoutes.has(route)) {
+        await expect(schema).toHaveCount(1);
+        const structuredData = JSON.parse((await schema.textContent()) ?? '{}');
+        expect(structuredData['@type']).toBe('WebApplication');
+        expect(structuredData.name).toBe('Contractor Ledger');
+      } else await expect(schema).toHaveCount(0);
+    }
+  });
+
+  test('All published pages fit the active viewport without horizontal overflow', async ({ page }) => {
+    const routes = [
+      '/', '/calculators/job-pricing/', '/calculators/labor-cost/',
+      '/calculators/profit-margin/', '/calculators/break-even/',
+      '/calculators/material-markup/', '/calculators/project-estimate/',
+      '/methodology/', '/about/', '/contact/', '/privacy/', '/terms/', '/non-existent-page',
+    ];
+    for (const route of routes) {
+      await page.goto(route === '/non-existent-page' ? '/non-existent-page/' : route, { waitUntil: 'domcontentloaded' });
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+      expect(overflow, `${route} overflows at ${page.viewportSize()?.width}px`).toBe(false);
+    }
+  });
+
+  test('Inactive advertising markers stay hidden and reserve no layout space', async ({ page }) => {
+    for (const route of ['/', '/about/', '/methodology/', '/calculators/job-pricing/']) {
+      await page.goto(route);
+      await expect(page.locator('[data-ad-status="active"]')).toHaveCount(0);
+      await expect(page.locator('ins.adsbygoogle, script[src*="adsbygoogle"]')).toHaveCount(0);
+      const markers = page.locator('[data-ad-container]');
+      for (let index = 0; index < await markers.count(); index += 1) {
+        await expect(markers.nth(index)).toHaveAttribute('data-ad-status', 'pending-approval');
+        expect(await markers.nth(index).evaluate(element => getComputedStyle(element).display)).toBe('none');
+      }
+    }
   });
 
   test('Supporting pages load with accurate content and headings', async ({ page }) => {
     await page.goto('/methodology/');
-    await expect(page.locator('h1')).toContainText('Calculation Methodology');
+    await expect(page.locator('h1')).toContainText('Calculation Methods & Assumptions');
 
     await page.goto('/about/');
     await expect(page.locator('h1')).toContainText('About Contractor Ledger');

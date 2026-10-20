@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { AdSlot } from '../components/ui/AdSlot';
 
 const title = 'About Contractor Ledger | Fiscal Precision for Working Trades';
-const description = 'Contractor Ledger is a free, high-precision calculation engine built for US contractors, builders, and trade specialists.';
+const description = 'Contractor Ledger is a free set of browser-based pricing, labor, margin, break-even, materials, and project estimate calculators for US contractors.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/about/">
@@ -20,7 +20,7 @@ const description = 'Contractor Ledger is a free, high-precision calculation eng
         About Contractor Ledger
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        High-spec operational software engineered specifically for independent general contractors, trade specialists, and field managers who demand immediate, uncompromising financial precision.
+        A browser-based estimating workbench for independent contractors, trade specialists, and project managers who need clear calculations from their own cost assumptions.
       </p>
     </div>
 
@@ -34,7 +34,7 @@ const description = 'Contractor Ledger is a free, high-precision calculation eng
           Too many software tools for trade contractors are cluttered with bloated subscription tiers, forced CRM pipelines, invasive login gates, and generic tech-startup gamification.
         </p>
         <p>
-          Contractor Ledger rejects decorative fluff in favor of architectural composure and arithmetic accuracy. It is built as a permanent, reliable workbench: open, instant, and accurate to the exact penny of your input numbers.
+          Contractor Ledger keeps the focus on transparent formulas and readable estimates. Currency results are rounded to cents from the values entered; the usefulness of a bid still depends on the completeness and accuracy of its assumptions.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
@@ -45,7 +45,7 @@ const description = 'Contractor Ledger is a free, high-precision calculation eng
               <li>Fully loaded labor burden factoring</li>
               <li>Itemized scope-of-work estimating</li>
               <li>Side-by-side bidding comparison</li>
-              <li>100% on-device data persistence</li>
+              <li>Reusable cost defaults stored in this browser</li>
             </ul>
           </div>
 
@@ -73,12 +73,12 @@ const description = 'Contractor Ledger is a free, high-precision calculation eng
           Contractor Ledger is engineered using static HTML delivery, TypeScript calculation kernels, and selective React hydration. All financial routines are pure, deterministic functions tested against rigorous boundary conditions.
         </p>
         <p>
-          Your numbers never leave your device. Settings saved via the Cost Settings drawer remain in your local browser's storage, allowing you to run estimates in trailers or on job sites without external API lag.
+          Calculations run in the browser, and the optional shared defaults are saved in local browser storage. The site does not send calculator inputs to a calculation service; web fonts are requested from Google Fonts as described in the Privacy Policy.
         </p>
       </div>
     </article>
 
     <!-- AdSense Placement -->
-    <AdSlot client:idle slotId="about-banner" />
+    <AdSlot slotId="about-banner" />
   </div>
 </BaseLayout>

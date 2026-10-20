@@ -84,7 +84,7 @@ export const BreakEvenCalculator: React.FC = () => {
 
           <div className="p-4 rounded-lg bg-canvas border border-border-default text-xs text-text-secondary leading-relaxed space-y-2">
             <span className="font-bold text-text-primary text-sm font-headline block">
-              Monthly Accounting Standard
+              Monthly Cost Model
             </span>
             <p>
               Your break-even rate is the baseline price where revenue equals total expenses (zero profit, zero loss). Any billable rate below this figure produces an operational deficit.
@@ -98,12 +98,18 @@ export const BreakEvenCalculator: React.FC = () => {
         {/* Results Card */}
         <div className="lg:col-span-5">
           <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+            {!result.isValid && (
+              <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                Break-even rate unavailable: {result.errorMessage}
+              </p>
+            )}
+            {result.isValid && <>
             <div>
               <span className="text-xs uppercase tracking-wider font-bold text-text-secondary block">
                 Minimum Break-Even Rate
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
                   {formatCurrency(result.breakEvenHourlyRate)}
                   <span className="text-sm font-normal text-text-secondary">/hr</span>
                 </span>
@@ -148,6 +154,7 @@ export const BreakEvenCalculator: React.FC = () => {
                 </span>
               </div>
             </div>
+            </>}
           </div>
         </div>
       </div>

@@ -142,6 +142,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                 <div className="flex rounded border border-border-default bg-surface p-0.5 text-xs font-semibold">
                   <button
                     type="button"
+                    aria-pressed={overheadMode === 'fixed'}
                     onClick={() => setOverheadMode('fixed')}
                     className={`px-3 py-1 rounded-sm transition-colors ${
                       overheadMode === 'fixed'
@@ -153,6 +154,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                   </button>
                   <button
                     type="button"
+                    aria-pressed={overheadMode === 'percentage'}
                     onClick={() => setOverheadMode('percentage')}
                     className={`px-3 py-1 rounded-sm transition-colors ${
                       overheadMode === 'percentage'
@@ -190,6 +192,12 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
         {/* Live Calculation Output Card (Right) */}
         <div className={isPreview ? 'lg:col-span-12' : 'lg:col-span-5'}>
           <div className="rounded-xl bg-brand-green-light/40 border border-brand-green-border/80 p-6 shadow-subtle space-y-5">
+            {!result.isValid && (
+              <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
+                Price unavailable: {result.errorMessage}
+              </p>
+            )}
+            {result.isValid && <>
             {/* Direct Cost vs Margin Header */}
             <div className="flex items-center justify-between pb-3 border-b border-brand-green-border/60 text-xs">
               <div>
@@ -212,7 +220,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                 Recommended Selling Price
               </span>
               <div className="flex items-baseline justify-between mt-1">
-                <span className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
+                <span aria-live="polite" aria-atomic="true" className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-brand-green tabular-nums">
                   {formatCurrency(result.sellingPrice)}
                 </span>
               </div>
@@ -252,12 +260,13 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
                 </a>
               </div>
             )}
+            </>}
           </div>
         </div>
       </div>
 
       {/* Side-by-Side Scenario Comparison (Available in full page mode) */}
-      {!isPreview && (
+      {!isPreview && result.isValid && (
         <div className="mt-8 pt-8 border-t border-border-default">
           <ScenarioComparisonCard
             directCost={result.directCost}

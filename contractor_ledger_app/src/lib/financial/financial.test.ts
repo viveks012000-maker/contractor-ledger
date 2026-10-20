@@ -16,6 +16,9 @@ describe('Financial Formatters & Precision Utilities', () => {
     expect(roundCurrency(1234.561)).toBe(1234.56);
     expect(roundCurrency(NaN)).toBe(0);
     expect(roundCurrency(Infinity)).toBe(0);
+    expect(roundCurrency(Number.MAX_VALUE)).toBe(0);
+    expect(formatCurrency(Infinity)).toBe('—');
+    expect(formatCurrency(Number.MAX_VALUE)).toBe('—');
   });
 
   it('rounds precision accurately to arbitrary decimal places', () => {
@@ -43,7 +46,7 @@ describe('Financial Formatters & Precision Utilities', () => {
     expect(formatCurrency(1600)).toBe('$1,600.00');
     expect(formatCurrency(0)).toBe('$0.00');
     expect(formatCurrency(-50.25)).toBe('-$50.25');
-    expect(formatCurrency(NaN)).toBe('$0.00');
+    expect(formatCurrency(NaN)).toBe('—');
   });
 
   it('formats percentages clearly', () => {

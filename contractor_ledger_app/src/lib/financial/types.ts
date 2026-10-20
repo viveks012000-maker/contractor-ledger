@@ -202,6 +202,8 @@ export interface PriceScenario {
   totalCost: number;
   profit: number;
   markupPct: number;
+  isValid: boolean;
+  errorMessage?: string;
   isActive?: boolean;
 }
 
@@ -209,5 +211,7 @@ export interface ScenarioComparisonResult {
   directCost: number;
   allocatedOverhead: number;
   totalCost: number;
+  isValid: boolean;
+  errorMessage?: string;
   scenarios: PriceScenario[];
 }

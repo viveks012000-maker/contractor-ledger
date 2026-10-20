@@ -2,6 +2,7 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { CostSettingsModal } from '../components/ui/CostSettingsModal';
+import { createCanonicalUrl, createWebApplicationJsonLd } from '../lib/site';
 import '../styles/global.css';
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
   description: string;
   canonicalPath?: string;
   ogType?: string;
+  robots?: string;
+  includeWebApplicationSchema?: boolean;
 }
 
 const {
@@ -16,11 +19,16 @@ const {
   description,
   canonicalPath = '',
   ogType = 'website',
+  robots = 'index, follow',
+  includeWebApplicationSchema = false,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 const siteTitle = title.includes('Contractor Ledger') ? title : `${title} | Contractor Ledger`;
-const canonicalUrl = canonicalPath && Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
+const canonicalUrl = createCanonicalUrl(Astro.site, canonicalPath);
+const webApplicationJsonLd = includeWebApplicationSchema
+  ? createWebApplicationJsonLd(description, canonicalUrl)
+  : undefined;
 ---
 
 <!DOCTYPE html>
@@ -30,7 +38,7 @@ const canonicalUrl = canonicalPath && Astro.site ? new URL(canonicalPath, Astro.
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{siteTitle}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#176B53" />
 
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -41,9 +49,10 @@ const canonicalUrl = canonicalPath && Astro.site ? new URL(canonicalPath, Astro.
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_US" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={description} />
 
@@ -55,20 +64,9 @@ const canonicalUrl = canonicalPath && Astro.site ? new URL(canonicalPath, Astro.
       rel="stylesheet"
     />
 
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      name: 'Contractor Ledger',
-      description: 'Accurate-to-input financial precision calculators for US contractors, builders, and trades.',
-      applicationCategory: 'BusinessApplication',
-      operatingSystem: 'All',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-    })} />
+    {webApplicationJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(webApplicationJsonLd)} />
+    )}
   </head>
 
   <body class="min-h-full bg-canvas text-text-primary antialiased font-sans selection:bg-brand-green selection:text-white">

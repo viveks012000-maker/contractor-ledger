@@ -1,110 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { normalizeContactEmail } from '../lib/site';
 
-const title = 'Contact & Support Desk | Contractor Ledger';
-const description = 'Contractor Ledger field desk and operational contact information. Transparent publication and support channel status.';
+const title = 'Contact Contractor Ledger';
+const description = 'Contact Contractor Ledger about calculator feedback, calculation methods, or website issues.';
+const contactEmail = normalizeContactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL);
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/contact/">
   <div class="max-w-2xl mx-auto px-4 sm:px-6 py-10 lg:py-14 space-y-8">
-    <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs text-text-muted" aria-label="Breadcrumbs">
       <a href="/" class="hover:text-text-primary transition-colors">Home</a>
-      <span>/</span>
-      <span class="text-text-primary font-semibold">Contact</span>
+      <span aria-hidden="true">/</span>
+      <span class="text-text-primary font-semibold" aria-current="page">Contact</span>
     </nav>
 
     <div class="space-y-3">
       <h1 class="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight font-headline">
-        Contact &amp; Field Desk
+        Contact Contractor Ledger
       </h1>
       <p class="text-base text-text-secondary leading-relaxed">
-        Operational inquiries, formula review suggestions, and bug reports from trade contractors and estimators.
+        Send feedback about a calculation, report a website issue, or ask a question about how a result is worked out.
       </p>
     </div>
 
-    <!-- Transparent Publication Blocker Notice -->
-    <div class="p-5 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-3 text-xs text-amber-900 leading-relaxed">
-      <div class="flex items-center gap-2 text-amber-950 font-bold text-sm">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-700 shrink-0">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-        <span>Pre-Publication Status: Direct Contact Channel Pending</span>
-      </div>
-      <p>
-        In accordance with our strict verification standards, Contractor Ledger does not display fabricated contact addresses, fictitious support inboxes, or simulate successful message dispatch.
-      </p>
-      <div class="p-3 rounded bg-white/80 border border-amber-200 text-amber-900 font-medium">
-        <strong>Deployment Requirement:</strong> Dedicated public contact routing (e.g., support email or verified inbox) will be established upon final production domain and DNS activation. Until domain credentials are bound, automated message delivery remains offline.
-      </div>
-    </div>
-
-    <!-- Contact Form (Clearly disabled with transparent explanation) -->
-    <div class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-border-default">
-        <h2 class="text-base font-bold text-text-primary font-headline">
-          Inquiry Formulation
-        </h2>
-        <span class="px-2.5 py-1 rounded bg-canvas border border-border-default text-[11px] font-semibold text-text-muted">
-          Submissions Paused
-        </span>
-      </div>
-
-      <form class="space-y-4" aria-disabled="true">
-        <div class="space-y-1">
-          <label for="contact-name" class="text-xs font-bold uppercase tracking-wider text-text-secondary block">
-            Your Name / Business Name
-          </label>
-          <input
-            id="contact-name"
-            type="text"
-            disabled
-            placeholder="Field currently disabled pending domain activation"
-            class="w-full h-11 px-3 rounded bg-canvas border border-border-default text-sm text-text-muted cursor-not-allowed opacity-75"
-          />
-        </div>
-
-        <div class="space-y-1">
-          <label for="contact-type" class="text-xs font-bold uppercase tracking-wider text-text-secondary block">
-            Inquiry Category
-          </label>
-          <select
-            id="contact-type"
-            disabled
-            class="w-full h-11 px-3 rounded bg-canvas border border-border-default text-sm text-text-muted cursor-not-allowed opacity-75"
+    <section class="bg-surface rounded-xl border border-border-default p-6 sm:p-8 shadow-subtle space-y-4" aria-labelledby="contact-method-heading">
+      <h2 id="contact-method-heading" class="text-xl font-bold text-text-primary font-headline">Email contact</h2>
+      {contactEmail ? (
+        <>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Use the address below for calculator feedback and website questions. The link opens your email application; message delivery depends on your email provider.
+          </p>
+          <a
+            href={`mailto:${contactEmail}`}
+            class="inline-flex min-h-11 items-center justify-center px-5 rounded bg-brand-green hover:bg-brand-green-hover text-white text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
           >
-            <option>Calculation Engine Feedback / Bug Report</option>
-            <option>Formula Clarification or Improvement</option>
-            <option>Trade Specific Customization Request</option>
-            <option>General Operational Inquiry</option>
-          </select>
+            Email {contactEmail}
+          </a>
+        </>
+      ) : (
+        <div class="space-y-2 text-sm text-text-secondary leading-relaxed">
+          <p>A contact address has not been configured for this deployment.</p>
+          <p>
+            Before publishing, set <code class="rounded bg-canvas px-1.5 py-0.5 text-xs text-text-primary">PUBLIC_CONTACT_EMAIL</code> to a verified, monitored inbox. This page does not store or send messages through a web form.
+          </p>
         </div>
-
-        <div class="space-y-1">
-          <label for="contact-message" class="text-xs font-bold uppercase tracking-wider text-text-secondary block">
-            Message
-          </label>
-          <textarea
-            id="contact-message"
-            rows="4"
-            disabled
-            placeholder="Direct message delivery is currently disabled. See the status advisory above."
-            class="w-full p-3 rounded bg-canvas border border-border-default text-sm text-text-muted cursor-not-allowed opacity-75"
-          ></textarea>
-        </div>
-
-        <div class="pt-2">
-          <button
-            type="button"
-            disabled
-            class="w-full h-11 rounded bg-canvas border border-border-default text-text-muted font-semibold text-sm cursor-not-allowed"
-          >
-            Dispatch Offline — Direct Routing Pending Production DNS
-          </button>
-        </div>
-      </form>
-    </div>
+      )}
+    </section>
   </div>
 </BaseLayout>

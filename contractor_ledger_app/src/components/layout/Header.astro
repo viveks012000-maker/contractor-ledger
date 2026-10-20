@@ -14,34 +14,33 @@ const navLinks = [
 ---
 
 <header class="sticky top-0 z-40 w-full bg-surface/95 backdrop-blur-md border-b border-border-default shadow-subtle">
-  <div class="max-w-container mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-4">
-    <!-- Brand Mark -->
-    <a href="/" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded p-1">
-      <div class="w-9 h-9 rounded bg-brand-green flex items-center justify-center text-white shadow-xs group-hover:bg-brand-green-hover transition-colors">
+  <div class="max-w-container mx-auto px-4 sm:px-6 min-h-16 sm:min-h-18 flex items-center justify-between gap-3">
+    <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded p-1">
+      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded bg-brand-green flex items-center justify-center text-white group-hover:bg-brand-green-hover transition-colors" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="2" />
           <path d="M7 15h0M2 10h20" />
           <circle cx="16" cy="15" r="1" fill="currentColor" />
         </svg>
       </div>
-      <div class="flex flex-col">
-        <span class="font-bold text-base tracking-tight text-text-primary font-headline group-hover:text-brand-green transition-colors leading-tight">
+      <span class="flex flex-col">
+        <span class="font-bold text-sm sm:text-base tracking-tight text-text-primary font-headline group-hover:text-brand-green transition-colors leading-tight whitespace-nowrap">
           Contractor Ledger
         </span>
-        <span class="text-[10px] font-semibold tracking-wider uppercase text-text-secondary leading-none mt-0.5">
+        <span class="hidden sm:block text-[10px] font-semibold tracking-wider uppercase text-text-secondary leading-none mt-0.5">
           Fiscal Precision Engine
         </span>
-      </div>
+      </span>
     </a>
 
-    <!-- Desktop Navigation Links -->
-    <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+    <nav class="hidden lg:flex items-center gap-4 xl:gap-6" aria-label="Main navigation">
       {navLinks.map(link => {
         const isActive = currentPath === link.href;
         return (
           <a
             href={link.href}
-            class={`text-sm font-medium transition-colors py-1 ${
+            aria-current={isActive ? 'page' : undefined}
+            class={`text-sm font-medium transition-colors py-1 whitespace-nowrap ${
               isActive ? 'text-brand-green font-semibold' : 'text-text-secondary hover:text-text-primary'
             }`}
           >
@@ -51,38 +50,104 @@ const navLinks = [
       })}
     </nav>
 
-    <!-- Header Actions -->
-    <div class="flex items-center gap-2 sm:gap-3">
-      <!-- Cost Settings Button (Opens LocalStorage Defaults Modal) -->
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
       <button
         type="button"
         id="open-settings-header-btn"
-        class="h-10 px-3 rounded border border-border-default bg-surface hover:bg-canvas text-xs font-semibold text-text-primary transition-colors flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        class="h-11 w-11 sm:w-auto sm:px-3 rounded border border-border-default bg-surface hover:bg-canvas text-xs font-semibold text-text-primary transition-colors flex items-center justify-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
         aria-label="Open Contractor Cost Settings"
       >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary" aria-hidden="true">
           <circle cx="12" cy="12" r="3" />
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
         <span class="hidden sm:inline">Cost Settings</span>
       </button>
 
-      <!-- Primary Action CTA -->
       <a
         href="/calculators/job-pricing/"
-        class="h-10 px-4 rounded bg-brand-green hover:bg-brand-green-hover text-white text-xs font-semibold transition-colors flex items-center justify-center shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        class="hidden sm:flex min-h-11 px-4 rounded bg-brand-green hover:bg-brand-green-hover text-white text-xs font-semibold transition-colors items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
       >
         Calculate Job Price
       </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="h-11 w-11 lg:hidden rounded border border-border-default bg-surface hover:bg-canvas text-text-primary flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+        aria-label="Open navigation menu"
+        aria-controls="mobile-navigation"
+        aria-expanded="false"
+      >
+        <svg data-menu-icon="open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg data-menu-icon="close" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
     </div>
   </div>
+
+  <nav id="mobile-navigation" class="hidden lg:hidden border-t border-border-default bg-surface px-4 sm:px-6 py-3" aria-label="Mobile navigation">
+    <ul class="max-w-container mx-auto divide-y divide-border-default">
+      {navLinks.map(link => {
+        const isActive = currentPath === link.href;
+        return (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive ? 'page' : undefined}
+              class={`block min-h-11 py-3 text-sm font-medium ${isActive ? 'text-brand-green font-semibold' : 'text-text-secondary hover:text-text-primary'}`}
+            >
+              {link.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+    <a
+      href="/calculators/job-pricing/"
+      class="max-w-container mx-auto mt-3 flex min-h-11 items-center justify-center rounded bg-brand-green px-4 text-sm font-semibold text-white hover:bg-brand-green-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+    >
+      Calculate Job Price
+    </a>
+  </nav>
 </header>
 
 <script>
   const settingsBtn = document.getElementById('open-settings-header-btn');
-  if (settingsBtn) {
-    settingsBtn.addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('open-cost-settings'));
-    });
-  }
+  settingsBtn?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('open-cost-settings'));
+  });
+
+  const menuButton = document.getElementById('mobile-menu-toggle');
+  const mobileNavigation = document.getElementById('mobile-navigation');
+  const openMenuIcon = menuButton?.querySelector('[data-menu-icon="open"]');
+  const closeMenuIcon = menuButton?.querySelector('[data-menu-icon="close"]');
+
+  const setMenuOpen = (isOpen: boolean, returnFocus = false) => {
+    if (!menuButton || !mobileNavigation) return;
+    mobileNavigation.classList.toggle('hidden', !isOpen);
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    openMenuIcon?.classList.toggle('hidden', isOpen);
+    closeMenuIcon?.classList.toggle('hidden', !isOpen);
+    if (returnFocus) menuButton.focus();
+  };
+
+  menuButton?.addEventListener('click', () => {
+    const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+    setMenuOpen(willOpen);
+  });
+
+  mobileNavigation?.addEventListener('click', event => {
+    if (event.target instanceof Element && event.target.closest('a')) setMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
+      setMenuOpen(false, true);
+    }
+  });
 </script>

@@ -2,15 +2,20 @@
  * Precision and formatting utilities for financial calculations
  */
 
+/** Largest currency amount whose cents can still be represented as a safe integer. */
+export const MAX_SAFE_CURRENCY = Number.MAX_SAFE_INTEGER / 100;
+
 export function roundCurrency(value: number): number {
-  if (!Number.isFinite(value)) return 0;
-  return Math.round((value + Number.EPSILON) * 100) / 100;
+  if (!Number.isFinite(value) || Math.abs(value) > MAX_SAFE_CURRENCY) return 0;
+  const cents = Math.round((value + Number.EPSILON) * 100);
+  return Number.isSafeInteger(cents) ? cents / 100 : 0;
 }
 
 export function roundPrecision(value: number, decimals: number = 2): number {
   if (!Number.isFinite(value)) return 0;
   const factor = Math.pow(10, decimals);
-  return Math.round((value + Number.EPSILON) * factor) / factor;
+  const rounded = Math.round((value + Number.EPSILON) * factor) / factor;
+  return Number.isFinite(rounded) ? rounded : 0;
 }
 
 export function safeDivide(numerator: number, denominator: number, fallback: number = 0): number {
@@ -41,7 +46,7 @@ export function formatCurrency(
     useAccountingNegative?: boolean;
   }
 ): string {
-  if (!Number.isFinite(value)) return '$0.00';
+  if (!Number.isFinite(value) || Math.abs(value) > MAX_SAFE_CURRENCY) return '—';
 
   const showCents = options?.showCents !== false;
   const isNegative = value < 0;
