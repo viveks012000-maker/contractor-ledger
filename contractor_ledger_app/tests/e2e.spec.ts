@@ -69,6 +69,87 @@ test.describe('Contractor Ledger End-to-End Suite', () => {
     await expect(page.locator('text=$1,600.00').first()).toBeVisible();
   });
 
+  test('Profit Margin conversion matrix renders correct engine-derived values for every row', async ({ page }) => {
+    await page.goto('/calculators/profit-margin/');
+
+    const matrix = page.getByRole('region', { name: 'Margin to markup conversion matrix' });
+    const matrixBounds = await matrix.evaluate(region => ({ client: region.clientWidth, scroll: region.scrollWidth }));
+    expect(matrixBounds.scroll).toBeLessThanOrEqual(matrixBounds.client + 1);
+    const rows = matrix.locator('tbody tr');
+    await expect(rows).toHaveCount(6);
+    const actualRows = await Promise.all((await rows.all()).map(async row =>
+      (await row.locator('td').allTextContents()).map(text => text.trim()).join(' ')
+    ));
+    expect(actualRows).toEqual([
+      '10.00% 11.11% $1,111.11 $111.11',
+      '15.00% 17.65% $1,176.47 $176.47',
+      '20.00% 25.00% $1,250.00 $250.00',
+      '25.00% 33.33% $1,333.33 $333.33',
+      '30.00% 42.86% $1,428.57 $428.57',
+      '40.00% 66.67% $1,666.67 $666.67',
+    ]);
+  });
+
+  test('Financial formula copy uses division and makes percentage conversion explicit', async ({ page }) => {
+    const checks = [
+      {
+        route: '/calculators/profit-margin/',
+        expected: [
+          'Profit Margin: (Profit ÷ Selling Price) × 100',
+          'Markup: (Profit ÷ Total Cost) × 100',
+          'Required Price: Cost ÷ (1 − Target Margin % ÷ 100)',
+        ],
+      },
+      {
+        route: '/calculators/job-pricing/',
+        expected: [
+          'Overhead % ÷ 100',
+          'Total Estimated Cost ÷ (1 − Target Margin % ÷ 100)',
+          'Actual Margin = ($400 ÷ $1,600) × 100 = 25.0%',
+          'Markup on Cost = ($400 ÷ $1,200) × 100 = 33.3%',
+        ],
+      },
+      {
+        route: '/calculators/material-markup/',
+        expected: [
+          'Waste Allowance % ÷ 100',
+          'Markup % ÷ 100',
+          'Resulting Profit Margin (%) = (Markup Amount ÷ Selling Price) × 100',
+          'Resulting Profit Margin = ($25.00 ÷ $125.00) × 100 = 20.0%',
+        ],
+      },
+      {
+        route: '/calculators/project-estimate/',
+        expected: [
+          'OH % ÷ 100',
+          'Target Margin % ÷ 100',
+          '($2,161.05 ÷ $7,661.92) × 100 = 28.2% on total cost',
+        ],
+      },
+      {
+        route: '/methodology/',
+        expected: [
+          'Target Margin % ÷ 100',
+          'Actual Gross Margin (%) = (Gross Profit ÷ Selling Price) × 100',
+          'Waste Allowance % ÷ 100',
+          'Markup % ÷ 100',
+        ],
+      },
+    ];
+
+    for (const check of checks) {
+      await page.goto(check.route);
+      const mainText = await page.locator('main').innerText();
+      for (const formula of check.expected) expect(mainText).toContain(formula);
+      expect(mainText).not.toContain('Profit + Selling Price');
+      expect(mainText).not.toContain('Profit + Total Cost');
+      if (check.route === '/calculators/profit-margin/') {
+        await expect(page.getByRole('heading', { name: 'How Margin and Markup Work' })).toHaveCount(1);
+        await expect(page.getByText('The Margin vs. Markup Mathematical Law')).toHaveCount(0);
+      }
+    }
+  });
+
   test('Break-Even Calculator rate computation', async ({ page }) => {
     await page.goto('/calculators/break-even/');
     await expect(page.locator('h1')).toContainText('Break-Even Rate Calculator');

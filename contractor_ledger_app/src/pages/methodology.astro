@@ -34,12 +34,12 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           In contractor accounting, gross profit margin represents the share of total contract revenue that remains after satisfying all direct job expenses and allocated overhead. It is governed by:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
-          <div class="font-bold text-brand-copper">Selling Price = Total Estimated Cost ÷ (1 − Target Margin)</div>
+          <div class="font-bold text-brand-copper">Selling Price = Total Estimated Cost ÷ (1 − Target Margin % ÷ 100)</div>
           <div>Gross Profit = Selling Price − Total Estimated Cost</div>
-          <div>Actual Gross Margin = Gross Profit ÷ Selling Price</div>
+          <div>Actual Gross Margin (%) = (Gross Profit ÷ Selling Price) × 100</div>
         </div>
         <p>
-          <strong>Margin versus markup:</strong> Multiplying a $1,000 cost by 1.25 produces a selling price of $1,250 with a $250 profit. The resulting margin is <strong>20.0%</strong> because $250 ÷ $1,250 = 20%; a 25% target margin instead divides total cost by 0.75. The job pricing and project estimate calculators use this margin divisor.
+          <strong>Margin versus markup:</strong> Multiplying a $1,000 cost by 1.25 produces a selling price of $1,250 with a $250 profit. The resulting margin is <strong>20.0%</strong> because ($250 ÷ $1,250) × 100 = 20%; a 25% target margin instead divides total cost by 0.75. The job pricing and project estimate calculators use this margin divisor.
         </p>
       </div>
     </article>
@@ -97,9 +97,9 @@ const description = 'Formulas used by Contractor Ledger for gross margin, labor 
           Material estimating requires accounting for scrap, dimensional cutting losses, and transit damage before applying procurement markup:
         </p>
         <div class="p-4 rounded-lg bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
-          <div>Effective Quantity = Net Specified Quantity × (1 + Waste Allowance %)</div>
+          <div>Effective Quantity = Net Specified Quantity × (1 + Waste Allowance % ÷ 100)</div>
           <div>Adjusted Procurement Cost = Effective Quantity × Unit Cost</div>
-          <div>Markup Amount = Adjusted Procurement Cost × Markup %</div>
+          <div>Markup Amount = Adjusted Procurement Cost × Markup % ÷ 100</div>
           <div class="font-bold text-brand-copper">Billed Material Price = Adjusted Procurement Cost + Markup Amount</div>
         </div>
         <p>

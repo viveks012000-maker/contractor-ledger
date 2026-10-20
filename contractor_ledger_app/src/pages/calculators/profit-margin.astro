@@ -2,9 +2,17 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { ProfitMarginCalculator } from '../../components/calculators/ProfitMarginCalculator';
 import { AdSlot } from '../../components/ui/AdSlot';
+import { calculateRequiredPrice } from '../../lib/financial/profitMargin';
+import { formatCurrency, formatPercent } from '../../lib/financial/formatters';
 
 const title = 'Profit Margin Calculator | Margin vs. Markup Engine';
 const description = 'Calculate gross profit margin vs markup on cost. Analyze existing prices or compute the required selling price to hit your margin target.';
+const conversionCost = 1000;
+const conversionRows = [10, 15, 20, 25, 30, 40].map((targetMarginPct) => {
+  const result = calculateRequiredPrice({ totalCost: conversionCost, targetMarginPct });
+  if (!result.isValid) throw new Error(`Unable to calculate the ${targetMarginPct}% margin reference row.`);
+  return result;
+});
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/calculators/profit-margin/" includeWebApplicationSchema={true}>
@@ -34,88 +42,40 @@ const description = 'Calculate gross profit margin vs markup on cost. Analyze ex
     <!-- AdSense Non-Intrusive Slot -->
     <AdSlot slotId="profit-margin-bottom-banner" />
 
-    <!-- Technical Guide & Comparison Table -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-border-default">
-      <!-- Left: Theoretical Principles -->
-      <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
-        <h2 class="text-lg font-bold font-headline text-text-primary">
-          Why Margin and Markup Are Different
-        </h2>
-        <div class="space-y-3 text-xs text-text-secondary leading-relaxed">
-          <p>
-            Although both metrics describe profitability, they measure against two completely different denominators:
-          </p>
-          <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1.5">
-            <div><strong>Profit Margin:</strong> Profit ÷ Selling Price</div>
-            <div>Measures the portion of the customer's payment that remains as profit.</div>
-            <div class="pt-1"><strong>Markup:</strong> Profit ÷ Total Cost</div>
-            <div>Measures the percentage added on top of your job expenses.</div>
-          </div>
-          <p>
-            On a profitable job, markup is a higher percentage than margin because it uses the smaller total-cost amount as its denominator. Confusing the two can lead to a price below the one needed for your selected margin.
-          </p>
-        </div>
-      </div>
-
-      <!-- Right: Conversion Matrix Reference -->
+    <!-- Conversion Matrix Reference -->
+    <div class="pt-6 border-t border-border-default">
       <div class="bg-surface rounded-xl border border-border-default p-6 shadow-subtle space-y-4">
         <h2 class="text-lg font-bold font-headline text-text-primary">
           Margin to Markup Conversion Matrix
         </h2>
+        <p class="text-sm text-text-secondary">Selling prices and profits assume a $1,000 cost.</p>
         <div class="overflow-x-auto" tabindex="0" role="region" aria-label="Margin to markup conversion matrix">
-          <table class="w-full text-xs text-left">
+          <table class="w-full text-xs md:text-sm text-left">
+            <caption class="sr-only">Required markup, selling price, and profit for common target margins on a $1,000 cost basis.</caption>
             <thead class="bg-canvas border-b border-border-default text-text-primary font-bold">
               <tr>
-                <th class="py-2 px-3">Target Margin</th>
-                <th class="py-2 px-3">Required Markup</th>
-                <th class="py-2 px-3">On $1,000 Cost</th>
-                <th class="py-2 px-3">Selling Price</th>
+                <th class="py-2 px-0.5 sm:px-2 md:py-3 md:px-4">Target Margin</th>
+                <th class="py-2 px-0.5 sm:px-2 md:py-3 md:px-4">Required Markup</th>
+                <th class="py-2 px-0.5 sm:px-2 md:py-3 md:px-4">Selling Price</th>
+                <th class="py-2 px-0.5 sm:px-2 md:py-3 md:px-4">Profit</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-border-default text-text-secondary font-medium tabular-nums">
-              <tr>
-                <td class="py-2 px-3 font-bold text-text-primary">10.0%</td>
-                <td class="py-2 px-3">11.1%</td>
-                <td class="py-2 px-3">$100.00 profit</td>
-                <td class="py-2 px-3 font-semibold text-text-primary">$1,111.11</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 font-bold text-text-primary">15.0%</td>
-                <td class="py-2 px-3">17.6%</td>
-                <td class="py-2 px-3">$150.00 profit</td>
-                <td class="py-2 px-3 font-semibold text-text-primary">$1,176.47</td>
-              </tr>
-              <tr class="bg-brand-copper-light/40">
-                <td class="py-2 px-3 font-bold text-brand-copper">20.0%</td>
-                <td class="py-2 px-3 font-semibold">25.0%</td>
-                <td class="py-2 px-3">$200.00 profit</td>
-                <td class="py-2 px-3 font-bold text-brand-copper">$1,250.00</td>
-              </tr>
-              <tr class="bg-brand-copper-light/60 font-semibold">
-                <td class="py-2 px-3 font-bold text-brand-copper">25.0%</td>
-                <td class="py-2 px-3 font-semibold">33.3%</td>
-                <td class="py-2 px-3">$250.00 profit</td>
-                <td class="py-2 px-3 font-bold text-brand-copper">$1,333.33</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 font-bold text-text-primary">30.0%</td>
-                <td class="py-2 px-3">42.9%</td>
-                <td class="py-2 px-3">$300.00 profit</td>
-                <td class="py-2 px-3 font-semibold text-text-primary">$1,428.57</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 font-bold text-text-primary">40.0%</td>
-                <td class="py-2 px-3">66.7%</td>
-                <td class="py-2 px-3">$400.00 profit</td>
-                <td class="py-2 px-3 font-semibold text-text-primary">$1,666.67</td>
-              </tr>
+              {conversionRows.map((row) => (
+                <tr class={row.targetMarginPct === 25 ? 'bg-brand-copper-light/60 font-semibold' : ''}>
+                  <td class="whitespace-nowrap py-2 px-0.5 sm:px-2 md:py-3 md:px-4 font-bold text-text-primary">{formatPercent(row.targetMarginPct, 2)}</td>
+                  <td class="whitespace-nowrap py-2 px-0.5 sm:px-2 md:py-3 md:px-4">{formatPercent(row.markupPct, 2)}</td>
+                  <td class="whitespace-nowrap py-2 px-0.5 sm:px-2 md:py-3 md:px-4 font-semibold text-text-primary">{formatCurrency(row.sellingPrice)}</td>
+                  <td class="whitespace-nowrap py-2 px-0.5 sm:px-2 md:py-3 md:px-4">{formatCurrency(row.profit)}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <p class="text-xs text-text-secondary leading-relaxed">
+    <p class="text-sm text-text-secondary leading-relaxed">
       Calculated profit reflects only the cost and selling price entered. It excludes expenses, taxes, or fees not included in those amounts; currency results are rounded to cents.
     </p>
 

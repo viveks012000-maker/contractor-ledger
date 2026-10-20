@@ -49,9 +49,9 @@ const description = 'Build itemized commercial and residential bids across labor
             <div>Line Item Total = Quantity × Unit Cost</div>
             <div>Category Subtotal = Sum of Item Totals in Category</div>
             <div>Direct Costs = Labor + Materials + Equip + Subs + Other</div>
-            <div>Allocated Overhead = Fixed Amount OR (Direct Costs × OH %)</div>
+            <div>Allocated Overhead = Fixed Amount OR (Direct Costs × OH % ÷ 100)</div>
             <div>Total Estimated Cost = Direct Costs + Allocated Overhead</div>
-            <div class="font-bold text-brand-copper">Client Bid Price = Total Estimated Cost ÷ (1 − Target Margin)</div>
+            <div class="font-bold text-brand-copper">Client Bid Price = Total Estimated Cost ÷ (1 − Target Margin % ÷ 100)</div>
             <div>Gross Profit = Client Bid Price − Total Estimated Cost</div>
           </div>
           <p>
@@ -85,7 +85,7 @@ const description = 'Build itemized commercial and residential bids across labor
             <div>Divisor = 1 − 0.22 = 0.78</div>
             <div class="font-bold text-brand-copper">Estimated Client Price = $7,661.92 ÷ 0.78 = $9,822.97</div>
             <div class="font-bold text-profit-positive">Estimated Gross Profit = $9,822.97 − $7,661.92 = $2,161.05</div>
-            <div>Markup Equivalent = $2,161.05 ÷ $7,661.92 = 28.2% on total cost</div>
+            <div>Markup Equivalent = ($2,161.05 ÷ $7,661.92) × 100 = 28.2% on total cost</div>
           </div>
           <p class="text-xs text-text-secondary leading-relaxed">
             The estimate includes entered line items and the selected overhead method. Add taxes, fees, and other project costs when they apply; the calculator does not verify supplier or subcontractor quotes.

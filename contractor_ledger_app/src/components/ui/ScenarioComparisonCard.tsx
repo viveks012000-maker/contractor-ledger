@@ -38,24 +38,21 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
   };
 
   return (
-    <div className={`scenario-comparison-card bg-surface rounded-lg border border-border-default p-5 shadow-subtle ${className}`}>
+    <div className={`scenario-comparison-card bg-surface rounded-lg border border-border-default p-5 sm:p-6 shadow-subtle ${className}`}>
       {!comparison.isValid && (
         <p role="alert" className="rounded border border-error-border bg-error-bg/20 p-3 text-sm font-medium text-error-text">
           Price comparison unavailable: {comparison.errorMessage}
         </p>
       )}
       {comparison.isValid && <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-border-default gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-border-default gap-2">
         <div>
           <h3 className="text-base font-bold text-text-primary tracking-tight font-headline">
             Side-by-Side Price Comparison
           </h3>
           <p className="text-xs text-text-secondary mt-0.5">
-            Evaluate bidding alternatives with identical cost basis ({formatCurrency(comparison.totalCost)})
+            Same total job cost for all three bids: {formatCurrency(comparison.totalCost)}
           </p>
-        </div>
-        <div className="text-xs text-text-muted">
-          All calculated via shared financial engine
         </div>
       </div>
 
@@ -65,28 +62,28 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
           return (
             <div
               key={sc.id}
-              className={`rounded-lg p-4 transition-colors border flex flex-col justify-between ${
+              className={`rounded-lg p-4 sm:p-5 transition-colors border flex flex-col justify-between ${
                 isTarget
                   ? 'bg-brand-copper-light/40 border-brand-copper ring-1 ring-brand-copper/30'
                   : 'bg-canvas border-border-default'
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
                     {sc.label}
                   </span>
                   {isTarget && (
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-brand-copper text-white">
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-brand-copper text-white">
                       Active Target
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-text-muted mb-3">{sc.tagline}</p>
+                <p className="text-sm text-text-muted mb-4">{sc.tagline}</p>
 
                 {/* Selling Price Display */}
                 <div className="mb-3">
-                  <span className="text-[11px] uppercase tracking-wider text-text-muted font-semibold block">
+                  <span className="text-xs uppercase tracking-wider text-text-muted font-semibold block">
                     Selling Price
                   </span>
                   {sc.isValid ? <CurrencyAmount
@@ -100,7 +97,7 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
                 </div>
 
                 {/* Profit & Markup Details */}
-                <div className="space-y-1.5 pt-2 border-t border-border-default text-xs">
+                <div className="space-y-2 pt-3 border-t border-border-default text-xs">
                   <div className="flex flex-wrap justify-between items-start gap-x-2 gap-y-0.5">
                     <span className="min-w-0 text-text-secondary">Gross Profit:</span>
                     <span className="max-w-full text-right font-semibold text-profit-positive tabular-nums break-words">
@@ -123,9 +120,11 @@ export const ScenarioComparisonCard: React.FC<ScenarioComparisonCardProps> = ({
               </div>
 
               {/* Editable Margin Selector */}
-              <div className="mt-4 pt-3 border-t border-border-default/60">
-                <label htmlFor={`scenario-margin-${sc.id}`} className="text-[11px] font-semibold text-text-secondary uppercase tracking-wider block mb-1">
-                  Adjust {sc.label} margin:
+              <div className="mt-5 pt-4 border-t border-border-default/60">
+                <label htmlFor={`scenario-margin-${sc.id}`} className="text-xs font-semibold text-text-secondary block mb-1.5">
+                  {sc.id === 'target'
+                    ? 'Adjust target margin:'
+                    : `Adjust ${sc.id === 'lower' ? 'lower bid' : 'higher bid'} margin:`}
                 </label>
                 <div className="flex items-center gap-2">
                   <input

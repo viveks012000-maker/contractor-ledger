@@ -229,6 +229,30 @@ describe('Calculator 3: Profit Margin Calculator', () => {
     expect(result.markupPct).toBeCloseTo(33.33, 1);
   });
 
+  it('calculates every $1,000 margin-to-markup reference row to the cent', () => {
+    const expectedRows = [
+      { targetMarginPct: 10, markupPct: 11.11, sellingPrice: 1111.11, profit: 111.11 },
+      { targetMarginPct: 15, markupPct: 17.65, sellingPrice: 1176.47, profit: 176.47 },
+      { targetMarginPct: 20, markupPct: 25, sellingPrice: 1250, profit: 250 },
+      { targetMarginPct: 25, markupPct: 33.33, sellingPrice: 1333.33, profit: 333.33 },
+      { targetMarginPct: 30, markupPct: 42.86, sellingPrice: 1428.57, profit: 428.57 },
+      { targetMarginPct: 40, markupPct: 66.67, sellingPrice: 1666.67, profit: 666.67 },
+    ];
+
+    const actualRows = expectedRows.map(({ targetMarginPct }) => {
+      const result = calculateRequiredPrice({ totalCost: 1000, targetMarginPct });
+      expect(result.isValid).toBe(true);
+      return {
+        targetMarginPct: result.targetMarginPct,
+        markupPct: result.markupPct,
+        sellingPrice: result.sellingPrice,
+        profit: result.profit,
+      };
+    });
+
+    expect(actualRows).toEqual(expectedRows);
+  });
+
   it('never treats margin and markup as interchangeable', () => {
     const result = analyzeProfitMargin({
       totalCost: 1000,

@@ -8,6 +8,25 @@ import { PercentIcon } from '../ui/Icons';
 
 type Mode = 'analyze' | 'required';
 
+const MarginFormulaGuide: React.FC = () => (
+  <div className="space-y-3 text-sm text-text-secondary leading-relaxed bg-surface rounded-lg border border-border-default p-4">
+    <h3 className="font-bold text-text-primary font-headline">
+      How Margin and Markup Work
+    </h3>
+    <p>
+      Margin measures profit against selling price; markup measures profit against total cost.
+    </p>
+    <div className="p-3 rounded bg-canvas border border-border-default font-mono text-xs sm:text-sm text-text-primary space-y-1.5 break-words">
+      <div><strong>Profit Margin:</strong> (Profit ÷ Selling Price) × 100</div>
+      <div><strong>Markup:</strong> (Profit ÷ Total Cost) × 100</div>
+      <div><strong>Required Price:</strong> Cost ÷ (1 − Target Margin % ÷ 100)</div>
+    </div>
+    <p>
+      A 25% markup on $100 cost produces a $125 selling price and a 20% margin.
+    </p>
+  </div>
+);
+
 export const ProfitMarginCalculator: React.FC = () => {
   const [activeMode, setActiveMode] = useState<Mode>('analyze');
 
@@ -95,22 +114,7 @@ export const ProfitMarginCalculator: React.FC = () => {
               </div>
             </div>
 
-            <div className="space-y-3 text-xs text-text-secondary leading-relaxed bg-surface rounded-lg border border-border-default p-4">
-              <h3 className="font-bold text-text-primary text-sm font-headline">
-                The Margin vs. Markup Mathematical Law
-              </h3>
-              <p>
-                <strong>Gross Profit Margin:</strong> The percentage of the <em>selling price</em> that is profit:{' '}
-                <code className="text-text-primary font-semibold">Profit ÷ Selling Price</code>.
-              </p>
-              <p>
-                <strong>Cost Markup:</strong> The percentage added to the <em>job cost</em>:{' '}
-                <code className="text-text-primary font-semibold">Profit ÷ Total Cost</code>.
-              </p>
-              <p className="text-text-muted">
-                * A 25% markup on a $100 job yields a 20% profit margin on a $125 selling price. They are never interchangeable.
-              </p>
-            </div>
+            <MarginFormulaGuide />
           </div>
 
           {/* Mode A Results */}
@@ -219,17 +223,7 @@ export const ProfitMarginCalculator: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-4 rounded-lg bg-surface border border-border-default text-xs text-text-secondary space-y-2">
-              <span className="font-bold text-text-primary text-sm font-headline block">
-                Arithmetic Requirement
-              </span>
-              <p>
-                To yield a true <strong className="text-text-primary">{formatPercent(marginB)}</strong> margin, you must divide your cost by <code className="font-semibold text-text-primary">(1 − {formatPercent(marginB, 2).replace('%', '')} ÷ 100)</code>.
-              </p>
-              <p className="text-text-muted">
-                Common error: Merely multiplying cost by 1.{marginB} only adds markup and produces a lower margin than intended.
-              </p>
-            </div>
+            <MarginFormulaGuide />
           </div>
 
           {/* Mode B Results */}

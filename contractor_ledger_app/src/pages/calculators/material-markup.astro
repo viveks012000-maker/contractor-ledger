@@ -46,11 +46,11 @@ const description = 'Calculate profitable billing prices for construction suppli
             When purchasing materials for a job, ordering only the exact square footage or unit count results in job site delays when cuts fail or patterns must be matched. The procurement engine applies two steps:
           </p>
           <div class="p-3 rounded bg-canvas border border-border-default font-mono text-xs text-text-primary space-y-1">
-            <div>Effective Quantity = Net Quantity × (1 + Waste Allowance %)</div>
+            <div>Effective Quantity = Net Quantity × (1 + Waste Allowance % ÷ 100)</div>
             <div>Adjusted Material Cost = Effective Quantity × Unit Cost</div>
-            <div>Markup Dollar Amount = Adjusted Cost × Markup %</div>
+            <div>Markup Dollar Amount = Adjusted Cost × Markup % ÷ 100</div>
             <div class="font-bold text-brand-copper">Selling Price = Adjusted Cost + Markup Amount</div>
-            <div>Resulting Profit Margin = Markup Amount ÷ Selling Price</div>
+            <div>Resulting Profit Margin (%) = (Markup Amount ÷ Selling Price) × 100</div>
           </div>
           <p>
             <strong>Fractional Quantities:</strong> Supports decimals for cubic yards of concrete, linear feet of trim, pounds of fasteners, and tonnage of aggregate.
@@ -79,7 +79,7 @@ const description = 'Calculate profitable billing prices for construction suppli
             <div>Markup Dollar Amount = $100.00 × 0.25 = $25.00</div>
             <div class="font-bold text-brand-copper">Selling Price = $100.00 + $25.00 = $125.00</div>
             <div class="font-bold text-profit-positive">Profit Generated = $25.00</div>
-            <div>Resulting Profit Margin = $25.00 ÷ $125.00 = 20.0%</div>
+            <div>Resulting Profit Margin = ($25.00 ÷ $125.00) × 100 = 20.0%</div>
           </div>
           <p class="text-text-muted">
             Notice that applying a 25% markup to material cost produces a 20% margin on the billed line item.

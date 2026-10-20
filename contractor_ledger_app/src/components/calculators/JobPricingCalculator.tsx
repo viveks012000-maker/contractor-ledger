@@ -67,7 +67,7 @@ export const JobPricingCalculator: React.FC<JobPricingCalculatorProps> = ({
               {isPreview ? (
                 'Adjust the sample costs to see the estimated price.'
               ) : (
-                <>Cost-divided gross margin formula: <code className="font-semibold text-text-primary">Price = Cost ÷ (1 − Margin)</code></>
+                <>Cost-divided gross margin formula: <code className="font-semibold text-text-primary">Price = Cost ÷ (1 − Margin % ÷ 100)</code></>
               )}
             </p>
           </div>
