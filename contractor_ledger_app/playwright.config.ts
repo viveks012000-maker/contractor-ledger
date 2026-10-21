@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { createServer } from 'node:net';
 
-process.env.PUBLIC_SITE_URL ||= 'https://contractor-ledger-1nx.pages.dev';
+process.env.PUBLIC_SITE_URL ||= 'https://felnixa.com';
 
 async function findAvailablePort(): Promise<number> {
   return new Promise((resolve, reject) => {

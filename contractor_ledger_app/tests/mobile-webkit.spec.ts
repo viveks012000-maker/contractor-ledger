@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const publicOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://contractor-ledger-1nx.pages.dev').origin;
+const publicOrigin = new URL(process.env.PUBLIC_SITE_URL || 'https://felnixa.com').origin;
 
 const calculatorRoutes = [
   ['/calculators/job-pricing/', 'Job Pricing Calculator'],

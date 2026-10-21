@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
-// Keep local production builds aligned with the active Cloudflare Pages origin.
-const configuredSiteUrl = process.env.PUBLIC_SITE_URL?.trim() || 'https://contractor-ledger-1nx.pages.dev';
+// Keep local production builds aligned with the permanent Cloudflare Pages origin.
+const configuredSiteUrl = process.env.PUBLIC_SITE_URL?.trim() || 'https://felnixa.com';
 let site;
 
 if (configuredSiteUrl) {
